@@ -48,16 +48,18 @@ class CourseController extends Controller
     }
     */
 
-    public function detailCourse($slug)
+    public function detailCourse($slug, Request $request)
     {
-        $user = User::find(Auth::user()->id);
         $courseData = Course::where('slug', $slug)->first();
         $courseUsers = $courseData->users;
-        $finalCourseData = $courseUsers->firstWhere('id', $user->id);
-        if (!isset($finalCourseData)) {
-            $courseData['course_paid'] = 0;
-        } else {
-            $courseData['course_paid'] = $finalCourseData->pivot->paid ?? 0;
+        if (isset($data)) {
+            $user = User::find(Auth::user()->id);
+            $finalCourseData = $courseUsers->firstWhere('id', $user->id);
+            if (!isset($finalCourseData)) {
+                $courseData['course_paid'] = 0;
+            } else {
+                $courseData['course_paid'] = $finalCourseData->pivot->paid ?? 0;
+            }
         }
         $courseData['usersCount'] = $courseUsers->count();
         $courseData['attributes'] = json_decode($courseData['attributes']);
@@ -73,21 +75,23 @@ class CourseController extends Controller
         $user = User::find(Auth::user()->id);
         $courseData = Course::where('slug', $slug)->first();
         $units = Unit::select('id', 'title', 'day', 'slug', 'url_icon')->where('course_id', $courseData->id)->orderBy('day', 'ASC')->get();
-        $units_by_user = $user->units->where('course_id', $courseData->id);
-        foreach ($units as $unit) {
-            if (count($units_by_user) > 0) {
-                foreach ($units_by_user as $unit_user) {
-                    if ($unit->id === $unit_user->pivot->unit_id) {
-                        $unit->flag_complete_unit = $unit_user->pivot->flag_complete_unit;
-                        unset($unit_user);
-                        break;
-                    } else {
-                        $unit->flag_complete_unit = 0;
-                        unset($unit_user);
+        if (isset($user)) {
+            $units_by_user = $user->units->where('course_id', $courseData->id);
+            foreach ($units as $unit) {
+                if (count($units_by_user) > 0) {
+                    foreach ($units_by_user as $unit_user) {
+                        if ($unit->id === $unit_user->pivot->unit_id) {
+                            $unit->flag_complete_unit = $unit_user->pivot->flag_complete_unit;
+                            unset($unit_user);
+                            break;
+                        } else {
+                            $unit->flag_complete_unit = 0;
+                            unset($unit_user);
+                        }
                     }
+                } else {
+                    $unit->flag_complete_unit = 0;
                 }
-            } else {
-                $unit->flag_complete_unit = 0;
             }
         }
         return response()->json($units, 200);

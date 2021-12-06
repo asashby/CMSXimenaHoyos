@@ -44,6 +44,11 @@ Route::get('certificate/{id}/course/download', 'Api\CourseController@downloadPdf
 
 Route::patch('order/{orderId}/confirm-payment', 'Api\CourseController@confirmPaymentOrder');
 
+
+Route::get('courses', 'Api\CourseController@index');
+Route::get('courses/{slug}/detail', 'Api\CourseController@detailCourse');
+
+
 //courses: colocando endpoints publicos, para pruebas
 // Route::get('courses/{slug}/units', 'Api\CourseController@unitsByCourse');
 // Route::get('units', 'Api\UnitController@index');
@@ -66,8 +71,6 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::post('current/additionalInfo', 'Auth\AuthController@setAdditionalInfo');
 
     //courses
-    Route::get('courses', 'Api\CourseController@index');
-    Route::get('courses/{slug}/detail', 'Api\CourseController@detailCourse');
     Route::patch('courses/{slug}/payment', 'Api\CourseController@UserRegisterOnCourse');
     Route::post('courses/{slug}/check-free', 'Api\CourseController@checkCourseFree');
 
