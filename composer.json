@@ -20,6 +20,7 @@
         "tymon/jwt-auth": "dev-develop"
     },
     "require-dev": {
+        "heroku/heroku-buildpack-php" : "dev-master",
         "facade/ignition": "2.4.1",
         "fakerphp/faker": "1.11.0",
         "laravel/ui": "2.5.0",
