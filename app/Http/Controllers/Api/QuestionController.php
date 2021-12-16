@@ -29,12 +29,12 @@ class QuestionController extends Controller
 
     public function questionDetail(Request $request, $code)
     {
-        $user = User::find(Auth::user()->id);
+        // $user = User::find(Auth::user()->id);
         $data = $request->all();
         $date_now = new \DateTime('now', new \DateTimeZone('America/Lima'));
         $questionDetail = Question::select('id', 'title', 'code', 'subtitle', 'level', 'frequency', 'duration', 'max_time', 'time_rest', 'unit_id', 'mobile_image', 'content', 'url_image', 'url_video')->where('code', $code)->first();
         $question_answer = $questionDetail->type_answers->first();
-        $progress_user = $user->progress()->firstWhere('question_id', $questionDetail->id);
+        // $progress_user = $user->progress()->firstWhere('question_id', $questionDetail->id);
         $questionDetail->id_serie_rep = $question_answer->id;
         if (!isset($progress_user)) {
             $list_series = new Collection();
@@ -58,8 +58,8 @@ class QuestionController extends Controller
             ];
             DB::table('user_questions_answers')->insert($user_questions_answers);
         } else {
-            $question_finish_by_user = $progress_user->pivot;
-            $questionDetail->series = json_decode($question_finish_by_user->sets);
+            // $question_finish_by_user = $progress_user->pivot;
+            // $questionDetail->series = json_decode($question_finish_by_user->sets);
         }
         unset($questionDetail->type_answers);
         return response()->json($questionDetail, 200);

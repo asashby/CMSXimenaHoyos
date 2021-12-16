@@ -52,7 +52,7 @@ class UnitController extends Controller
         );
     }
 
-    public function getUnitDetail(Request $request, $slug)
+    public function getUnitDetail(Request $request, $slug = null)
     {
         $data = $request->all();
         $unitDetail = Unit::select('id', 'title', 'code', 'subtitle', 'level', 'mobile_image', 'frequency', 'duration', 'max_time', 'time_rest', 'url_image', 'course_id')->where('slug', $slug)->where('course_id', $data['course_id'])->first();
