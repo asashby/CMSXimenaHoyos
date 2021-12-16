@@ -47,6 +47,7 @@ Route::patch('order/{orderId}/confirm-payment', 'Api\CourseController@confirmPay
 
 Route::get('courses', 'Api\CourseController@index');
 Route::get('courses/{slug}/detail', 'Api\CourseController@detailCourse');
+Route::get('courses/{slug}/units', 'Api\CourseController@unitsByCourse');
 
 
 //courses: colocando endpoints publicos, para pruebas
@@ -86,7 +87,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('courses-by-user', 'Api\CourseController@coursesByUser');
 
     // courses
-    Route::get('courses/{slug}/units', 'Api\CourseController@unitsByCourse');
+    // Route::get('courses/{slug}/units', 'Api\CourseController@unitsByCourse');
     Route::get('units', 'Api\UnitController@index');
     Route::get('units/{slug}/detail', 'Api\UnitController@getUnitDetail');
     Route::get('units/{id}/questions', 'Api\UnitController@questionsByUnit');
