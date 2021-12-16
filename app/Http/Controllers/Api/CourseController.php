@@ -72,7 +72,7 @@ class CourseController extends Controller
         /*     $courseData = Course::where('slug', $slug)->first();
         $units = Unit::select('id', 'title', 'day', 'slug', 'url_icon')->where('course_id', $courseData->id)->orderBy('day', 'ASC')->get();
      */
-        $user = User::find(Auth::user()->id);
+        // $user = User::find(Auth::user()->id);
         $courseData = Course::where('slug', $slug)->first();
         $units = Unit::select('id', 'title', 'day', 'slug', 'url_icon')->where('course_id', $courseData->id)->orderBy('day', 'ASC')->get();
         if (isset($user)) {
