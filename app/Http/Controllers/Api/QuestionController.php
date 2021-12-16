@@ -47,8 +47,8 @@ class QuestionController extends Controller
                 $list_series->push($serie);
             }
             $questionDetail->series = $list_series;
-            $user_questions_answers = [
-                'user_id' => $user->id,
+            /* $user_questions_answers = [
+                // 'user_id' => $user->id,
                 'question_id' =>  $questionDetail->id,
                 'sets' => $list_series,
                 'answer_id' => $question_answer->id,
@@ -56,7 +56,7 @@ class QuestionController extends Controller
                 'created_at' => $date_now,
                 'updated_at' => $date_now,
             ];
-            DB::table('user_questions_answers')->insert($user_questions_answers);
+            DB::table('user_questions_answers')->insert($user_questions_answers); */
         } else {
             // $question_finish_by_user = $progress_user->pivot;
             // $questionDetail->series = json_decode($question_finish_by_user->sets);
