@@ -8,7 +8,8 @@ use App\Recipe;
 
 class RecipeController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $limit = $request->get('limit');
         $timefood = $request->get('time');
         $search = $request->get('search');
@@ -17,11 +18,12 @@ class RecipeController extends Controller
         return $recipes;
     }
 
-    public function detailRecipe($slug){
+    public function detailRecipe($slug)
+    {
         $recipeInfo = Recipe::where('slug', $slug)->first();
-        $recipeInfo->ingredients =  json_decode($recipeInfo->ingredients);
-        $recipeInfo->nutritional_facts = json_decode($recipeInfo->nutritional_facts);
-        $recipeInfo->steps = json_decode($recipeInfo->steps);
+        $recipeInfo->ingredients =  $recipeInfo->ingredients;
+        $recipeInfo->nutritional_facts = $recipeInfo->nutritional_facts;
+        $recipeInfo->steps = $recipeInfo->steps;
         return $recipeInfo;
     }
 }
