@@ -27,7 +27,7 @@ class UnitController extends Controller
 
     public function questionsByUnit($id)
     {
-        $user = User::find(Auth::user()->id);
+        // $user = User::find(Auth::user()->id);
         $unit = Unit::find($id);
         $questions = Question::where('unit_id', intval($id))->orderBy('order')->with('type_answers')->get(['id', 'slug', 'title', 'code', 'unit_id', 'order']);
         foreach ($questions as $question) {
@@ -41,8 +41,8 @@ class UnitController extends Controller
                     $list->push($data);
                 }
             }
-            $progress_user = $user->progress()->where(['unit_id' => $id, 'question_id' => $question->id])->first();
-            $question->flag_completed = $progress_user->pivot->flag_complete_question ?? 0;
+            // $progress_user = $user->progress()->where(['unit_id' => $id, 'question_id' => $question->id])->first();
+            // $question->flag_completed = $progress_user->pivot->flag_complete_question ?? 0;
             $question->series_reps = $list[0] ?? json_decode('{}');
             unset($question->type_answers);
         }
