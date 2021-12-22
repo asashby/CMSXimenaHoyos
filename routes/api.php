@@ -47,6 +47,7 @@ Route::patch('order/{orderId}/confirm-payment', 'Api\CourseController@confirmPay
 
 Route::get('courses', 'Api\CourseController@index');
 Route::get('courses/{slug}/detail', 'Api\CourseController@detailCourse');
+Route::get('course/{id}/plans', 'Admin\PlanController@plansByCourse');
 Route::get('courses/{slug}/units', 'Api\CourseController@unitsByCourse');
 Route::get('units/{slug}/detail', 'Api\UnitController@getUnitDetail');
 Route::get('units/{id}/questions', 'Api\UnitController@questionsByUnit');

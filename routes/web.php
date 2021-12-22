@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PlanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,12 +48,12 @@ Route::namespace('Admin')->group(function () {
         Route::match(['get', 'post'], 'dashboard/recipes/edit/{id?}', 'RecipeController@editRecipe');
         Route::get('dashboard/recipe/delete/{id}', 'RecipeController@deleteRecipe');
 
-         //Tips
-         Route::get('dashboard/tips', 'TipController@index');
-         Route::post('dashboard/upd-tips-status', 'TipController@updateTipStatus');
-         Route::match(['get', 'post'], 'dashboard/tips/create', 'TipController@addTip');
-         Route::match(['get', 'post'], 'dashboard/tips/edit/{id?}', 'TipController@editTip');
-         Route::get('dashboard/tip/delete/{id}', 'TipController@deleteTip');
+        //Tips
+        Route::get('dashboard/tips', 'TipController@index');
+        Route::post('dashboard/upd-tips-status', 'TipController@updateTipStatus');
+        Route::match(['get', 'post'], 'dashboard/tips/create', 'TipController@addTip');
+        Route::match(['get', 'post'], 'dashboard/tips/edit/{id?}', 'TipController@editTip');
+        Route::get('dashboard/tip/delete/{id}', 'TipController@deleteTip');
 
         //Slider
         Route::get('dashboard/slider', 'SliderController@index');
@@ -103,6 +104,9 @@ Route::namespace('Admin')->group(function () {
         Route::get('course/{id}/units', 'UnitController@unitsByChallenge');
         Route::get('courses/{id}/units', 'UnitController@unitsByChallenge2');
 
+        Route::resource('dashboard/plans', 'PlanController');
+
+
         //TypeAnswers
         Route::resource('dashboard/type-answers', 'TypeAnswerController');
         //Users
@@ -118,4 +122,3 @@ Route::namespace('Admin')->group(function () {
         Route::delete('dashboard/answers-questions/{id}/delete', 'TypeAnswerQuestionController@destroy');
     });
 });
-
