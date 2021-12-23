@@ -11,10 +11,11 @@ class Plan extends Model
     use SoftDeletes;
 
     protected $table = 'plans';
-    protected $fillable = ['title', 'description', 'price', 'course_id'];
+    protected $fillable = ['title', 'description', 'price', 'course_id', 'slug'];
 
     protected $casts = [
         'course_id' => 'array',
+        'slug' => 'array'
     ];
 
     public static function boot()
@@ -26,5 +27,10 @@ class Plan extends Model
     public function scopeCourse($query, $id)
     {
         $query->where('course_id', 'like', "%$id%");
+    }
+
+    public function scopeSlug($query, $slug)
+    {
+        $query->where('slug', 'like', "%$slug%");
     }
 }
