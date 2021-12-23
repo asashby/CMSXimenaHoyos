@@ -97,6 +97,34 @@ class CourseController extends Controller
         return response()->json($units, 200);
     }
 
+    public function unitsByCourseUser($slug)
+    {
+        /*     $courseData = Course::where('slug', $slug)->first();
+        $units = Unit::select('id', 'title', 'day', 'slug', 'url_icon')->where('course_id', $courseData->id)->orderBy('day', 'ASC')->get();
+     */
+        $user = User::find(Auth::user()->id);
+        $courseData = Course::where('slug', $slug)->first();
+        $units = Unit::select('id', 'title', 'day', 'slug', 'url_icon')->where('course_id', $courseData->id)->orderBy('day', 'ASC')->get();
+        $units_by_user = $user->units->where('course_id', $courseData->id);
+        foreach ($units as $unit) {
+            if (count($units_by_user) > 0) {
+                foreach ($units_by_user as $unit_user) {
+                    if ($unit->id === $unit_user->pivot->unit_id) {
+                        $unit->flag_complete_unit = $unit_user->pivot->flag_complete_unit;
+                        unset($unit_user);
+                        break;
+                    } else {
+                        $unit->flag_complete_unit = 0;
+                        unset($unit_user);
+                    }
+                }
+            } else {
+                $unit->flag_complete_unit = 0;
+            }
+        }
+        return response()->json($units, 200);
+    }
+
     public function checkCourseFree($slug)
     {
         try {
