@@ -39,6 +39,20 @@ class PlanController extends Controller
         }
     }
 
+    public function plansByCourseSlug($slug)
+    {
+        try {
+            $plansByCourse = Plan::orderByDesc('created_at')->slug($slug)->get();
+            return response()->json([
+                'plansByCourse' => $plansByCourse,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'ERROR' => $e->getMessage(),
+            ]);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
