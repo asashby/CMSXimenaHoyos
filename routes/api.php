@@ -94,13 +94,14 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('courses-by-user', 'Api\CourseController@coursesByUser');
 
     // courses
+    Route::get('courses/{slug}/detail-user', 'Api\CourseController@detailCourseUser');
     Route::get('courses/{slug}/units-user', 'Api\CourseController@unitsByCourseUser');
     Route::get('units', 'Api\UnitController@index');
     // Route::get('units/{slug}/detail', 'Api\UnitController@getUnitDetail');
     Route::get('units/{id}/questions-user', 'Api\UnitController@questionsByUnitUser');
     // Route::get('questions', 'Api\QuestionController@index');
     // Route::get('questions/{id}/answers-user', 'Api\QuestionController@index');
-    Route::get('questions/{code}/detail', 'Api\QuestionController@questionDetailUser');
+    Route::get('questions/{code}/detail-user', 'Api\QuestionController@questionDetailUser');
     //RUTA PARA FINALIZAR EL CURSO
     Route::post('questions/final', 'Api\UnitController@finishQuestion');
     Route::post('units/{id}/final', 'Api\UnitController@finishUnit');
