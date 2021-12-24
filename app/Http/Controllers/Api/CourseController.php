@@ -125,6 +125,23 @@ class CourseController extends Controller
         return response()->json($units, 200);
     }
 
+    public function detailCourseUser($slug)
+    {
+        $user = User::find(Auth::user()->id);
+        $courseData = Course::where('slug', $slug)->first();
+        $courseUsers = $courseData->users;
+        $finalCourseData = $courseUsers->firstWhere('id', $user->id);
+        if (!isset($finalCourseData)) {
+            $courseData['course_paid'] = 0;
+        } else {
+            $courseData['course_paid'] = $finalCourseData->pivot->paid ?? 0;
+        }
+        $courseData['usersCount'] = $courseUsers->count();
+        $courseData['attributes'] = json_decode($courseData['attributes']);
+        unset($courseData['users']);
+        return response()->json($courseData, 200);
+    }
+
     public function checkCourseFree($slug)
     {
         try {
@@ -192,6 +209,7 @@ class CourseController extends Controller
                 $newUser['flag_registered'] = 1;
                 $newUser['external_order_id'] =  $data['orderId'];
                 $newUser['link'] = $data['link'];
+                $newUser['paid'] = 1;
                 $newUser['created_at'] = $date_now;
                 $newUser['updated_at'] = $date_now;
                 DB::table('user_courses')->insert($newUser);
