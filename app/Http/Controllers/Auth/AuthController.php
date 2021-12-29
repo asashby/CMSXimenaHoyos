@@ -59,6 +59,8 @@ class AuthController extends Controller
 
         $user = User::where(['email' => $request->email, 'origin' => $request->origin])->first();
 
+        $user['courses'] = $user->courses()->count();
+
         if (!$user) {
             return response()->json([
                 'statusCode' => 400,
