@@ -108,6 +108,9 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     //RUTA PARA VALORACION Y COMENTARIO
     Route::post('rating/course/{slug}', 'Api\CourseController@rateAndCommentCourse');
     Route::get('comments/course/{slug}', 'Api\CourseController@commentsByCourse');
+
+    //Rutas para Culqui
+    Route::post('culqui/create-charge', 'Api\CulquiController@createCharge');
 });
 
 
