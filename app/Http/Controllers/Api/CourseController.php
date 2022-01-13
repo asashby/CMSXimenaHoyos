@@ -9,6 +9,7 @@ use App\Unit;
 use App\User;
 use App\Comments;
 use App\Events\updateRateChallenge;
+use App\Plan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -198,6 +199,8 @@ class CourseController extends Controller
             $data = array_merge($request->all());
             //Verificamos si el usuario ya esta regisrado en el curso elejido
             $course = Course::where('slug', $slug)->first();
+            $plan = Plan::where('id', $data['plan_id'])->first();
+            $months = strval($plan->months);
             $courses = $user->courses;
             $courses = $courses->firstWhere('id', $course->id);
             if (!isset($courses)) {
@@ -206,6 +209,7 @@ class CourseController extends Controller
                 $newUser['user_id'] = $user->id;
                 $newUser['init_date'] = $date_now;
                 $newUser['insc_date'] = $date_now;
+                $newUser['expiration_date'] = $date_now->modify("+{$months} month");
                 $newUser['flag_registered'] = 1;
                 $newUser['external_order_id'] =  $data['orderId'];
                 $newUser['link'] = $data['link'];

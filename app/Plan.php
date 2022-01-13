@@ -11,7 +11,7 @@ class Plan extends Model
     use SoftDeletes;
 
     protected $table = 'plans';
-    protected $fillable = ['title', 'description', 'price', 'course_id', 'slug'];
+    protected $fillable = ['id', 'title', 'description', 'price', 'course_id', 'slug'];
 
     protected $casts = [
         'course_id' => 'array',
