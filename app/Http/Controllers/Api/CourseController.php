@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Course;
-use App\Http\Controllers\Controller;
-use App\Scopes\ActivatedScope;
+use App\Plan;
 use App\Unit;
 use App\User;
+use App\Course;
 use App\Comments;
-use App\Events\updateRateChallenge;
-use App\Plan;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Scopes\ActivatedScope;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Events\updateRateChallenge;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 
 class CourseController extends Controller
@@ -199,17 +200,18 @@ class CourseController extends Controller
             $data = array_merge($request->all());
             //Verificamos si el usuario ya esta regisrado en el curso elejido
             $course = Course::where('slug', $slug)->first();
-            $plan = Plan::where('id', $data['plan_id'])->first();
-            $months = strval($plan->months);
+            // $plan = Plan::where('id', $data['plan_id'])->first();
+            // $months = strval($plan->months);
             $courses = $user->courses;
             $courses = $courses->firstWhere('id', $course->id);
+            $emailUser = $user->email;
             if (!isset($courses)) {
                 $date_now = new \DateTime('now', new \DateTimeZone('America/Lima'));
                 $newUser['course_id'] = $course->id;
                 $newUser['user_id'] = $user->id;
                 $newUser['init_date'] = $date_now;
                 $newUser['insc_date'] = $date_now;
-                $newUser['expiration_date'] = $date_now->modify("+{$months} month");
+                // $newUser['expiration_date'] = $date_now->modify("+{$months} month");
                 $newUser['flag_registered'] = 1;
                 $newUser['external_order_id'] =  $data['orderId'];
                 $newUser['link'] = $data['link'];
@@ -218,6 +220,10 @@ class CourseController extends Controller
                 $newUser['updated_at'] = $date_now;
                 DB::table('user_courses')->insert($newUser);
                 DB::commit();
+                Mail::send('emails.confirmPayment', ['userName' => $user->name, 'courseName' => $course->name, 'orderId' => $data['orderId'], 'months' => 1], function ($message) use ($emailUser) {
+                    $message->to($emailUser);
+                    $message->subject('Compra Exitosa');
+                });
                 return response()->json([
                     'status' => 200,
                     'message' => 'Registro exitoso',
