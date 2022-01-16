@@ -17,6 +17,7 @@ use App\Events\updateRateChallenge;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\ConfirmPurchaseMail;
 
 
 class CourseController extends Controller
@@ -243,6 +244,12 @@ class CourseController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function confirmPurchaseProductMail(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        Mail::to($user->email)->send(new ConfirmPurchaseMail($request));
     }
 
     public function confirmPaymentOrder($orderId)
