@@ -383,6 +383,7 @@ class AuthController extends Controller
         return response(['status' => 400, 'message' => 'El email ingresado no es válido'], 400);
     }
 
+
     public function activate($data, $content)
     {
         $data = [

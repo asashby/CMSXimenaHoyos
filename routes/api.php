@@ -78,7 +78,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::post('current/additionalInfo', 'Auth\AuthController@setAdditionalInfo');
 
     //courses
-    Route::patch('courses/{slug}/payment', 'Api\CourseController@UserRegisterOnCourse');
+    Route::patch('courses/payment', 'Api\CourseController@UserRegisterOnCourse');
     Route::post('courses/{slug}/check-free', 'Api\CourseController@checkCourseFree');
 
     //directions
