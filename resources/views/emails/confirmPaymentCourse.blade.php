@@ -372,7 +372,7 @@
 
                                         </table>
                                     </td>
-                                    <td width="300" height="169" align="center" valign="middle" bgcolor="#006fb2"
+                                    {{-- <td width="300" height="169" align="center" valign="middle" bgcolor="#006fb2"
                                         class="two-left">
                                         <table width="85%" border="0" cellspacing="0" cellpadding="0">
 
@@ -403,7 +403,7 @@
                                             </tr>
 
                                         </table>
-                                    </td>
+                                    </td> --}}
                                 </tr>
                             </table>
                         </td>
@@ -462,7 +462,7 @@
 
     <!--Welcome List Part Start-->
 
-    {{-- <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
         <tr>
             <td align="center" valign="top">
                 <table width="800" border="0" align="center" cellpadding="0" cellspacing="0" class="main">
@@ -473,10 +473,10 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">
-                                            <p>Producto</p>
+                                            <p>Reto</p>
                                         </th>
                                         <th scope="col">
-                                            <p>Cantidad</p>
+                                            <p>Meses</p>
                                         </th>
                                         <th scope="col">
                                             <p>Precio</p>
@@ -484,38 +484,25 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr>
+                                        <td>
+                                            <ol>
+                                                @foreach ($dataCourses as $course)
+                                                <li>{{ $course->title }}</li>
+                                                @endforeach
+                                            </ol>
+                                        </td>
+                                        <td>{{ $months }}</td>
+                                        <td>{{ $price }}</td>
+                                    </tr>
                                 </tbody>
                                 <tfoot>
-                                    <tr>
-                                        <th scope="row" colspan="2">
-                                            <p>Subtotal:</p>
-                                        </th>
-                                        <td>
-                                            <p>S/0.00</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" colspan="2">
-                                            <p>Envío:</p>
-                                        </th>
-                                        <td>
-                                            <p>S/10.00 vía Flat Rate</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row" colspan="2">
-                                            <p>Método de pago:</p>
-                                        </th>
-                                        <td>
-                                            <p>Direct Bank Transfer</p>
-                                        </td>
-                                    </tr>
                                     <tr>
                                         <th scope="row" colspan="2">
                                             <p>Total:</p>
                                         </th>
                                         <td>
-                                            <p>S/10.00</p>
+                                            <p>{{ $price }}</p>
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -525,7 +512,7 @@
                 </table>
             </td>
         </tr>
-    </table> --}}
+    </table>
 
 
     <!--Welcome List Part End-->
