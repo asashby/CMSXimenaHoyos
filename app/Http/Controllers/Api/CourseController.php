@@ -193,7 +193,7 @@ class CourseController extends Controller
         }
     }
 
-    public function UserRegisterOnCourse(Request $request, $slug)
+    /*     public function UserRegisterOnCourse(Request $request, $slug)
     {
         try {
             DB::beginTransaction();
@@ -201,18 +201,19 @@ class CourseController extends Controller
             $data = array_merge($request->all());
             //Verificamos si el usuario ya esta regisrado en el curso elejido
             $course = Course::where('slug', $slug)->first();
-            // $plan = Plan::where('id', $data['plan_id'])->first();
+            //  $plan = Plan::where('id', $data['plan_id'])->first();
             // $months = strval($plan->months);
             $courses = $user->courses;
             $courses = $courses->firstWhere('id', $course->id);
             $emailUser = $user->email;
+            $date_now = date('d-m-y h:i:s');
+            // $expirationDate = date('d-m-y h:i:s', strtotime("+" . $months . "months", strtotime($date_now)));
             if (!isset($courses)) {
-                $date_now = new \DateTime('now', new \DateTimeZone('America/Lima'));
                 $newUser['course_id'] = $course->id;
                 $newUser['user_id'] = $user->id;
                 $newUser['init_date'] = $date_now;
                 $newUser['insc_date'] = $date_now;
-                // $newUser['expiration_date'] = $date_now->modify("+{$months} month");
+                // $newUser['expiration_date'] = $expirationDate;
                 $newUser['flag_registered'] = 1;
                 $newUser['external_order_id'] =  $data['orderId'];
                 $newUser['link'] = $data['link'];
@@ -225,6 +226,64 @@ class CourseController extends Controller
                     $message->to($emailUser);
                     $message->subject('Compra Exitosa');
                 });
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Registro exitoso',
+                    'url' =>  $data['link'],
+                ], 200);
+            }
+            return response()->json([
+                'statusCode' => 400,
+                'code' => 'ALREADY_REGISTERED',
+                'message' => 'Ya se encuentra Registrado'
+            ], 400);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'code' => 'ERROR_REQUEST',
+                'statusCode' => 500,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    } */
+
+    public function UserRegisterOnCourse(Request $request)
+    {
+        try {
+            $user = User::find(Auth::user()->id);
+            $data = array_merge($request->all());
+            //Verificamos si el usuario ya esta regisrado en el curso elejido
+            // $course = Course::where('id', $data['plan_id'])->first();
+            $courseToInsc = $data['plan_id'];
+            $plan = Plan::where('course_id', 'like', "%$courseToInsc%")->first();
+            // $months = strval($plan->months);
+            $coursesPlan = $plan['course_id'];
+            $courses = $user->courses;
+            $findCourses = $courses->where('course_id', $coursesPlan[0]);
+            // $dataCourses = Course::select(['title', 'prices'])->whereIn('id', $coursesPlan)->get();
+            $arrayFinal = [];
+            $emailUser = $user->email;
+            if (count($findCourses) === 0) {
+                foreach ($coursesPlan as $courseId) {
+                    $date_now = new \DateTime('now', new \DateTimeZone('America/Lima'));
+                    $newUser['course_id'] = $courseId;
+                    $newUser['user_id'] = $user->id;
+                    $newUser['init_date'] = $date_now;
+                    $newUser['insc_date'] = $date_now;
+                    // $newUser['expiration_date'] = $date_now->modify("+{$months} month");
+                    $newUser['flag_registered'] = 1;
+                    $newUser['external_order_id'] =  $data['orderId'];
+                    $newUser['link'] = $data['link'];
+                    $newUser['paid'] = 1;
+                    $newUser['created_at'] = $date_now;
+                    $newUser['updated_at'] = $date_now;
+                    array_push($arrayFinal, $newUser);
+                }
+                $user->courses()->attach($arrayFinal);
+                /* Mail::send('emails.confirmPaymentCourse', ['userName' => $user->name, 'dataCourses' => $dataCourses, 'orderId' => $data['orderId'], 'months' => $months, 'price' => $plan->price], function ($message) use ($emailUser) {
+                    $message->to($emailUser);
+                    $message->subject('Compra Exitosa');
+                });*/
                 return response()->json([
                     'status' => 200,
                     'message' => 'Registro exitoso',
