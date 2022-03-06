@@ -17,6 +17,7 @@ class Company extends Model
     protected $casts = [
         "helpCenter" => "object",
         "companyInfo" => "object",
+        "companySeo" => "object",
         "facebook" => "object",
         "google" => "object",
         "privacyPolicy" => "object",

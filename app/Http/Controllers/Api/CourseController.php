@@ -252,17 +252,11 @@ class CourseController extends Controller
         try {
             $user = User::find(Auth::user()->id);
             $data = array_merge($request->all());
-            //Verificamos si el usuario ya esta regisrado en el curso elejido
-            // $course = Course::where('id', $data['plan_id'])->first();
-            $courseToInsc = $data['plan_id'];
-            $plan = Plan::where('course_id', 'like', "%$courseToInsc%")->first();
-            // $months = strval($plan->months);
-            $coursesPlan = $plan['course_id'];
+            $plan = Plan::find($request->plan_id);
+            $coursesPlan = $plan->course_id;
             $courses = $user->courses;
-            $findCourses = $courses->where('course_id', $coursesPlan[0]);
-            // $dataCourses = Course::select(['title', 'prices'])->whereIn('id', $coursesPlan)->get();
+            $findCourses = $courses->whereIn('course_id', $coursesPlan);
             $arrayFinal = [];
-            $emailUser = $user->email;
             if (count($findCourses) === 0) {
                 foreach ($coursesPlan as $courseId) {
                     $date_now = new \DateTime('now', new \DateTimeZone('America/Lima'));

@@ -75,11 +75,15 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::post('logout', 'Auth\AuthController@logout');
     Route::get('current', 'Auth\AuthController@getUserDetails');
     Route::post('current/update', 'Auth\AuthController@updateUserData');
+    Route::get('current/courses', 'Auth\AuthController@getCoursesCount');
     Route::post('current/additionalInfo', 'Auth\AuthController@setAdditionalInfo');
 
+
     //courses
-    Route::patch('courses/{slug}/payment', 'Api\CourseController@UserRegisterOnCourse');
+    // Route::patch('courses/{slug}/payment', 'Api\CourseController@UserRegisterOnCourse');
     Route::post('courses/{slug}/check-free', 'Api\CourseController@checkCourseFree');
+
+    Route::patch('courses/payment', 'Api\CourseController@UserRegisterOnCourse');
 
     //directions
     Route::get('address', 'Auth\AuthController@getUserAddress');

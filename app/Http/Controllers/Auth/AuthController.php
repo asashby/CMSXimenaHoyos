@@ -256,6 +256,20 @@ class AuthController extends Controller
         ]);
     }
 
+    public function getCoursesCount(Request $request)
+    {
+        $data = $request->header('Authorization');
+        $token =  explode(' ', $data)[1];
+        $user = JWTAuth::toUser($token);
+        $userData = User::where(['id' => $user->id])->first();
+        $coursesCount = $userData->courses()->count();
+        $status = $coursesCount > 0 ? 'success' : 'fail';
+        return response()->json([
+            'status' => $status,
+            'courseCount' => $userData->courses()->count(),
+        ]);
+    }
+
 
 
     public function logout(Request $request)
@@ -508,16 +522,6 @@ class AuthController extends Controller
     {
         $company = new Company;
         $company = $company->getCompanyInfo();
-        $url = env('SALES_URL') . 'subsidiaries-token';
-        $commerceData = $this->httpTokenPublic($url, 'GET', [], $company['commerce_token']);
-        $commerceData = json_decode(json_encode($commerceData))->data;
-        unset($company['cookiePolicy']);
-        unset($company['companySeo']);
-        unset($company['beforeRegister']);
-        $company['commerceCode'] = $commerceData->code;
-        $company['commerceId'] = $commerceData->id;
-        $company['commerceName'] = $commerceData->name;
-        $company['unitId'] = intval(env('COMMERCE_UNIT_ID'));
         return response()->json(['statusCode' => 200, 'data' => $company]);
     }
 
