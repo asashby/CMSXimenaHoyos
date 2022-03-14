@@ -9,11 +9,8 @@ use App\Course;
 use App\Comments;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Scopes\ActivatedScope;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use App\Events\updateRateChallenge;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -250,30 +247,29 @@ class CourseController extends Controller
     public function UserRegisterOnCourse(Request $request)
     {
         try {
+            DB::beginTransaction();
             $user = User::find(Auth::user()->id);
             $data = array_merge($request->all());
             $plan = Plan::find($request->plan_id);
             $coursesPlan = $plan->course_id;
             $courses = $user->courses;
             $findCourses = $courses->whereIn('course_id', $coursesPlan);
-            $arrayFinal = [];
+            $date_now = Carbon::now('America/Lima');
             if (count($findCourses) === 0) {
                 foreach ($coursesPlan as $courseId) {
-                    $date_now = new \DateTime('now', new \DateTimeZone('America/Lima'));
                     $newUser['course_id'] = $courseId;
                     $newUser['user_id'] = $user->id;
                     $newUser['init_date'] = $date_now;
                     $newUser['insc_date'] = $date_now;
-                    // $newUser['expiration_date'] = $date_now->modify("+{$months} month");
                     $newUser['flag_registered'] = 1;
                     $newUser['external_order_id'] =  $data['orderId'];
                     $newUser['link'] = $data['link'];
                     $newUser['paid'] = 1;
                     $newUser['created_at'] = $date_now;
                     $newUser['updated_at'] = $date_now;
-                    array_push($arrayFinal, $newUser);
+                    DB::table('user_courses')->insert($newUser);
+                    DB::commit();
                 }
-                $user->courses()->attach($arrayFinal);
                 /* Mail::send('emails.confirmPaymentCourse', ['userName' => $user->name, 'dataCourses' => $dataCourses, 'orderId' => $data['orderId'], 'months' => $months, 'price' => $plan->price], function ($message) use ($emailUser) {
                     $message->to($emailUser);
                     $message->subject('Compra Exitosa');
