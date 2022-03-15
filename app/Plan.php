@@ -24,7 +24,7 @@ class Plan extends Model
         static::addGlobalScope(new ActivatedScope);
     }
 
-    public function scopeCourse($query, $id)
+    static function scopeCourse($query, $id)
     {
         $query->where('course_id', 'like', "%$id%");
     }
