@@ -249,42 +249,56 @@ class CourseController extends Controller
         try {
             DB::beginTransaction();
             $user = User::find(Auth::user()->id);
-            $data = array_merge($request->all());
-            $plan = Plan::find($request->plan_id);
-            $coursesPlan = $plan->course_id;
-            $courses = $user->courses;
-            $findCourses = $courses->whereIn('course_id', $coursesPlan);
-            $date_now = Carbon::now('America/Lima');
-            if (count($findCourses) === 0) {
-                foreach ($coursesPlan as $courseId) {
-                    $newUser['course_id'] = $courseId;
-                    $newUser['user_id'] = $user->id;
-                    $newUser['init_date'] = $date_now;
-                    $newUser['insc_date'] = $date_now;
-                    $newUser['flag_registered'] = 1;
-                    $newUser['external_order_id'] =  $data['orderId'];
-                    $newUser['link'] = $data['link'];
-                    $newUser['paid'] = 1;
-                    $newUser['created_at'] = $date_now;
-                    $newUser['updated_at'] = $date_now;
-                    DB::table('user_courses')->insert($newUser);
-                    DB::commit();
+            $emailUser = $user->email;
+            if (!empty($request->plan_id) || !empty($request->product_id)) {
+                if (!empty($request->product_id)) {
+                    $ids = implode($request->product_id);
+                    $plan = Plan::where('woocommerce_ids', 'like', "%$ids%")->first();
+                } else {
+                    $plan = Plan::find($request->plan_id);
                 }
-                /* Mail::send('emails.confirmPaymentCourse', ['userName' => $user->name, 'dataCourses' => $dataCourses, 'orderId' => $data['orderId'], 'months' => $months, 'price' => $plan->price], function ($message) use ($emailUser) {
+                $coursesPlan = $plan->course_id;
+                $dataCourses =  Course::whereIn('id', $coursesPlan)->get();
+                $findCourses = $user->courses()->whereIn('course_id', $coursesPlan)->count();
+                $date_now = Carbon::now('America/Lima');
+                if ($findCourses === 0) {
+                    foreach ($coursesPlan as $courseId) {
+                        $newUser['course_id'] = $courseId;
+                        $newUser['user_id'] = $user->id;
+                        $newUser['init_date'] = $date_now;
+                        $newUser['insc_date'] = $date_now;
+                        $newUser['expiration_date'] = Carbon::now('America/Lima')->addMonths($plan->months);
+                        $newUser['flag_registered'] = 1;
+                        $newUser['external_order_id'] =  $request->orderId;
+                        $newUser['link'] = $request->link;
+                        $newUser['paid'] = 1;
+                        $newUser['created_at'] = $date_now;
+                        $newUser['updated_at'] = $date_now;
+                        DB::table('user_courses')->insert($newUser);
+                        DB::commit();
+                    }
+
+                    Mail::send('emails.confirmPaymentCourseNew', ['user' => $user, 'dataCourses' => $dataCourses, 'orderId' => $request->orderId, 'months' => $plan->months, 'price' => $plan->price, 'dateOrder' => fecha_string()], function ($message) use ($emailUser) {
+                        $message->to($emailUser);
+                        $message->subject('Compra Exitosa');
+                    });
+                    return response()->json([
+                        'status' => 200,
+                        'message' => 'Registro exitoso',
+                        'url' =>  $request->link,
+                    ], 200);
+                }
+                return response()->json([
+                    'statusCode' => 400,
+                    'code' => 'ALREADY_REGISTERED',
+                    'message' => 'Ya se encuentra Registrado'
+                ], 400);
+            } else {
+                Mail::send('emails.confirmPurchaseWoocommerce', ['user' => $user, 'orderId' => $request->orderId, 'items' => $request->line_items, 'total' => $request->total, 'dateOrder' => fecha_string()], function ($message) use ($emailUser) {
                     $message->to($emailUser);
                     $message->subject('Compra Exitosa');
-                });*/
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'Registro exitoso',
-                    'url' =>  $data['link'],
-                ], 200);
+                });
             }
-            return response()->json([
-                'statusCode' => 400,
-                'code' => 'ALREADY_REGISTERED',
-                'message' => 'Ya se encuentra Registrado'
-            ], 400);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
@@ -294,6 +308,9 @@ class CourseController extends Controller
             ], 500);
         }
     }
+
+
+
 
     public function confirmPurchaseProductMail(Request $request)
     {
