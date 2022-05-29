@@ -1,25 +1,23 @@
-
-
 @extends('layouts.admin_layout')
 @section('title', 'Editar Reto')
 @section('content')
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-            <h1>Retos</h1>
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Retos</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('dashboard/courses') }}">Retos</a></li>
+                        <li class="breadcrumb-item active">Editar Reto</li>
+                    </ol>
+                </div>
             </div>
-            <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{ url('dashboard/courses') }}">Retos</a></li>
-                <li class="breadcrumb-item active">Editar Reto</li>
-            </ol>
-            </div>
-        </div>
         </div><!-- /.container-fluid -->
     </section>
 
@@ -42,73 +40,98 @@
                         </ul>
                     </div>
                     @endif
-                    <form  method="post" action="{{ url('dashboard/courses/edit/'.$courseDetail->id) }}" name="editRecipe" id="editRecipe" enctype="multipart/form-data">@csrf
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Título</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" name="courseTitle" value="{{$courseDetail->title}}" placeholder="Ingrese Titulo">
+                    <form method="post" action="{{ url('dashboard/courses/edit/'.$courseDetail->id) }}"
+                        name="editRecipe" id="editRecipe" enctype="multipart/form-data">@csrf
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Título</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" name="courseTitle"
+                                        value="{{$courseDetail->title}}" placeholder="Ingrese Titulo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Subtítulo</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1"
+                                        value="{{$courseDetail->subtitle}}" name="courseSubTitle"
+                                        placeholder="Ingrese Titulo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Tipo de Reto</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" name="courseType"
+                                        value="{{$courseDetail->type}}" placeholder="Tipo de Reto">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Cantidad de Días</label>
+                                    <input type="number" class="form-control" id="exampleInputEmail1" name="courseDays"
+                                        value="{{$courseDetail->days}}" placeholder="Nro. Dias">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Precio de Reto</label>
+                                    <input type="number" class="form-control" id="exampleInputEmail1" name="coursePrice"
+                                        value="{{$courseDetail->prices}}" placeholder="Precio">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Descripcion de Reto</label>
+                                    <textarea class="form-control" name="courseDescription" id="courseDescription"
+                                        placeholder="Descripion del reto"
+                                        style="margin-top: 0px; margin-bottom: 0px; height: 93px;">{{$courseDetail->description}}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Nivel</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1"
+                                        value="{{$courseDetail->level}}" name="courseLevel" placeholder="Nivel">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Frecuencia</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1"
+                                        value="{{$courseDetail->frequency}}" name="courseFrequence"
+                                        placeholder="Frecuencia">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Duracion</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1"
+                                        value="{{$courseDetail->duration}}" name="courseDuration"
+                                        placeholder="Duracion">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Video de Reto</label>
+                                    <input type="url" class="form-control" id="courseUrlVideo"
+                                        value="{{$courseDetail->url_video}}" name="courseUrlVideo"
+                                        placeholder="Ingrese URL">
+                                </div>
+
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Subtítulo</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" value="{{$courseDetail->subtitle}}" name="courseSubTitle" placeholder="Ingrese Titulo">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Tipo de Reto</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" name="courseType" value="{{$courseDetail->type}}"  placeholder="Tipo de Reto">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Cantidad de Días</label>
-                                <input type="number" class="form-control" id="exampleInputEmail1" name="courseDays" value="{{$courseDetail->days}}"  placeholder="Nro. Dias">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Precio de Reto</label>
-                                <input type="number" class="form-control" id="exampleInputEmail1" name="coursePrice" value="{{$courseDetail->prices}}"  placeholder="Precio">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Descripcion de Reto</label>
-                                    <textarea class="form-control" name="courseDescription" id="courseDescription" placeholder="Descripion del reto" style="margin-top: 0px; margin-bottom: 0px; height: 93px;">{{$courseDetail->description}}</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Nivel</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" value="{{$courseDetail->level}}" name="courseLevel" placeholder="Nivel">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Frecuencia</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" value="{{$courseDetail->frequency}}" name="courseFrequence" placeholder="Frecuencia">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Duracion</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" value="{{$courseDetail->duration}}" name="courseDuration" placeholder="Duracion">
-                            </div>
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="exampleInputFile">Insertar Imagen Principal</label>
-                                    <input type="file" class="form-control" onchange="preview_image(event)" name="courseBanner" id="courseBanner">
-                                    <img style="margin-top: 10px;" class="img-fluid" width=600 id="output_image" src="{{asset($courseDetail->banner)}}"/>
+                            <!-- /.col -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputFile">Insertar Imagen Principal</label>
+                                    <input type="file" class="form-control" onchange="preview_image(event)"
+                                        name="courseBanner" id="courseBanner">
+                                    <img style="margin-top: 10px;" class="img-fluid" width=600 id="output_image"
+                                        src="{{asset($courseDetail->banner)}}" />
                                     <input type="hidden" name="currentCourseBanner" value="{{ $courseDetail->banner }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputFile">Insertar Imagen del Contenido</label>
+                                    <input type="file" class="form-control" onchange="preview_image2(event)"
+                                        name="courseContent" id="courseContent">
+                                    <img style="margin-top: 10px;" class="img-fluid" width=600 id="output_image2"
+                                        src="{{asset($courseDetail->url_image)}}" />
+                                    <input type="hidden" name="currentCourseContent"
+                                        value="{{ $courseDetail->url_image }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputFile">Insertar Imagen Principal para Movil</label>
+                                    <input type="file" class="form-control" onchange="preview_image3(event)"
+                                        name="courseBannerMobile" id="courseBannerMobile">
+                                    <img style="margin-top: 10px;" class="img-fluid" width=600 id="output_image3"
+                                        src="{{asset($courseDetail->mobile_image)}}" />
+                                    <input type="hidden" name="currentCourseBannerMobile"
+                                        value="{{ $courseDetail->mobile_image }}">
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputFile">Insertar Imagen del Contenido</label>
-                                    <input type="file" class="form-control" onchange="preview_image2(event)" name="courseContent" id="courseContent">
-                                    <img style="margin-top: 10px;" class="img-fluid" width=600  id="output_image2" src="{{asset($courseDetail->url_image)}}"/>
-                                    <input type="hidden" name="currentCourseContent" value="{{ $courseDetail->url_image }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputFile">Insertar Imagen Principal para Movil</label>
-                                    <input type="file" class="form-control" onchange="preview_image3(event)" name="courseBannerMobile" id="courseBannerMobile">
-                                    <img style="margin-top: 10px;" class="img-fluid" width=600  id="output_image3" src="{{asset($courseDetail->mobile_image)}}"/>
-                                    <input type="hidden" name="currentCourseBannerMobile" value="{{ $courseDetail->mobile_image }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Video de Reto</label>
-                                <input type="url" class="form-control" id="courseUrlVideo" value="{{$courseDetail->url_video}}" name="courseUrlVideo" placeholder="Ingrese URL">
-                            </div>
+                            <!-- /.col -->
                         </div>
-                        <!-- /.col -->
-                    </div>
                 </div>
 
                 <!-- /.row -->
@@ -121,20 +144,20 @@
                 <!-- /.row -->
 
             </div>
-                <!-- /.card-body -->
+            <!-- /.card-body -->
 
         </div>
-            <!-- /.card -->
+        <!-- /.card -->
     </section>
 
 
 
     <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script>
-        function preview_image(event)
+</div>
+<!-- /.content-wrapper -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    function preview_image(event)
         {
             var reader = new FileReader();
             reader.onload = function()
@@ -175,5 +198,5 @@
             }
             reader.readAsDataURL(event.target.files[0]);
         }
-    </script>
+</script>
 @endsection

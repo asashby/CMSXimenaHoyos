@@ -1,23 +1,23 @@
 @extends('layouts.admin_layout')
 @section('title', 'Crear Reto')
 @section('content')
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-            <h1>Retos</h1>
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Retos</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('dashboard/courses') }}">Retos</a></li>
+                        <li class="breadcrumb-item active">Agregar Reto</li>
+                    </ol>
+                </div>
             </div>
-            <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{ url('dashboard/courses') }}">Retos</a></li>
-                <li class="breadcrumb-item active">Agregar Reto</li>
-            </ol>
-            </div>
-        </div>
         </div><!-- /.container-fluid -->
     </section>
 
@@ -40,95 +40,116 @@
                         </ul>
                     </div>
                     @endif
-                    <form  method="post" action="{{url('dashboard/courses/create')}}" name="createCourse" id="createCourse" enctype="multipart/form-data">@csrf
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Título</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" name="courseTitle" placeholder="Ingrese Titulo">
+                    <form method="post" action="{{url('dashboard/courses/create')}}" name="createCourse"
+                        id="createCourse" enctype="multipart/form-data">@csrf
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Título</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" name="courseTitle"
+                                        placeholder="Ingrese Titulo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Pretitulo</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1"
+                                        name="courseSubTitle" placeholder="Ingrese Pretitulo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Tipo de Reto</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" name="courseType"
+                                        placeholder="Tipo de Reto">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Cantidad de Días</label>
+                                    <input type="number" class="form-control" id="exampleInputEmail1" name="courseDays"
+                                        placeholder="Nro. Dias">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Precio de Reto</label>
+                                    <input type="number" class="form-control" id="exampleInputEmail1" name="coursePrice"
+                                        placeholder="Precio">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Descripcion de Reto</label>
+                                    <textarea class="form-control" name="courseDescription" id="courseDescription"
+                                        placeholder="Descripion del reto"
+                                        style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Nivel</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" name="courseLevel"
+                                        placeholder="Nivel">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Frecuencia</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1"
+                                        name="courseFrequence" placeholder="Frecuencia">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Duracion</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1"
+                                        name="courseDuration" placeholder="Duracion">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Video del Reto</label>
+                                    <input type="url" class="form-control" id="courseUrlVideo" name="courseUrlVideo"
+                                        placeholder="Ingrese URL">
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Pretitulo</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" name="courseSubTitle" placeholder="Ingrese Pretitulo">
+                            <!-- /.col -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputFile">Insertar Imagen Principal</label>
+                                    <input type="file" class="form-control" onchange="preview_image(event)"
+                                        name="courseBanner" id="courseBanner">
+                                    <img style="margin-top: 10px;" class="img-fluid" id="output_image" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputFile">Insertar Imagen Principal para Movil</label>
+                                    <input type="file" class="form-control" onchange="preview_image3(event)"
+                                        name="courseBannerMobile" id="courseBannerMobile">
+                                    <img style="margin-top: 10px;" class="img-fluid" id="output_image3" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputFile">Insertar Imagen del Contenido</label>
+                                    <input type="file" class="form-control" onchange="preview_image2(event)"
+                                        name="courseContent" id="courseContent">
+                                    <img style="margin-top: 10px;" class="img-fluid" id="output_image2" />
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Tipo de Reto</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" name="courseType" placeholder="Tipo de Reto">
+                            <!-- /.col -->
+                        </div>
+                        {{-- <h5>Contenido del Articulo</h5>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Descripción</label>
+                                    <textarea class="form-control textAreaEditor" name="articleContent"
+                                        id="articleContent" placeholder="Ingrese Descripcion"
+                                        style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Cantidad de Días</label>
-                                <input type="number" class="form-control" id="exampleInputEmail1" name="courseDays" placeholder="Nro. Dias">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Precio de Reto</label>
-                                <input type="number" class="form-control" id="exampleInputEmail1" name="coursePrice" placeholder="Precio">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Descripcion de Reto</label>
-                                    <textarea class="form-control" name="courseDescription" id="courseDescription" placeholder="Descripion del reto" style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Nivel</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" name="courseLevel" placeholder="Nivel">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Frecuencia</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" name="courseFrequence" placeholder="Frecuencia">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Duracion</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" name="courseDuration" placeholder="Duracion">
-                            </div>
+                            <!-- /.form-group -->
                         </div>
                         <!-- /.col -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="exampleInputFile">Insertar Imagen Principal</label>
-                                    <input type="file" class="form-control" onchange="preview_image(event)" name="courseBanner" id="courseBanner">
-                                    <img style="margin-top: 10px;" class="img-fluid" id="output_image"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputFile">Insertar Imagen Principal para Movil</label>
-                                    <input type="file" class="form-control" onchange="preview_image3(event)" name="courseBannerMobile" id="courseBannerMobile">
-                                    <img style="margin-top: 10px;" class="img-fluid" id="output_image3"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputFile">Insertar Imagen del Contenido</label>
-                                    <input type="file" class="form-control" onchange="preview_image2(event)" name="courseContent" id="courseContent">
-                                    <img style="margin-top: 10px;" class="img-fluid" id="output_image2"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Video del Reto</label>
-                                <input type="url" class="form-control" id="courseUrlVideo" name="courseUrlVideo" placeholder="Ingrese URL">
-                            </div>
-                        </div>
-                        <!-- /.col -->
-                    </div>
-{{--                  <h5>Contenido del Articulo</h5>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Descripción</label>
-                                <textarea class="form-control textAreaEditor" name="articleContent" id="articleContent" placeholder="Ingrese Descripcion" style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
-                        </div>
-                    </div>
-                    <!-- /.form-group -->
-                </div>
-                    <!-- /.col -->
 
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Título para SEO</label>
-                    <input type="text" class="form-control" placeholder="Ingrese Titulo" id="articleSeoTitle" name="articleSeoTitle">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Descripción para SEO</label>
-                        <textarea class="form-control" name="articleSeoDescription" id="articleSeoDescription" placeholder="Ingrese Descripcion" style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputFile">Insertar Imagen para SEO</label>
-                        <input type="file" class="form-control" onchange="preview_image2(event)" name="articleSeoImage" id="articleSeoImage">
-                        <img style="margin-top: 10px;" id="output_image2"/>
-                </div>  --}}
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Título para SEO</label>
+                            <input type="text" class="form-control" placeholder="Ingrese Titulo" id="articleSeoTitle"
+                                name="articleSeoTitle">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Descripción para SEO</label>
+                            <textarea class="form-control" name="articleSeoDescription" id="articleSeoDescription"
+                                placeholder="Ingrese Descripcion"
+                                style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputFile">Insertar Imagen para SEO</label>
+                            <input type="file" class="form-control" onchange="preview_image2(event)"
+                                name="articleSeoImage" id="articleSeoImage">
+                            <img style="margin-top: 10px;" id="output_image2" />
+                        </div> --}}
                 </div>
 
                 <!-- /.row -->
@@ -141,20 +162,20 @@
                 <!-- /.row -->
 
             </div>
-                <!-- /.card-body -->
+            <!-- /.card-body -->
 
         </div>
-            <!-- /.card -->
+        <!-- /.card -->
     </section>
 
 
 
     <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
+</div>
+<!-- /.content-wrapper -->
 
-    <script>
-        function preview_image(event)
+<script>
+    function preview_image(event)
         {
             var reader = new FileReader();
             reader.onload = function()
@@ -195,5 +216,5 @@
             }
             reader.readAsDataURL(event.target.files[0]);
         }
-    </script>
+</script>
 @endsection

@@ -18,7 +18,8 @@ use Image;
 class AdminController extends Controller
 {
     //
-    public function dashboard(){
+    public function dashboard()
+    {
         Session::put('page', 'dashboard');
         $numCourses = Course::count();
         $numUnits = Unit::count();
@@ -26,20 +27,22 @@ class AdminController extends Controller
         $numArticles = Article::count();
         $company = new Company;
         $companyData = $company->getCompanyInfo();
-        return view('admin.admin_dashboard', compact('numCourses','numUnits', 'numUsers', 'numArticles', 'companyData'))->with('title', 'Dashboard');
+        return view('admin.admin_dashboard', compact('numCourses', 'numUnits', 'numUsers', 'numArticles', 'companyData'))->with('title', 'Dashboard');
     }
 
-    public function settings(){
+    public function settings()
+    {
         Session::put('page', 'settings');
         /* echo "<pre>"; print_r(Auth::guard('admin')->user()); die; */
         $adminDetails = Admin::where('email', Auth::guard('admin')->user()->email)->first();
         $company = new Company;
         $companyData = $company->getCompanyInfo();
-        return view('admin.admin_settings')->with(compact('adminDetails','companyData'));
+        return view('admin.admin_settings')->with(compact('adminDetails', 'companyData'));
     }
 
-    public function login(Request $request){
-        if($request->isMethod('post')){
+    public function login(Request $request)
+    {
+        if ($request->isMethod('post')) {
             $data = $request->all();
             /* echo "<pre>"; print_r($data); die; */
             $rulesData = [
@@ -55,9 +58,9 @@ class AdminController extends Controller
 
             $this->validate($request, $rulesData, $customMessages);
 
-            if(Auth::guard('admin')->attempt(['email' => $data['email'], 'password' => $data['password']])){
+            if (Auth::guard('admin')->attempt(['email' => $data['email'], 'password' => $data['password']])) {
                 return redirect('dashboard');
-            }else{
+            } else {
                 Session::flash('error_message', 'Email o contraseña invalidos');
                 return redirect()->back();
             }
@@ -65,36 +68,39 @@ class AdminController extends Controller
         return view('admin.admin_login');
     }
 
-    public function logout(){
+    public function logout()
+    {
         Auth::guard('admin')->logout();
         return redirect('/');
     }
 
-    public function verifyPassword(Request $request){
+    public function verifyPassword(Request $request)
+    {
         $data = $request->all();
         /* echo "<pre>"; print_r($data); die; */
         $userPwd = Auth::guard('admin')->user()->password;
-        if(Hash::check($data['currentPwd'], $userPwd)){
+        if (Hash::check($data['currentPwd'], $userPwd)) {
             echo true;
         }
-            echo false;
+        echo false;
     }
 
-    public function updatePassword(Request $request){
-        if($request->isMethod('post')){
+    public function updatePassword(Request $request)
+    {
+        if ($request->isMethod('post')) {
             $data = $request->all();
             /* echo "<pre>"; print_r($data); die; */
             $userPwd = Auth::guard('admin')->user()->password;
-            if(Hash::check($data['currentPassword'], $userPwd)){
-                if($data['newPassword'] == $data['confirmPassword']){
+            if (Hash::check($data['currentPassword'], $userPwd)) {
+                if ($data['newPassword'] == $data['confirmPassword']) {
                     Admin::where('id', Auth::guard('admin')->user()->id)->update(['password' => bcrypt($data['newPassword'])]);
                     Session::flash('success_message', 'La Contraseña se actualizo correctamente.');
                     return redirect()->back();
-                }else{
+                } else {
                     Session::flash('error_message', 'Ambas Contraseñas no coinciden.');
                     return redirect()->back();
                 }
-            }else{
+            } else {
                 Session::flash('error_message', 'La Contraseña Actual es incorrecta.');
                 return redirect()->back();
             }
@@ -104,7 +110,7 @@ class AdminController extends Controller
     public function updateAdminDetails(Request $request)
     {
         Session::put('page', 'upd-admin-details');
-        if($request->isMethod('post')){
+        if ($request->isMethod('post')) {
             $data = $request->all();
 
             $rulesData = [
