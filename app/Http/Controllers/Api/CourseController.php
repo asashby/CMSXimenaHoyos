@@ -274,14 +274,21 @@ class CourseController extends Controller
                         $newUser['paid'] = 1;
                         $newUser['created_at'] = $date_now;
                         $newUser['updated_at'] = $date_now;
-                        DB::table('user_courses')->insert($newUser);
+                        $newId = DB::table('user_courses')->insertGetId($newUser);
                         DB::commit();
                     }
 
-                    Mail::send('emails.confirmPaymentCourseNew', ['user' => $user, 'dataCourses' => $dataCourses, 'orderId' => $request->orderId, 'months' => $plan->months, 'price' => $plan->price, 'dateOrder' => fecha_string()], function ($message) use ($emailUser) {
-                        $message->to($emailUser);
-                        $message->subject('Compra Exitosa');
-                    });
+                    if (!empty($request->plan_id)) {
+                        Mail::send('emails.confirmPaymentCourseNew', ['user' => $user, 'dataCourses' => $dataCourses, 'orderId' =>  strval($newId), 'months' => $plan->months, 'price' => $plan->price, 'dateOrder' => fecha_string()], function ($message) use ($emailUser) {
+                            $message->to($emailUser);
+                            $message->subject('Compra Exitosa');
+                        });
+                    } else {
+                        Mail::send('emails.confirmPurchaseWoocommerce', ['user' => $user, 'orderId' => strval($newId), 'items' => $request->line_items, 'total' => number_format($request->total, 2), 'dateOrder' => fecha_string(), 'subtotal' => number_format($request->total - 13, 2)], function ($message) use ($emailUser) {
+                            $message->to($emailUser);
+                            $message->subject('Compra Exitosa');
+                        });
+                    }
                     return response()->json([
                         'status' => 200,
                         'message' => 'Registro exitoso',
@@ -294,10 +301,14 @@ class CourseController extends Controller
                     'message' => 'Ya se encuentra Registrado'
                 ], 400);
             } else {
-                Mail::send('emails.confirmPurchaseWoocommerce', ['user' => $user, 'orderId' => $request->orderId, 'items' => $request->line_items, 'total' => $request->total, 'dateOrder' => fecha_string()], function ($message) use ($emailUser) {
+                Mail::send('emails.confirmPurchaseWoocommerce', ['user' => $user, 'orderId' => strval(rand(1, 1000)), 'items' => $request->line_items, 'total' => number_format($request->total, 2), 'subtotal' => number_format($request->total - 13, 2), 'dateOrder' => fecha_string()], function ($message) use ($emailUser) {
                     $message->to($emailUser);
                     $message->subject('Compra Exitosa');
                 });
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Compra Exitosa',
+                ], 200);
             }
         } catch (\Exception $e) {
             DB::rollBack();
@@ -405,5 +416,18 @@ class CourseController extends Controller
         $course = Course::where('slug', $slug)->first();
         $comments = Comments::where('course_id', $course->id)->get(['rating', 'title', 'content']);
         return \response()->json($comments, 200);
+    }
+
+    public function soonToExpire()
+    {
+        $currentDay = Carbon::now('America/Lima');
+        $usersToExpire = User::select('users.name', 'users.email', 'user_courses.expiration_date', 'courses.title', DB::raw('DATEDIFF(user_courses.expiration_date, ?) as difference'))->join('user_courses', 'user_courses.user_id', '=', 'users.id')->join('courses', 'user_courses.course_id', '=', 'courses.id')->whereRaw('DATEDIFF(user_courses.expiration_date, ?) = ?')->setBindings([$currentDay, $currentDay, 2])->get()->toArray();
+
+        /* $newArray = array_replace($usersToExpire, function ($item) {
+            return $item['name'] = 'Iesus';
+        }); */
+
+
+        return $newArray;
     }
 }

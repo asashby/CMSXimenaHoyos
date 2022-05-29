@@ -33,6 +33,11 @@ class Course extends Model
         return $this->belongsToMany(User::class, 'user_courses')->withPivot('id', 'init_date', 'final_date', 'insc_date', 'flag_registered', 'flag_completed', 'paid');
     }
 
+    public function plans()
+    {
+        return $this->belongsToMany(Plan::class, 'courses_plans')->withPivot('id', 'course_id', 'plan_id');
+    }
+
     public function cleanSlug($title)
     {
         $title = str_replace('á', 'a', $title);

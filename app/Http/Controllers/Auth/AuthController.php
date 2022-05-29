@@ -15,6 +15,7 @@ use App\Company;
 use App\Section;
 use DateTimeZone;
 use App\Addresses;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Mail\ActivationMail;
 use Illuminate\Http\Request;
@@ -84,7 +85,6 @@ class AuthController extends Controller
             'status' => 200,
             'user' => $user,
             'token' => $token,
-            'tokenMaki' => $tokenMaki ?? $user->remember_token,
         ], 200);
     }
 
@@ -153,103 +153,40 @@ class AuthController extends Controller
         $fecha = new DateTime('now', new DateTimeZone('America/Lima'));
         $companyData = Company::where('code', env('CODE_COMPANY'))->first();
         $user = User::where(['email' => $request->email])->first();
-        $tokenToMaki = "";
 
         if (!$user) {
-            if ($companyData->create_user_maki) {
-                $dataToMaki = [
-                    'name' => $request->name,
-                    'lastname' => $request->last_name,
-                    'email' =>  $request->email,
-                    'password' => base64_encode($request->password),
-                    'extUserId' => $request->password,
-                    'codeApp' => 'ecommerce',
-                    'codeProject' => env('CODE_PROJECT'),
-                    'codeRole' => 'ROLEBASIC',
-                    'provider' => 2,
-                    'activation' => 0,
-                ];
-
-                $url = env('SALES_URL') . 'customers-public';
-                $newUser = $this->httpTokenPublic($url, 'POST', $dataToMaki);
-                $newUser = json_decode(json_encode($newUser));
-                if ($newUser->status != 201) {
-                    return response()->json([
-                        'statusCode' => 400,
-                        'message' => 'No se Pudo Iniciar Sesion',
-                    ]);
-                }
-                $tokenToMaki = $newUser->data->data->token;
-            }
-
             $user = new User;
             $user->name = $request->name;
             $user->sur_name = $request->last_name;
             $user->email = $request->email;
-            $user->url_image = $request->image;
+            $user->url_image = $request->url_image ?? '';
             $user->origin = $request->origin;
             $user->password = base64_encode($request->password);
             $user->created_at = $fecha;
             $user->updated_at = $fecha;
             $user->save();
-        } else if ($companyData->create_user_maki) {
-            $data = [
-                'email' => $user->email,
-                'password' => $user->password,
-                'provider' => 2,
-                'codeApp' => 'ecommerce',
-            ];
-            $message = ['status' => false];
-            $url = env('SALES_URL') . 'signin/auth';
-            $userLog = $this->httpTokenPublic($url, 'POST', $data);
-            $userLog = json_decode(json_encode($userLog));
-            $tokenToMaki = $userLog->data->data->token;
-
-            if ($userLog->status != 200) {
-
-                $dataToMaki = [
-                    'name' => $request->name,
-                    'lastname' => $request->last_name,
-                    'email' =>  $request->email,
-                    'password' => base64_encode($request->password),
-                    'extUserId' => $request->password,
-                    'codeApp' => 'ecommerce',
-                    'codeProject' => env('CODE_PROJECT'),
-                    'codeRole' => 'ROLEBASIC',
-                    'provider' => 2,
-                    'activation' => 0,
-                ];
-
-                $url = env('SALES_URL') . 'customers-public';
-                $newUser = $this->httpTokenPublic($url, 'POST', $dataToMaki);
-                $newUser = json_decode(json_encode($newUser));
-
-                if ($newUser->status != 201) {
-                    return response()->json([
-                        'statusCode' => 400,
-                        'message' => 'No se Pudo Iniciar Sesion',
-                    ]);
-                }
-            }
         }
 
         $data_send = [
-            'email' => $user->email,
-            'origin' => $user->origin,
-            'password' => $user->password,
+            'email' => $request->email,
+            'origin' => $request->origin,
+            'password' => $request->password,
         ];
         $request = new Request($data_send);
-        return $this->login($request, $tokenToMaki);
+        return $this->login($request);
     }
 
 
     public function updateUserData(Request $request)
     {
-        $data = $request->header('Authorization');
-        $token =  explode(' ', $data)[1];
-        $user = JWTAuth::toUser($token);
+        $user = User::find(Auth::user()->id);
         $flag_goald = !isset($request->addittional_info) ? 0 : 1;
-        User::where(['id' => $user->id])->update(['name' => $request->name, 'sur_name' => $request->last_name, 'goal' => $request->goal, 'addittional_info' => $request->addittional_info, 'flag_goald' => $flag_goald]);
+        $user->name = $request->name ?? $user->name;
+        $user->sur_name = $request->last_name ?? $user->sur_name;
+        $user->goal = $request->goal;
+        $user->addittional_info = $request->addittional_info;
+        $user->flag_goald = $flag_goald;
+        $user->update();
         return response()->json([
             'statusCode' => 200,
             'message' => 'Los datos se ectualizaron correctamente'
