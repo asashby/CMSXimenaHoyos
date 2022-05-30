@@ -44,6 +44,7 @@ class Company extends Model
 
         //Quitando Caracteres Especiales
         $title = str_replace('"', '', $title);
+        $title = str_replace('*', '', $title);
         $title = str_replace(':', '', $title);
         $title = str_replace('.', '', $title);
         $title = str_replace(',', '', $title);
