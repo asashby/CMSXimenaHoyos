@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\UserPostRequest;
-use App\Mail\ActivationMail;
-use App\User;
-use App\Company;
-use App\Course;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Session;
+use App\Plan;
+use App\User;
+use App\Course;
+use App\Company;
 use Illuminate\Support\Str;
+use App\Mail\ActivationMail;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\UserPostRequest;
+use Illuminate\Database\Eloquent\Builder;
 
 class UserController extends Controller
 {
@@ -63,30 +66,52 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $courses = Course::orderBy('id', 'ASC')->pluck('title', 'id');
-        $user['courses_free'] = $user->courses_free ?? [];
+        $plans = Plan::select('plans.id as planId', 'courses.id as courseId', 'plans.title as planName', 'courses.title as courseName', 'plans.months as numberMonths')->join('courses_plans', 'courses_plans.plan_id', '=', 'plans.id')->join('courses', 'courses_plans.course_id', '=', 'courses.id')->where('plans.is_activated', 1)->get();
+        /* $user['courses'] = Plan::select('plans.id as planId', 'courses.id as courseId', 'plans.title as planName', 'courses.title as courseName', 'plans.months as numberMonths')->join('courses_plans', 'courses_plans.plan_id', '=', 'plans.id')->join('courses', 'courses_plans.course_id', '=', 'courses.id')->join('user_courses', 'user_courses.course_id', '=', 'courses.id')->where('user_courses.user_id', $id)->distinct()->get()->toArray(); */
+        $userCourses = $user->courses()->pluck('plan_id');
         $company = new Company;
         $companyData = $company->getCompanyInfo();
-        return view('admin.users.edit', compact('user', 'courses', 'companyData'));
+        return view('admin.users.edit', compact('user', 'plans', 'userCourses', 'companyData'));
     }
 
     public function show($id)
     {
     }
 
-    public function update(UserPostRequest $request, $id)
+    public function update(Request $request, $id)
     {
+        // $data = $request->all();
         $user = User::findOrFail($id);
         $user->name = $request->name;
         $user->sur_name = $request->sur_name;
         $user->email = $request->email;
         $user->external_enterprise = $request->external_enterprise;
         $user->enterprise = $request->enterprise;
+        $finalArray = array();
+        $date_now = Carbon::now('America/Lima');
+        if (isset($request->plans)) {
+            foreach ($request->plans as $plan) {
+                $detPlan = Plan::find($plan);
+                foreach ($detPlan->course_id as $course) {
+                    $finalArray[$course] = [
+                        'insc_date' => $date_now,
+                        'init_date' => $date_now,
+                        'expiration_date' => $date_now->addMonths($detPlan->months),
+                        'user_id' => $id,
+                        'course_id' => $course,
+                        'plan_id' => $plan,
+                        'flag_registered' => 1,
+                        'paid' => 1,
+                    ];
+                }
+            }
+        }
+        $user->courses()->sync($finalArray);
         $user->courses_free = $request->courses;
         $user->addittional_info = ['gender' => $request->gender, 'worker_type' => $request->worker_type, 'nameCity' => $request->name_city];
         $user->is_activated = $request->is_activated;
         $user->save();
-        return redirect()->route('users.index')->with('status', '¡Registrado satisfactoriamente!');
+        return redirect()->route('users.index')->with('status', '¡Actualizado Correctamente!');
     }
 
     public function destroy($id)

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Plan;
-use App\Company;
-use Exception;
-use Illuminate\Http\Request;
 use Session;
+use App\Plan;
+use Exception;
+use App\Course;
+use App\Company;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class PlanController extends Controller
 {
@@ -58,9 +60,39 @@ class PlanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function addPlan(Request $request)
     {
-        //
+
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+
+            $plan = new Plan;
+
+            /* echo '<pre>';
+            print_r($data);
+            die; */
+
+            $slug = Str::slug(strtolower($data['planTitle']));
+
+            // echo '<pre>'; print_r($data['planTitle']); die;
+
+            $plan->title = $data['planTitle'];
+            $plan->slug = $slug;
+            $plan->description = $data['planResume'];
+            $plan->months = $data['planMonths'];
+            $plan->price = (float) $data['planPrice'];
+            $plan->course_id = $data['courses'] ?? '[]';
+            $plan->save();
+            if (isset($data['courses'])) {
+                $plan->courses()->sync($data['courses']);
+            }
+            Session::flash('success_message', 'EL plan se creo Correctamente');
+            return redirect('dashboard/plans');
+        }
+        $courses = Course::orderBy('id', 'ASC')->pluck('title', 'id')->toArray();
+        $company = new Company;
+        $companyData = $company->getCompanyInfo();
+        return view('admin.plans.add_plan')->with(compact('courses', 'companyData'));
     }
 
     /**
@@ -69,53 +101,43 @@ class PlanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function editPlan(Request $request, $id)
     {
-        //
+
+        if ($request->isMethod('post')) {
+
+            $data = $request->all();
+
+            $slug = Str::slug($data['planTitle']);
+
+            $plan = Plan::find($id);
+            $finalArray = array_map(function ($item) {
+                return (int) $item;
+            }, $data['courses'] ?? []);
+
+            $plan->update([
+                'title' => $data['planTitle'], 'slug' => $slug, 'description' => $data['planResume'], 'price' => (float) $data['planPrice'], 'months' => $data['planMonths'], 'course_id' => $finalArray ?? '[]'
+            ]);
+            if (isset($data['courses'])) {
+                $plan->find($id)->courses()->sync($data['courses']);
+            }
+            Session::flash('success_message', 'El plan se Actualizo Correctamente');
+            return redirect('dashboard/plans');
+        }
+
+
+        $planDetail = Plan::find($id);
+        $courses = Course::orderBy('id', 'ASC')->pluck('title', 'id')->toArray();
+        $company = new Company;
+        $companyData = $company->getCompanyInfo();
+        return view('admin.plans.edit_plan')->with(compact('planDetail', 'courses', 'companyData'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function deletePlan($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        Plan::find($id)->delete();
+        $message = 'El reto se elimino correctamente';
+        Session::flash('success_message', $message);
+        return redirect('dashboard/plans');
     }
 }
