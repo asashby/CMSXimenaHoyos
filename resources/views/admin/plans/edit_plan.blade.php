@@ -1,5 +1,5 @@
 @extends('layouts.admin_layout')
-@section('title', 'Crear Plan')
+@section('title', 'Editar Plan')
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -14,7 +14,7 @@
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Home</a></li>
                         <li class="breadcrumb-item"><a href="{{ url('dashboard/plans') }}">Planes</a></li>
-                        <li class="breadcrumb-item active">Agregar Planes</li>
+                        <li class="breadcrumb-item active">Editar Plan</li>
                     </ol>
                 </div>
             </div>
@@ -27,7 +27,7 @@
             <!-- SELECT2 EXAMPLE -->
             <div class="card card-default">
                 <div class="card-header">
-                    <h3 class="card-title">Agregar Receta</h3>
+                    <h3 class="card-title">Editar Plan</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
