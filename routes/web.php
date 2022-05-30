@@ -105,7 +105,10 @@ Route::namespace('Admin')->group(function () {
         Route::get('courses/{id}/units', 'UnitController@unitsByChallenge2');
 
         Route::resource('dashboard/plans', 'PlanController');
-
+        Route::post('dashboard/upd-plan-status', 'PlanController@updatePlanStatus');
+        Route::match(['get', 'post'], 'dashboard/plans/create', 'PlanController@addPlan');
+        Route::match(['get', 'post'], 'dashboard/plans/edit/{id?}', 'PlanController@editPlan');
+        Route::get('dashboard/plan/delete/{id}', 'PlanController@deletePlan');
 
         //TypeAnswers
         Route::resource('dashboard/type-answers', 'TypeAnswerController');
