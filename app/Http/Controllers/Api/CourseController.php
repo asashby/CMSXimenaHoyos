@@ -244,7 +244,7 @@ class CourseController extends Controller
         }
     } */
 
-public function UserRegisterOnCourse(Request $request)
+    public function UserRegisterOnCourse(Request $request)
     {
         try {
             DB::beginTransaction();
@@ -414,18 +414,4 @@ public function UserRegisterOnCourse(Request $request)
         $comments = Comments::where('course_id', $course->id)->get(['rating', 'title', 'content']);
         return \response()->json($comments, 200);
     }
-
-    public function soonToExpire()
-    {
-        $currentDay = Carbon::now('America/Lima');
-        $usersToExpire = User::select('users.name', 'users.email', 'user_courses.expiration_date', 'courses.title', DB::raw('DATEDIFF(user_courses.expiration_date, ?) as difference'))->join('user_courses', 'user_courses.user_id', '=', 'users.id')->join('courses', 'user_courses.course_id', '=', 'courses.id')->whereRaw('DATEDIFF(user_courses.expiration_date, ?) = ?')->setBindings([$currentDay, $currentDay, 2])->get()->toArray();
-
-        /* $newArray = array_replace($usersToExpire, function ($item) {
-            return $item['name'] = 'Iesus';
-        }); */
-
-
-        return $newArray;
-    }
 }
-

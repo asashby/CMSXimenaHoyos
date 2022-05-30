@@ -15,12 +15,12 @@ use App\Company;
 use App\Section;
 use DateTimeZone;
 use App\Addresses;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Mail\ActivationMail;
 use Illuminate\Http\Request;
 use App\Mail\ResetPasswordMail;
 use App\Http\Requests\MailRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
@@ -191,8 +191,6 @@ class AuthController extends Controller
             'message' => 'Los datos se ectualizaron correctamente'
         ]);
     }
-
-
 
     public function getCoursesCount(Request $request)
     {
