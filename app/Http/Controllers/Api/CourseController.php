@@ -244,7 +244,7 @@ class CourseController extends Controller
         }
     } */
 
-    public function UserRegisterOnCourse(Request $request)
+public function UserRegisterOnCourse(Request $request)
     {
         try {
             DB::beginTransaction();
@@ -319,9 +319,6 @@ class CourseController extends Controller
             ], 500);
         }
     }
-
-
-
 
     public function confirmPurchaseProductMail(Request $request)
     {
@@ -431,3 +428,4 @@ class CourseController extends Controller
         return $newArray;
     }
 }
+
