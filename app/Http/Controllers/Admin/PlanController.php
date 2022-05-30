@@ -44,14 +44,15 @@ class PlanController extends Controller
     public function plansByCourseSlug($slug)
     {
         try {
-            $plansByCourse = Plan::orderByDesc('created_at')->slug($slug)->get();
+            $courseDetail = Course::where('slug', $slug)->first();
+            $plansByCourse = $courseDetail->plans;
             return response()->json([
                 'plansByCourse' => $plansByCourse,
             ]);
         } catch (Exception $e) {
             return response()->json([
                 'ERROR' => $e->getMessage(),
-            ]);
+            ], 400);
         }
     }
 
