@@ -19,6 +19,8 @@ class Plan extends Model
         'slug' => 'array'
     ];
 
+    protected $hidden = ['pivot'];
+
     public function courses()
     {
         return $this->belongsToMany(Course::class, 'courses_plans')->withPivot('id', 'course_id', 'plan_id');

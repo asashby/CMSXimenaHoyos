@@ -13,6 +13,10 @@ class Course extends Model
     protected $table = 'courses';
     protected $fillable = ['title', 'ext_id', 'prices', 'subtitle', 'type', 'url_image', 'mobile_image', 'days', 'level', 'frequency', 'is_activated', 'slug', 'banner', 'file_url', 'attributes'];
 
+    protected $hidden = [
+        'pivot',
+    ];
+
     protected static function booted()
     {
         static::addGlobalScope(new ActivatedScope);
@@ -35,7 +39,7 @@ class Course extends Model
 
     public function plans()
     {
-        return $this->belongsToMany(Plan::class, 'courses_plans')->withPivot('id', 'course_id', 'plan_id');
+        return $this->belongsToMany(Plan::class, 'courses_plans')->withPivot('id', 'course_id', 'plan_id')->select(['plans.id', 'plans.title', 'plans.price', 'plans.description']);
     }
 
     public function cleanSlug($title)
