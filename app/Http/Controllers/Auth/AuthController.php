@@ -147,7 +147,7 @@ class AuthController extends Controller
         return $this->login($request);
     }
 
- public function loginSocial(Request $request)
+    public function loginSocial(Request $request)
     {
 
         $fecha = new DateTime('now', new DateTimeZone('America/Lima'));
@@ -159,7 +159,7 @@ class AuthController extends Controller
             $user->name = $request->name;
             $user->sur_name = $request->last_name;
             $user->email = $request->email;
-            $user->url_image = $request->url_image;
+            $user->url_image = $request->url_image ?? '';
             $user->origin = $request->origin;
             $user->password = base64_encode($request->password);
             $user->created_at = $fecha;
@@ -470,4 +470,3 @@ class AuthController extends Controller
         return response()->json(['token' => $token], 200);
     }
 }
-
