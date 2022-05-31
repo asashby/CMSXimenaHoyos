@@ -73,7 +73,7 @@
                                         placeholder="Ingrese Dificultad" value="{{ $planDetail->price }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Asignar Cursos</label><br>
+                                    <label for="exampleInputEmail1">Asignar Retos</label><br>
                                     @foreach ($courses as $id => $course)
                                     <input type="checkbox" name="courses[]" @php if (in_array($id,
                                         $planDetail->course_id)) echo 'checked' @endphp value="{{ $id }}">{{
