@@ -51,6 +51,10 @@ Route::get('course/{id}/plans', 'Admin\PlanController@plansByCourse');
 Route::get('course/{slug}/plans-list', 'Admin\PlanController@plansByCourseSlug');
 Route::get('courses/{slug}/units', 'Api\CourseController@unitsByCourse');
 Route::get('units/{slug}/detail', 'Api\UnitController@getUnitDetail');
+
+
+//Categories
+Route::get('categories', 'Api\CategoryController@index');
 //Route::get('units/{id}/questions', 'Api\UnitController@questionsByUnit');
 // Route::get('questions', 'Api\QuestionController@index');
 // Route::get('questions/{id}/answers', 'Api\QuestionController@index');

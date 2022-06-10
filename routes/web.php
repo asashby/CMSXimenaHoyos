@@ -104,11 +104,34 @@ Route::namespace('Admin')->group(function () {
         Route::get('course/{id}/units', 'UnitController@unitsByChallenge');
         Route::get('courses/{id}/units', 'UnitController@unitsByChallenge2');
 
+        //Plans
         Route::resource('dashboard/plans', 'PlanController');
         Route::post('dashboard/upd-plan-status', 'PlanController@updatePlanStatus');
         Route::match(['get', 'post'], 'dashboard/plans/create', 'PlanController@addPlan');
         Route::match(['get', 'post'], 'dashboard/plans/edit/{id?}', 'PlanController@editPlan');
         Route::get('dashboard/plan/delete/{id}', 'PlanController@deletePlan');
+
+        //Products
+        Route::resource('dashboard/products', 'ProductController');
+        Route::post('dashboard/upd-product-status', 'ProductController@updateProductStatus');
+        Route::match(['get', 'post'], 'dashboard/products/create', 'ProductController@addProduct');
+        Route::match(['get', 'post'], 'dashboard/products/edit/{id?}', 'ProductController@editProduct');
+        Route::get('dashboard/product/delete/{id}', 'ProductController@deleteProduct');
+
+        //Categories
+        Route::resource('dashboard/categories', 'CategoryController');
+        Route::post('dashboard/upd-category-status', 'CategiryController@updateCategoryStatus');
+        Route::match(['get', 'post'], 'dashboard/categories/create', 'CategoryController@addCategory');
+        Route::match(['get', 'post'], 'dashboard/categories/edit/{id?}', 'CategoryController@editCategory');
+        Route::get('dashboard/category/delete/{id}', 'CategoryController@deleteCategory');
+
+
+        //Focused
+        Route::resource('dashboard/focused', 'FocusedController');
+        Route::patch('dashboard/focused/status', 'FocusedController@updateFocusedStatus');
+        Route::match(['get', 'post'], 'dashboard/focused/create', 'FocusedController@addFocused');
+        Route::match(['get', 'post'], 'dashboard/focused/edit/{id}', 'FocusedController@editFocused');
+        Route::get('dashboard/focused/delete/{id}', 'FocusedController@deleteFocused');
 
         //TypeAnswers
         Route::resource('dashboard/type-answers', 'TypeAnswerController');

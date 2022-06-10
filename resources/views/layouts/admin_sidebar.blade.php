@@ -162,6 +162,55 @@
                         <p>Planes</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    @if (Session::get('page') == 'cardio-hiit')
+                    <?php $active = 'active'; ?>
+                    @else
+                    <?php $active = ''; ?>
+                    @endif
+                    <a href="{{url('dashboard/plans')}}" class="nav-link {{ $active }}">
+                        <i class="nav-icon fas fa-tasks"></i>
+                        <p>Ejercicios Focalizados</p>
+                    </a>
+                </li>
+                @if (Session::get('page') == 'products' || Session::get('page') == 'categories')
+                <?php $active = 'active'; $menuOpen = 'menu-open'; ?>
+                @else
+                <?php $active = ''; $menuOpen = ''; ?>
+                @endif
+                <li class="nav-item has-treeview {{$menuOpen}}">
+                    <a href="#" class="nav-link {{ $active }}">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Productos
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            @if (Session::get('page') == 'users')
+                            <?php $active = 'active'; ?>
+                            @else
+                            <?php $active = ''; ?>
+                            @endif
+                            <a href="{{url('dashboard/products')}}" class="nav-link {{ $active }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Lista de Productos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            @if (Session::get('page') == 'categories')
+                            <?php $active = 'active'; ?>
+                            @else
+                            <?php $active = ''; ?>
+                            @endif
+                            <a href="{{url('dashboard/categories')}}" class="nav-link {{ $active }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Categorias</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 @if (Session::get('page') == 'questions-list' || Session::get('page') == 'type-answer')
                 <?php $active = 'active'; $menuOpen = 'menu-open'; ?>
                 @else
