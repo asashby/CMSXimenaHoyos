@@ -163,17 +163,17 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    @if (Session::get('page') == 'cardio-hiit')
+                    @if (Session::get('page') == 'focused')
                     <?php $active = 'active'; ?>
                     @else
                     <?php $active = ''; ?>
                     @endif
-                    <a href="{{url('dashboard/plans')}}" class="nav-link {{ $active }}">
+                    <a href="{{url('dashboard/focused')}}" class="nav-link {{ $active }}">
                         <i class="nav-icon fas fa-tasks"></i>
                         <p>Ejercicios Focalizados</p>
                     </a>
                 </li>
-                @if (Session::get('page') == 'products' || Session::get('page') == 'categories')
+                {{-- @if (Session::get('page') == 'products' || Session::get('page') == 'categories')
                 <?php $active = 'active'; $menuOpen = 'menu-open'; ?>
                 @else
                 <?php $active = ''; $menuOpen = ''; ?>
@@ -188,7 +188,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            @if (Session::get('page') == 'users')
+                            @if (Session::get('page') == 'products')
                             <?php $active = 'active'; ?>
                             @else
                             <?php $active = ''; ?>
@@ -211,7 +211,7 @@
                         </li>
                     </ul>
                 </li>
-                @if (Session::get('page') == 'questions-list' || Session::get('page') == 'type-answer')
+                --}} @if (Session::get('page') == 'questions-list' || Session::get('page') == 'type-answer')
                 <?php $active = 'active'; $menuOpen = 'menu-open'; ?>
                 @else
                 <?php $active = ''; $menuOpen = ''; ?>
