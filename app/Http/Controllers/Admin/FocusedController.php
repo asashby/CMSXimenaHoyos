@@ -179,6 +179,6 @@ class FocusedController extends Controller
         Focused::find($id)->delete();
         $message = 'El Focalizado se Elimino correctamente';
         Session::flash('success_message', $message);
-        return redirect('dashboard/articles');
+        return redirect('dashboard/focused');
     }
 }
