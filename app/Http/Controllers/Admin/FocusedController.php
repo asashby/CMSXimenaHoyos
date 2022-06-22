@@ -101,7 +101,7 @@ class FocusedController extends Controller
                     // Upload Images after Resize
                     $extension = $image_tmp->getClientOriginalExtension();
                     $fileName = rand(111, 99999) . '.' . $extension;
-                    $large_image_path = 'images/admin_images/focuseds/' . $fileName;
+                    $large_image_path = 'images/admin_images/focused/' . $fileName;
                     Image::make($image_tmp)->save($large_image_path);
                     $completePath = env('URL_DOMAIN') . '/' . $large_image_path;
                 }
@@ -117,7 +117,7 @@ class FocusedController extends Controller
                     // Upload Images after Resize
                     $extension = $image_tmp->getClientOriginalExtension();
                     $fileName = rand(111, 99999) . '.' . $extension;
-                    $large_image_path = 'images/admin_images/focuseds/' . $fileName;
+                    $large_image_path = 'images/admin_images/focused/' . $fileName;
                     Image::make($image_tmp)->save($large_image_path);
                     $completePathBanner = env('URL_DOMAIN') . '/' . $large_image_path;
                 }
@@ -133,7 +133,7 @@ class FocusedController extends Controller
                     // Upload Images after Resize
                     $extension = $image_tmp->getClientOriginalExtension();
                     $fileName = rand(111, 99999) . '.' . $extension;
-                    $large_image_path = 'images/admin_images/focuseds/' . $fileName;
+                    $large_image_path = 'images/admin_images/focused/' . $fileName;
                     Image::make($image_tmp)->save($large_image_path);
                     $completePathBannerMobile = env('URL_DOMAIN') . '/' . $large_image_path;
                 }
@@ -153,7 +153,7 @@ class FocusedController extends Controller
             Article::where(['slug' => $slug])->update(['title' => $data['focusedTitle'], 'subtitle' => $data['focusedSubTitle'], 'route' => $slug, 'slug' => $slug, 'section_id' => $data['sectionId'], 'page_image' => $completePath, 'banner' => $completePathBanner, 'addittional_info' => json_encode($socialMedia), 'description' => $data['focusedResume'], 'url_video' => $data['focusedUrlVideo'], 'mobile_image' => $completePathBannerMobile]);
 
             Session::flash('success_message', 'Los Datos se Actualizaron Correctamente');
-            return redirect('dashboard/focuseds/edit/sobre-ximena');
+            return redirect('dashboard/focused/edit/sobre-ximena');
         }
 
         $focusedDetail = Article::where(['slug' => $slug])->first();
@@ -172,5 +172,13 @@ class FocusedController extends Controller
         $company = new Company;
         $companyData = $company->getCompanyInfo();
         return view('admin.focused.edit_focused')->with(compact('focusedDetail', 'section_drop_down', 'companyData'));
+    }
+
+    public function deleteFocused($id)
+    {
+        Focused::find($id)->delete();
+        $message = 'El Focalizado se Elimino correctamente';
+        Session::flash('success_message', $message);
+        return redirect('dashboard/articles');
     }
 }
