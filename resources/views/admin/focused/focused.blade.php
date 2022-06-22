@@ -13,7 +13,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Cardio Hiit</li>
+                        <li class="breadcrumb-item active">Ejercicios Focalizados</li>
                     </ol>
                 </div>
             </div>
@@ -45,9 +45,9 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Tabla de Retos</h3>
-                            <a href="{{ url('dashboard/plans/create') }}"
+                            <a href="{{ url('dashboard/focused/create') }}"
                                 style="max-width: 150px; float: right; display:inline-block;"
-                                class="btn btn-block btn-success">Agregar Plan</a>
+                                class="btn btn-block btn-success">Agregar Focalizado</a>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -56,8 +56,6 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Título</th>
-                                        <th>Meses</th>
-                                        <th></th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -66,8 +64,6 @@
                                     <tr>
                                         <td>{{ $exercise->id }}</td>
                                         <td>{{ $exercise->title }}</td>
-                                        <td>{{ $exercise->months }}</td>
-                                        <td>{{ $exercise->description }}</td>
                                         <td>
                                             {{-- <span data-toggle="modal" id="excercises" data-target="#unitsListModal"
                                                 data-id="{{$exercise->id}}" data-title="{{$exercise->title}}">
@@ -76,11 +72,12 @@
                                                 </a>
                                             </span> --}}
                                             <a data-toggle="tooltip"
-                                                href="{{ url('dashboard/plans/edit/'.$exercise->id) }}" title="Editar">
+                                                href="{{ url('dashboard/focused/edit/'.$exercise->id) }}"
+                                                title="Editar">
                                                 <i class="far fa-edit"></i>
                                             </a>
                                             <a href="javascript:void(0)" class="confirmDelete" style="cursor: pointer;"
-                                                record="plan" recordId="{{ $exercise->id }}" data-toggle="tooltip"
+                                                record="focused" recordId="{{ $exercise->id }}" data-toggle="tooltip"
                                                 title="Eliminar">
                                                 <i style="color: red;" class="fas fa-trash-alt"></i>
                                             </a>
