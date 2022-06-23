@@ -81,16 +81,17 @@ class FocusedController extends Controller
         return view('admin.focused.add_focused')->with(compact('companyData'));
     }
 
-    public function editArticle(Request $request, $slug)
+    public function editFocused(Request $request, $id)
     {
 
         if ($request->isMethod('post')) {
 
             $data = $request->all();
 
-            $focused = new Focused();
+            $focused = Focused::find($id);
 
-            $focused->slug = Str::slug($data['focusedTitle']);
+
+            $slug = Str::slug($data['focusedTitle']);
 
             // echo '<pre>'; print_r($slug); die;
 
@@ -105,8 +106,8 @@ class FocusedController extends Controller
                     Image::make($image_tmp)->save($large_image_path);
                     $completePath = env('URL_DOMAIN') . '/' . $large_image_path;
                 }
-            } else if (!empty($data['currentArticleImage'])) {
-                $completePath = $data['currentArticleImage'];
+            } else if (!empty($data['currentFocusedImage'])) {
+                $completePath = $data['currentFocusedImage'];
             } else {
                 $completePath = '';
             }
@@ -121,8 +122,8 @@ class FocusedController extends Controller
                     Image::make($image_tmp)->save($large_image_path);
                     $completePathBanner = env('URL_DOMAIN') . '/' . $large_image_path;
                 }
-            } else if (!empty($data['currentArticleBanner'])) {
-                $completePathBanner = $data['currentArticleBanner'];
+            } else if (!empty($data['currentFocusedBanner'])) {
+                $completePathBanner = $data['currentFocusedBanner'];
             } else {
                 $completePathBanner = '';
             }
@@ -137,41 +138,23 @@ class FocusedController extends Controller
                     Image::make($image_tmp)->save($large_image_path);
                     $completePathBannerMobile = env('URL_DOMAIN') . '/' . $large_image_path;
                 }
-            } else if (!empty($data['currentArticleBannerMobile'])) {
-                $completePathBannerMobile = $data['currentArticleBannerMobile'];
+            } else if (!empty($data['currentFocusedBannerMobile'])) {
+                $completePathBannerMobile = $data['currentFocusedBannerMobile'];
             } else {
                 $completePathBannerMobile = '';
             }
 
 
-            $socialMedia = [
-                'facebook' => $data['linkFb'],
-                'instagram' => $data['linkIns'],
-                'tiktok' => $data['linkTk']
-            ];
-
-            Article::where(['slug' => $slug])->update(['title' => $data['focusedTitle'], 'subtitle' => $data['focusedSubTitle'], 'route' => $slug, 'slug' => $slug, 'section_id' => $data['sectionId'], 'page_image' => $completePath, 'banner' => $completePathBanner, 'addittional_info' => json_encode($socialMedia), 'description' => $data['focusedResume'], 'url_video' => $data['focusedUrlVideo'], 'mobile_image' => $completePathBannerMobile]);
+            $focused->update(['title' => $data['focusedTitle'], 'slug' => $slug,  'subtitle' => $data['focusedSubTitle'], 'video_url' => $data['focusedUrlVideo'] ?? '', 'published_at' => Carbon::now('America/Lima'), 'description' => htmlspecialchars_decode(e($data['focusedContent']))]);
 
             Session::flash('success_message', 'Los Datos se Actualizaron Correctamente');
-            return redirect('dashboard/focused/edit/sobre-ximena');
+            return redirect('dashboard/focused');
         }
 
-        $focusedDetail = Article::where(['slug' => $slug])->first();
-        $focusedDetail->addittional_info = $focusedDetail->addittional_info;
-        $sections = Section::get();
-        $section_drop_down = "<option value='' disabled>Select</option>";
-        foreach ($sections as $section) {
-            if ($section->id == $focusedDetail->section_id) {
-                $selected = "selected";
-            } else {
-                $selected = "";
-            }
-
-            $section_drop_down .= "<option value='" . $section->id . "' " . $selected . ">" . $section->name . "</option>";
-        }
+        $focusedDetail = Focused::find($id);
         $company = new Company;
         $companyData = $company->getCompanyInfo();
-        return view('admin.focused.edit_focused')->with(compact('focusedDetail', 'section_drop_down', 'companyData'));
+        return view('admin.focused.edit_focused')->with(compact('focusedDetail', 'companyData'));
     }
 
     public function deleteFocused($id)
