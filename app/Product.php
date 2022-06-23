@@ -18,13 +18,27 @@ class Product extends Model implements HasMedia
         'attributes' => 'object',
     ];
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo('App\Category', 'section_id');
+        return $this->belongsToMany(Category::class, 'product_category')->withPivot('id', 'product_id', 'category_id');
     }
 
     public function photos()
     {
         return $this->morphMany(Media::class, 'model');
+    }
+
+    public function scopeCategory($query, $category_id)
+    {
+        if ($category_id)
+            return $query->whereHas('categories', function ($query) use ($category_id) {
+                $query->where('categories.id', $category_id);
+            });
+    }
+
+    public function scopeTitle($query, $title)
+    {
+        if ($title)
+            return $query->where('title', 'LIKE', "%$title%");
     }
 }

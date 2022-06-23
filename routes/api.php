@@ -55,6 +55,10 @@ Route::get('units/{slug}/detail', 'Api\UnitController@getUnitDetail');
 
 //Categories
 Route::get('categories', 'Api\CategoryController@index');
+
+//Products
+Route::get('products', 'Api\ProductController@index');
+Route::get('products/{id}/detail', 'Api\ProductController@productDetail');
 //Route::get('units/{id}/questions', 'Api\UnitController@questionsByUnit');
 // Route::get('questions', 'Api\QuestionController@index');
 // Route::get('questions/{id}/answers', 'Api\QuestionController@index');

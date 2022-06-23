@@ -150,7 +150,7 @@ var files =
 {!! json_encode($photos) !!}
 for (var i in files) {
 var file = files[i]
-console.log(file.original_url);
+console.log(file);
 file = {
 ...file,
 width: 226,
