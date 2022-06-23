@@ -116,6 +116,7 @@ Route::namespace('Admin')->group(function () {
         Route::post('dashboard/upd-product-status', 'ProductController@updateProductStatus');
         Route::match(['get', 'post'], 'dashboard/products/create', 'ProductController@addProduct');
         Route::match(['get', 'post'], 'dashboard/products/edit/{id?}', 'ProductController@editProduct');
+        Route::post('/store/media', 'ProductController@storeMedia')->name('products.storeMedia');
         Route::get('dashboard/product/delete/{id}', 'ProductController@deleteProduct');
 
         //Categories
