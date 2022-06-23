@@ -173,7 +173,7 @@
                         <p>Ejercicios Focalizados</p>
                     </a>
                 </li>
-                {{-- @if (Session::get('page') == 'products' || Session::get('page') == 'categories')
+                @if (Session::get('page') == 'products' || Session::get('page') == 'categories')
                 <?php $active = 'active'; $menuOpen = 'menu-open'; ?>
                 @else
                 <?php $active = ''; $menuOpen = ''; ?>
@@ -211,7 +211,7 @@
                         </li>
                     </ul>
                 </li>
-                --}} @if (Session::get('page') == 'questions-list' || Session::get('page') == 'type-answer')
+                @if (Session::get('page') == 'questions-list' || Session::get('page') == 'type-answer')
                 <?php $active = 'active'; $menuOpen = 'menu-open'; ?>
                 @else
                 <?php $active = ''; $menuOpen = ''; ?>
