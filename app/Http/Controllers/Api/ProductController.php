@@ -22,10 +22,7 @@ class ProductController extends Controller
 
     public function productDetail($id)
     {
-        $product = Product::find($id);
-        $product['images'] = array_map(function ($item) {
-            return $item['original_url'];
-        }, $product->images->toArray());
+        $product = Product::with('images')->find($id);
         return $product;
     }
 }
