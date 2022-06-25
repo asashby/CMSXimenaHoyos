@@ -13,7 +13,7 @@ use Carbon\Carbon;
 
 class ProductController extends Controller
 {
-    private $mediaCollection = 'photos';
+    private $mediaCollection = 'images';
     /**
      * Display a listing of the resource.
      *
@@ -43,8 +43,7 @@ class ProductController extends Controller
 
             $product->name = $data['productTitle'];
             $product->slug = Str::slug($data['productTitle']);
-            $product->category_id = $data['productCategory'];
-            $product->attributes = $data['attributes'] ?? '[]';
+            $product->attributes = $data['attributes'] ?? [];
             $product->description = $data['productResume'];
             $product->price = $data['productPrice'];
             $product->save();
@@ -98,7 +97,7 @@ class ProductController extends Controller
             die;*/
 
 
-            $product = Product::with('photos')->find($id);
+            $product = Product::with('images')->find($id);
 
 
             if ($request->hasFile('productBannerMobile')) {
@@ -141,8 +140,7 @@ class ProductController extends Controller
 
             $product->name = $data['productTitle'];
             $product->slug = Str::slug($data['productTitle']);
-            $product->category_id = $data['productCategory'] ?? 1;
-            $product->attributes = $data['attributes'] ?? '[]';
+            $product->attributes = $data['attributes'] ?? [];
             $product->description = $data['productResume'];
             $product->price = $data['productPrice'];
             $product->update();
@@ -152,15 +150,15 @@ class ProductController extends Controller
                 'attributes' => $data['attributes']
             ]);
  */
-            if (count($product->photos) > 0) {
-                foreach ($product->photos as $media) {
+            if (count($product->images) > 0) {
+                foreach ($product->images as $media) {
                     if (!in_array($media->file_name, $request->input('photos', []))) {
                         $media->delete();
                     }
                 }
             }
 
-            $media = $product->photos->pluck('file_name')->toArray();
+            $media = $product->images->pluck('file_name')->toArray();
 
             foreach ($request->input('photos', []) as $file) {
                 if (count($media) === 0 || !in_array($file, $media)) {

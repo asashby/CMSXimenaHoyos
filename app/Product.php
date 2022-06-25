@@ -14,16 +14,23 @@ class Product extends Model implements HasMedia
 
     use InteractsWithMedia;
 
+    protected $fillable = ["attributes"];
+
     protected $casts = [
         'attributes' => 'object',
     ];
+
+    protected $hidden = [
+        'pivot'
+    ];
+
 
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'product_category')->withPivot('id', 'product_id', 'category_id');
     }
 
-    public function photos()
+    public function images()
     {
         return $this->morphMany(Media::class, 'model');
     }

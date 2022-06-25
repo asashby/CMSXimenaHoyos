@@ -15,13 +15,17 @@ class ProductController extends Controller
         $category = $request->get('categoryId');
         $search = $request->get('search');
         $limit = !empty($limit) && is_numeric($limit) ? $limit : 10;
-        $product = Product::with('categories')->category($category)->orderBy('created_at')->paginate($limit);
+        $product = Product::with('categories:id,name')->category($category)->orderBy('created_at')->paginate($limit);
+
         return $product;
     }
 
     public function productDetail($id)
     {
-        $product = Product::with('photos')->find($id);
+        $product = Product::find($id);
+        $product['images'] = array_map(function ($item) {
+            return $item['original_url'];
+        }, $product->images->toArray());
         return $product;
     }
 }

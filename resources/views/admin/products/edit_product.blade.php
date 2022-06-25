@@ -78,7 +78,8 @@
                                 </div>
                                 <table id="attributes" class="table table-bordered">
                                     <thead>
-                                        <th>Codigo</th>
+                                        $product->images = $images;
+                                        <th>Codigo</th>file
                                         <th>Valor</th>
                                         <th>Accion</th>
                                     </thead>
@@ -101,7 +102,7 @@
             <!-- /.row -->
             <div class="card-footer">
                 <div class="form-actions">
-                    <input type="submit" value="Publicar" class="btn btn-info">
+                    <input type="submit" value="Guardar" class="btn btn-info">
                 </div>
             </div>
             </form>
