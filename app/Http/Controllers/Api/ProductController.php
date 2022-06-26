@@ -22,7 +22,12 @@ class ProductController extends Controller
 
     public function productDetail($id)
     {
-        $product = Product::with('images')->find($id);
+        $product = Product::find($id);
+        $product->images = array_map(function ($item) {
+            return env('APP_URL') . "/storage/" . $item['id'] . "/" . $item['file_name'];
+        }, $product->getMedia()->toArray());
+        unset($product->media);
+
         return $product;
     }
 }

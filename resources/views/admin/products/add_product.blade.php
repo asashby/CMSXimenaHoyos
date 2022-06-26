@@ -40,8 +40,8 @@
                         </ul>
                     </div>
                     @endif
-                    <form method="post" action="{{ url('dashboard/products/create')}}" name="createRecipe"
-                        id="createRecipe" enctype="multipart/form-data">@csrf
+                    <form method="POST" action="{{ route('products.store')}}" name="createRecipe" id="createRecipe"
+                        enctype="multipart/form-data">@csrf
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -125,7 +125,7 @@
 <script>
     var uploadedDocumentMap = {}
 Dropzone.options.documentDropzone = {
-url: '{{ route('products.storeMedia') }}',
+url: '{{ route("products.storeMedia") }}',
 maxFilesize: 15, // MB
 addRemoveLinks: true,
 acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf",

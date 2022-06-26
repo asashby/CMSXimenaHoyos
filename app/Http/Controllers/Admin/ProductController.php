@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Category;
 use Session;
 use App\Company;
 use App\Product;
+use App\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
 
 class ProductController extends Controller
 {
-    private $mediaCollection = 'images';
     /**
      * Display a listing of the resource.
      *
@@ -22,49 +20,56 @@ class ProductController extends Controller
     public function index()
     {
         Session::put('page', 'products');
-        $products = Product::get();
-        $mediaCollection = $this->mediaCollection;
+        $products = Product::all();
         $company = new Company;
         $companyData = $company->getCompanyInfo();
-        return view('admin.products.products', compact('products', 'companyData', 'mediaCollection'));
+        return view('admin.products.products', compact('products', 'companyData'));
     }
 
-    public function addProduct(Request $request)
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-
-        if ($request->isMethod('post')) {
-            $data = $request->all();
-
-            $product = new Product;
-
-            /* echo '<pre>';
-            print_r($data);
-            die;*/
-
-            $product->name = $data['productTitle'];
-            $product->slug = Str::slug($data['productTitle']);
-            $product->attributes = $data['attributes'] ?? [];
-            $product->description = $data['productResume'];
-            $product->price = $data['productPrice'];
-            $product->save();
-
-            foreach ($request->input('photo', []) as $file) {
-                $product->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection($this->mediaCollection);
-            }
-
-            Session::flash('success_message', 'El Producto se creo Correctamente');
-            return redirect('dashboard/products');
-        }
-
         $categories = Category::get();
 
         $categories_drop_down = "<option disabled>Select</option>";
         foreach ($categories as $category) {
-            $categories_drop_down .= "<option value='" . $category->id . "'>" . $category->title . "</option>";
+            $categories_drop_down .= "<option value='" . $category->id . "'>" . $category->name . "</option>";
         }
         $company = new Company;
         $companyData = $company->getCompanyInfo();
-        return view('admin.products.add_product')->with(compact('categories_drop_down', 'companyData'));
+        return view('admin.products.add_product', compact('categories_drop_down', 'companyData'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $product = new Product();
+
+        $product = Product::create([
+            'name' => $request->productTitle,
+            'slug' => Str::slug($request->productTitle),
+            'attributes' => $request->attributes ?? [],
+            'description' => $request->productResume,
+            'price' => $request->productPrice,
+        ]);
+
+        if ($request->has('photo')) {
+            foreach ($request->input('photo', []) as $file) {
+                $product->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection();
+            }
+        }
+
+        Session::flash('success_message', 'El Producto se creo Correctamente');
+        return redirect()->route('products.index');
     }
 
     public function storeMedia(Request $request)
@@ -85,110 +90,75 @@ class ProductController extends Controller
         ]);
     }
 
-    public function editProduct(Request $request, $id = null)
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Product $product)
     {
-
-        if ($request->isMethod('post')) {
-
-            $data = $request->all();
-
-            /*echo '<pre>';
-            print_r($data);
-            die;*/
-
-
-            $product = Product::with('images')->find($id);
-
-
-            if ($request->hasFile('productBannerMobile')) {
-                $image_tmp = $request->file('productBannerMobile');
-                if ($image_tmp->isValid()) {
-                    // Upload Images after Resize
-                    $extension = $image_tmp->getClientOriginalExtension();
-                    $fileName = rand(111, 99999) . '.' . $extension;
-                    $large_image_path = 'images/admin_images/products/' . $fileName;
-                    Image::make($image_tmp)->save($large_image_path);
-                    $completePathMobile = env('URL_DOMAIN') . '/' . $large_image_path;
-                }
-            } else if (!empty($data['currentProductBannerMobile'])) {
-                $completePathMobile = $data['currentProductBannerMobile'];
-            } else {
-                $completePathMobile = '';
-            }
-
-            if ($request->hasFile('productContent')) {
-                $image_tmp = $request->file('productContent');
-                if ($image_tmp->isValid()) {
-                    // Upload Images after Resize
-                    $extension = $image_tmp->getClientOriginalExtension();
-                    $fileName = rand(111, 99999) . '.' . $extension;
-                    $large_image_path = 'images/admin_images/products/' . $fileName;
-                    Image::make($image_tmp)->save($large_image_path);
-                    $completePathSeo = env('URL_DOMAIN') . '/' . $large_image_path;
-                }
-            } else if (!empty($data['currentProductContent'])) {
-                $completePathSeo = $data['currentProductContent'];
-            } else {
-                $completePathSeo = '';
-            }
-
-            if (is_null($data['attributes'])) {
-                $productNutritionalFacts = $data['currentAttributesProduct'];
-            } else {
-                $productNutritionalFacts = $data['attributes'];
-            }
-
-            $product->name = $data['productTitle'];
-            $product->slug = Str::slug($data['productTitle']);
-            $product->attributes = $data['attributes'] ?? [];
-            $product->description = $data['productResume'];
-            $product->price = $data['productPrice'];
-            $product->update();
-
-            /* $product->update([
-                'name' => $data['productTitle'], 'slug' => Str::slug($data['productTitle']), 'category_id' => $data['productCategory'], 'description' => $data['productResume'], 'price' => $data['productPrice'],
-                'attributes' => $data['attributes']
-            ]);
- */
-            if (count($product->images) > 0) {
-                foreach ($product->images as $media) {
-                    if (!in_array($media->file_name, $request->input('photos', []))) {
-                        $media->delete();
-                    }
-                }
-            }
-
-            $media = $product->images->pluck('file_name')->toArray();
-
-            foreach ($request->input('photos', []) as $file) {
-                if (count($media) === 0 || !in_array($file, $media)) {
-                    $product->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection($this->mediaCollection);
-                }
-            }
-
-            /* if (isset($data['challenges'])) {
-                $product->find($id)->course()->sync($data['challenges']);
-            } else {
-                $product->find($id)->course()->detach();
-            } */
-            Session::flash('success_message', 'La Receta se Actualizo Correctamente');
-            return redirect('dashboard/products');
-        }
-
-        $productDetail = Product::find($id);
-        $categories = Category::all();
-        $photos = $productDetail->getMedia($this->mediaCollection);
-        $company = new Company;
-        $companyData = $company->getCompanyInfo();
-        return view('admin.products.edit_product')->with(compact('productDetail', 'companyData', 'photos', 'categories'));
     }
 
-
-    public function deleteProduct($id)
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Product $product)
     {
-        Product::find($id)->delete();
-        $message = 'El Producto se Elimino correctamente';
-        Session::flash('success_message', $message);
-        return redirect('dashboard/products');
+        $photos = $product->getMedia();
+        $company = new Company;
+        $companyData = $company->getCompanyInfo();
+        return view('admin.products.edit_product', compact('product', 'companyData', 'photos'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Product $product)
+    {
+        $product->update([
+            'name' => $request->productTitle,
+            'slug' => Str::slug($request->productTitle),
+            'attributes' => $request->attributes ?? [],
+            'description' => $request->productResume,
+            'price' => $request->productPrice,
+        ]);
+        if (count($product->getMedia()) > 0) {
+            foreach ($product->getMedia() as $media) {
+                if (!in_array($media->file_name, $request->input('photo', []))) {
+                    $media->delete();
+                }
+            }
+        }
+
+        $media = $product->getMedia()->pluck('file_name')->toArray();
+
+        if ($request->has('photo')) {
+            foreach ($request->input('photo', []) as $file) {
+                if (count($media) === 0 || !in_array($file, $media)) {
+                    $product->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection();
+                }
+            }
+        }
+        Session::flash('success_message', 'El Producto se edito Correctamente');
+        return redirect()->route('products.index');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
 }

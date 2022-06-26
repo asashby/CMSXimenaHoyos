@@ -40,8 +40,10 @@
                         </ul>
                     </div>
                     @endif
-                    <form method="post" action="{{ url('dashboard/products/edit/'. $productDetail->id)}}"
-                        name="createRecipe" id="createRecipe" enctype="multipart/form-data">@csrf
+                    <form method="POST" action="{{ route('products.update', $product->id)}}" name="createRecipe"
+                        id="createRecipe" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
                         <div class="row">
                             <div class="col-md-6">
                                 {{-- <div class="form-group">
@@ -53,18 +55,18 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Título</label>
                                     <input type="text" class="form-control" id="exampleInputEmail1" name="productTitle"
-                                        placeholder="Ingrese Titulo" value="{{ $productDetail->name }}">
+                                        placeholder="Ingrese Titulo" value="{{ $product->name }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Descripcion de Producto</label>
                                     <textarea class="form-control" name="productResume" id="productResume"
                                         placeholder="Ingrese Resumen"
-                                        style="margin-top: 0px; margin-bottom: 0px; height: 93px;">{{ $productDetail->description }}</textarea>
+                                        style="margin-top: 0px; margin-bottom: 0px; height: 93px;">{{ $product->description }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Precio</label>
                                     <input type="text" class="form-control" id="exampleInputEmail1" name="productPrice"
-                                        placeholder="Ingrese Precio" value="{{ $productDetail->price }}">
+                                        placeholder="Ingrese Precio" value="{{ $product->price }}">
                                 </div>
                                 <div class="form-inline">
                                     <label class="sr-only" for="inlineFormInputName2">Codigo</label>
@@ -78,8 +80,7 @@
                                 </div>
                                 <table id="attributes" class="table table-bordered">
                                     <thead>
-                                        $product->images = $images;
-                                        <th>Codigo</th>file
+                                        <th>Codigo</th>
                                         <th>Valor</th>
                                         <th>Accion</th>
                                     </thead>
@@ -123,8 +124,9 @@
 @push('script')
 <script>
     var uploadedDocumentMap = {}
+    var urlBase = '{{ env('APP_URL') }}';
 Dropzone.options.documentDropzone = {
-url: '{{ route('products.storeMedia') }}',
+url: '{{ route("products.storeMedia") }}',
 maxFilesize: 15, // MB
 addRemoveLinks: true,
 acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf",
@@ -132,7 +134,7 @@ headers: {
 'X-CSRF-TOKEN': "{{ csrf_token() }}"
 },
 success: function(file, response) {
-$('form').append('<input type="hidden" name="photos[]" value="' + response.name + '">')
+$('form').append('<input type="hidden" name="photo[]" value="' + response.name + '">')
 uploadedDocumentMap[file.name] = response.name
 },
 removedfile: function(file) {
@@ -143,7 +145,7 @@ name = file.file_name
 } else {
 name = uploadedDocumentMap[file.name]
 }
-$('form').find('input[name="photos[]"][value="' + name + '"]').remove()
+$('form').find('input[name="photo[]"][value="' + name + '"]').remove()
 },
 init: function() {
 @if (isset($photos))
@@ -151,17 +153,17 @@ var files =
 {!! json_encode($photos) !!}
 for (var i in files) {
 var file = files[i]
-console.log(file);
 file = {
 ...file,
 width: 226,
 height: 324
 }
+var original_url = `${urlBase}/storage/${file.id}/${file.file_name}`;
  this.options.addedfile.call(this, file)
-               this.options.thumbnail.call(this, file, file.original_url)
+               this.options.thumbnail.call(this, file, original_url)
                file.previewElement.classList.add('dz-complete')
 
-$('form').append('<input type="hidden" name="photos[]" value="' + file.file_name + '">')
+$('form').append('<input type="hidden" name="photo[]" value="' + file.file_name + '">')
 }
 @endif
 }

@@ -2,26 +2,23 @@
 
 namespace App;
 
-use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-
-
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 class Product extends Model implements HasMedia
 {
 
-    use InteractsWithMedia;
+    use HasMediaTrait;
 
-    protected $fillable = ["attributes"];
+    protected $fillable = ["name", "slug", "attributes", "description", "price"];
 
     protected $casts = [
         'attributes' => 'object',
     ];
 
     protected $hidden = [
-        'pivot'
+        'pivot',
     ];
 
 
@@ -30,10 +27,6 @@ class Product extends Model implements HasMedia
         return $this->belongsToMany(Category::class, 'product_category')->withPivot('id', 'product_id', 'category_id');
     }
 
-    public function images()
-    {
-        return $this->morphMany(Media::class, 'model');
-    }
 
     public function scopeCategory($query, $category_id)
     {

@@ -45,7 +45,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Tabla de Producto</h3>
-                            <a href="{{ url('dashboard/products/create') }}"
+                            <a href="{{ route('products.create') }}"
                                 style="max-width: 150px; float: right; display:inline-block;"
                                 class="btn btn-block btn-success">Agregar Producto</a>
                         </div>
@@ -71,8 +71,7 @@
                                                     <i class="fas fa-file text-info"></i>
                                                 </a>
                                             </span> --}}
-                                            <a data-toggle="tooltip"
-                                                href="{{ url('dashboard/products/edit/'.$product->id) }}"
+                                            <a data-toggle="tooltip" href="{{ route('products.edit', $product->id) }}"
                                                 title="Editar">
                                                 <i class="far fa-edit"></i>
                                             </a>

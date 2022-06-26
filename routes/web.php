@@ -25,127 +25,127 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::namespace('Admin')->group(function () {
 
     Route::match(['get', 'post'], '/', 'AdminController@login');
-    Route::group(['middleware' => ['admin']], function () {
-        Route::get('dashboard', 'AdminController@dashboard');
-        Route::get('dashboard/settings', 'AdminController@settings');
+    Route::group(['middleware' => ['admin'], 'prefix' => 'dashboard'], function () {
+        Route::get('/', 'AdminController@dashboard');
+        Route::get('/settings', 'AdminController@settings');
         Route::get('logout', 'AdminController@logout');
-        Route::post('dashboard/verify-curr-pwd', 'AdminController@verifyPassword');
-        Route::post('dashboard/update-pwd', 'AdminController@updatePassword');
-        Route::match(['get', 'post'], 'dashboard/upd-admin-details', 'AdminController@updateAdminDetails');
+        Route::post('/verify-curr-pwd', 'AdminController@verifyPassword');
+        Route::post('/update-pwd', 'AdminController@updatePassword');
+        Route::match(['get', 'post'], '/upd-admin-details', 'AdminController@updateAdminDetails');
 
         //Sections
-        Route::get('dashboard/sections', 'SectionController@index');
-        Route::post('dashboard/upd-section-status', 'SectionController@updateSectionStatus');
-        Route::post('dashboard/section/upd-section-order', 'SectionController@updateOrder');
-        Route::match(['get', 'post'], 'dashboard/section/create', 'SectionController@addSection');
-        Route::match(['get', 'post'], 'dashboard/section/edit/{id?}', 'SectionController@editSection');
-        Route::get('dashboard/section/delete/{id}', 'SectionController@deleteSection');
+        Route::get('/sections', 'SectionController@index');
+        Route::post('/upd-section-status', 'SectionController@updateSectionStatus');
+        Route::post('/section/upd-section-order', 'SectionController@updateOrder');
+        Route::match(['get', 'post'], '/section/create', 'SectionController@addSection');
+        Route::match(['get', 'post'], '/section/edit/{id?}', 'SectionController@editSection');
+        Route::get('/section/delete/{id}', 'SectionController@deleteSection');
 
         //Recipes
-        Route::get('dashboard/recipes', 'RecipeController@index');
-        Route::post('dashboard/upd-recipes-status', 'RecipeController@updateSectionStatus');
-        Route::match(['get', 'post'], 'dashboard/recipes/create', 'RecipeController@addRecipe');
-        Route::match(['get', 'post'], 'dashboard/recipes/edit/{id?}', 'RecipeController@editRecipe');
-        Route::get('dashboard/recipe/delete/{id}', 'RecipeController@deleteRecipe');
+        Route::get('/recipes', 'RecipeController@index');
+        Route::post('/upd-recipes-status', 'RecipeController@updateSectionStatus');
+        Route::match(['get', 'post'], '/recipes/create', 'RecipeController@addRecipe');
+        Route::match(['get', 'post'], '/recipes/edit/{id?}', 'RecipeController@editRecipe');
+        Route::get('/recipe/delete/{id}', 'RecipeController@deleteRecipe');
 
         //Tips
-        Route::get('dashboard/tips', 'TipController@index');
-        Route::post('dashboard/upd-tips-status', 'TipController@updateTipStatus');
-        Route::match(['get', 'post'], 'dashboard/tips/create', 'TipController@addTip');
-        Route::match(['get', 'post'], 'dashboard/tips/edit/{id?}', 'TipController@editTip');
-        Route::get('dashboard/tip/delete/{id}', 'TipController@deleteTip');
+        Route::get('/tips', 'TipController@index');
+        Route::post('/upd-tips-status', 'TipController@updateTipStatus');
+        Route::match(['get', 'post'], '/tips/create', 'TipController@addTip');
+        Route::match(['get', 'post'], '/tips/edit/{id?}', 'TipController@editTip');
+        Route::get('/tip/delete/{id}', 'TipController@deleteTip');
 
         //Slider
-        Route::get('dashboard/slider', 'SliderController@index');
-        Route::match(['get', 'post'], 'dashboard/slider/create', 'SliderController@addSlider');
-        Route::match(['get', 'post'], 'dashboard/slider/edit/{id?}', 'SliderController@editSlider');
-        Route::post('dashboard/slide/upd-slide-order', 'SliderController@updateOrder');
-        Route::get('dashboard/slider/delete/{id}', 'SliderController@deleteSlider');
+        Route::get('/slider', 'SliderController@index');
+        Route::match(['get', 'post'], '/slider/create', 'SliderController@addSlider');
+        Route::match(['get', 'post'], '/slider/edit/{id?}', 'SliderController@editSlider');
+        Route::post('/slide/upd-slide-order', 'SliderController@updateOrder');
+        Route::get('/slider/delete/{id}', 'SliderController@deleteSlider');
 
         //Articles
-        Route::get('dashboard/articles', 'ArticleController@index');
-        Route::match(['get', 'post'], 'dashboard/articles/create', 'ArticleController@addArticle');
-        Route::match(['get', 'post'], 'dashboard/articles/edit/{slug}', 'ArticleController@editArticle');
-        Route::get('dashboard/article/delete/{id}', 'ArticleController@deleteArticle');
+        Route::get('/articles', 'ArticleController@index');
+        Route::match(['get', 'post'], '/articles/create', 'ArticleController@addArticle');
+        Route::match(['get', 'post'], '/articles/edit/{slug}', 'ArticleController@editArticle');
+        Route::get('/article/delete/{id}', 'ArticleController@deleteArticle');
 
         //Areas
-        Route::get('dashboard/areas', 'AreasController@index');
-        Route::match(['get', 'post'], 'dashboard/area/create', 'AreasController@addArea');
-        Route::match(['get', 'post'], 'dashboard/area/edit/{id?}', 'AreasController@editArea');
-        Route::get('dashboard/area/delete/{id}', 'AreasController@deleteArea');
+        Route::get('/areas', 'AreasController@index');
+        Route::match(['get', 'post'], '/area/create', 'AreasController@addArea');
+        Route::match(['get', 'post'], '/area/edit/{id?}', 'AreasController@editArea');
+        Route::get('/area/delete/{id}', 'AreasController@deleteArea');
 
         //helpCenter
-        Route::match(['get', 'post'], 'dashboard/company', 'CompanyController@index');
-        Route::match(['get', 'post'], 'dashboard/policies/{name?}', 'CompanyController@policies');
-        Route::match(['get', 'post'], 'dashboard/helpcenter', 'CompanyController@addArea');
-        Route::get('dashboard/areas', 'AreasController@index');
+        Route::match(['get', 'post'], '/company', 'CompanyController@index');
+        Route::match(['get', 'post'], '/policies/{name?}', 'CompanyController@policies');
+        Route::match(['get', 'post'], '/helpcenter', 'CompanyController@addArea');
+        Route::get('/areas', 'AreasController@index');
 
         //Course
-        Route::get('dashboard/courses', 'CourseController@index');
-        Route::get('dashboard/courses-users', 'CourseController@CoursesByUser');
-        Route::get('dashboard/courses-detail-course/{id}', 'CourseController@getTemplateDetailCourse');
-        Route::match(['get', 'post'], 'dashboard/courses/create', 'CourseController@addCourse');
-        Route::match(['get', 'post'], 'dashboard/courses/edit/{id?}', 'CourseController@editCourse');
-        Route::get('dashboard/courses/{id}/units', 'CourseController@getUnitCourse');
+        Route::get('/courses', 'CourseController@index');
+        Route::get('/courses-users', 'CourseController@CoursesByUser');
+        Route::get('/courses-detail-course/{id}', 'CourseController@getTemplateDetailCourse');
+        Route::match(['get', 'post'], '/courses/create', 'CourseController@addCourse');
+        Route::match(['get', 'post'], '/courses/edit/{id?}', 'CourseController@editCourse');
+        Route::get('/courses/{id}/units', 'CourseController@getUnitCourse');
         Route::get('/dashboard/course/delete/{id}', 'CourseController@deleteCourse');
 
         //Unit
-        Route::resource('dashboard/units', 'UnitController');
-        Route::patch('dashboard/units/{id}/status', 'UnitController@changeStatus');
-        Route::delete('dashboard/units/{id}/delete/file', 'UnitController@deleteImageUnit');
-        Route::get('dashboard/list-questions-units/{id}', 'UnitController@getTableQuestionsByUnit');
-        Route::get('dashboard/list-units/{id}/course', 'UnitController@getTableUnitsByCourse');
-        Route::post('dashboard/units/order', 'UnitController@unitOrderUpdate');
+        Route::resource('/units', 'UnitController');
+        Route::patch('/units/{id}/status', 'UnitController@changeStatus');
+        Route::delete('/units/{id}/delete/file', 'UnitController@deleteImageUnit');
+        Route::get('/list-questions-units/{id}', 'UnitController@getTableQuestionsByUnit');
+        Route::get('/list-units/{id}/course', 'UnitController@getTableUnitsByCourse');
+        Route::post('/units/order', 'UnitController@unitOrderUpdate');
         //Question
-        Route::resource('dashboard/questions', 'QuestionController');
-        Route::patch('dashboard/questions/{id}/status', 'QuestionController@changeStatus');
+        Route::resource('/questions', 'QuestionController');
+        Route::patch('/questions/{id}/status', 'QuestionController@changeStatus');
         Route::get('list-questions/{id}/unit', 'QuestionController@getTableQuestionByUnit');
-        Route::post('dashboard/questions/edit/{id}', 'QuestionController@update');
+        Route::post('/questions/edit/{id}', 'QuestionController@update');
         Route::get('course/{id}/units', 'UnitController@unitsByChallenge');
         Route::get('courses/{id}/units', 'UnitController@unitsByChallenge2');
 
         //Plans
-        Route::resource('dashboard/plans', 'PlanController');
-        Route::post('dashboard/upd-plan-status', 'PlanController@updatePlanStatus');
-        Route::match(['get', 'post'], 'dashboard/plans/create', 'PlanController@addPlan');
-        Route::match(['get', 'post'], 'dashboard/plans/edit/{id?}', 'PlanController@editPlan');
-        Route::get('dashboard/plan/delete/{id}', 'PlanController@deletePlan');
+        Route::resource('/plans', 'PlanController');
+        Route::post('/upd-plan-status', 'PlanController@updatePlanStatus');
+        Route::match(['get', 'post'], '/plans/create', 'PlanController@addPlan');
+        Route::match(['get', 'post'], '/plans/edit/{id?}', 'PlanController@editPlan');
+        Route::get('/plan/delete/{id}', 'PlanController@deletePlan');
 
         //Products
-        Route::resource('dashboard/products', 'ProductController');
-        Route::post('dashboard/upd-product-status', 'ProductController@updateProductStatus');
-        Route::match(['get', 'post'], 'dashboard/products/create', 'ProductController@addProduct');
-        Route::match(['get', 'post'], 'dashboard/products/edit/{id?}', 'ProductController@editProduct');
+        Route::resource('/products', ProductController::class);
         Route::post('/store/media', 'ProductController@storeMedia')->name('products.storeMedia');
-        Route::get('dashboard/product/delete/{id}', 'ProductController@deleteProduct');
+        /*Route::post('/upd-product-status', 'ProductController@updateProductStatus');
+        Route::match(['get', 'post'], '/products/create', 'ProductController@addProduct');
+        Route::match(['get', 'post'], '/products/edit/{id?}', 'ProductController@editProduct');
+        Route::get('/product/delete/{id}', 'ProductController@deleteProduct');*/
 
         //Categories
-        Route::resource('dashboard/categories', 'CategoryController');
-        Route::post('dashboard/upd-category-status', 'CategiryController@updateCategoryStatus');
-        Route::match(['get', 'post'], 'dashboard/categories/create', 'CategoryController@addCategory');
-        Route::match(['get', 'post'], 'dashboard/categories/edit/{id?}', 'CategoryController@editCategory');
-        Route::get('dashboard/category/delete/{id}', 'CategoryController@deleteCategory');
+        Route::resource('/categories', 'CategoryController');
+        Route::post('/upd-category-status', 'CategiryController@updateCategoryStatus');
+        Route::match(['get', 'post'], '/categories/create', 'CategoryController@addCategory');
+        Route::match(['get', 'post'], '/categories/edit/{id?}', 'CategoryController@editCategory');
+        Route::get('/category/delete/{id}', 'CategoryController@deleteCategory');
 
 
         //Focused
-        Route::resource('dashboard/focused', 'FocusedController');
-        Route::patch('dashboard/focused/status', 'FocusedController@updateFocusedStatus');
-        Route::match(['get', 'post'], 'dashboard/focused/create', 'FocusedController@addFocused');
-        Route::match(['get', 'post'], 'dashboard/focused/edit/{id}', 'FocusedController@editFocused');
-        Route::get('dashboard/focused/delete/{id}', 'FocusedController@deleteFocused');
+        Route::resource('/focused', 'FocusedController');
+        Route::patch('/focused/status', 'FocusedController@updateFocusedStatus');
+        Route::match(['get', 'post'], '/focused/create', 'FocusedController@addFocused');
+        Route::match(['get', 'post'], '/focused/edit/{id}', 'FocusedController@editFocused');
+        Route::get('/focused/delete/{id}', 'FocusedController@deleteFocused');
 
         //TypeAnswers
-        Route::resource('dashboard/type-answers', 'TypeAnswerController');
+        Route::resource('/type-answers', 'TypeAnswerController');
         //Users
-        Route::resource('dashboard/users', 'UserController');
-        Route::patch('dashboard/users/{id}/status', 'UserController@changeStatus');
+        Route::resource('/users', 'UserController');
+        Route::patch('/users/{id}/status', 'UserController@changeStatus');
         //TypeAnswersQuestions
-        Route::resource('dashboard/type-answers-questions', 'TypeAnswerQuestionController');
-        Route::get('dashboard/list-answers-questions/{id}', 'TypeAnswerQuestionController@show');
-        Route::patch('dashboard/validated-answers-questions/{id}', 'TypeAnswerQuestionController@changeValid');
-        Route::patch('dashboard/status-answers-questions/{id}', 'TypeAnswerQuestionController@changeStatus');
-        Route::get('dashboard/answers-questions/{id}/edit', 'TypeAnswerQuestionController@edit');
-        Route::put('dashboard/answers-questions/{id}', 'TypeAnswerQuestionController@update');
-        Route::delete('dashboard/answers-questions/{id}/delete', 'TypeAnswerQuestionController@destroy');
+        Route::resource('/type-answers-questions', 'TypeAnswerQuestionController');
+        Route::get('/list-answers-questions/{id}', 'TypeAnswerQuestionController@show');
+        Route::patch('/validated-answers-questions/{id}', 'TypeAnswerQuestionController@changeValid');
+        Route::patch('/status-answers-questions/{id}', 'TypeAnswerQuestionController@changeStatus');
+        Route::get('/answers-questions/{id}/edit', 'TypeAnswerQuestionController@edit');
+        Route::put('/answers-questions/{id}', 'TypeAnswerQuestionController@update');
+        Route::delete('/answers-questions/{id}/delete', 'TypeAnswerQuestionController@destroy');
     });
 });
