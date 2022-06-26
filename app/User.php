@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -60,6 +59,12 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsToMany(Unit::class, 'unit_users_course')->withPivot('id', 'unit_id', 'questions', 'flag_complete_unit', 'date_answered');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'user_id', 'id')->orderBy('created_at');
+    }
+
     public function progress()
     {
         return $this->belongsToMany(Question::class, 'user_questions_answers')->withPivot(['id', 'user_id', 'question_id', 'answer_id', 'sets', 'flag_complete_question']);

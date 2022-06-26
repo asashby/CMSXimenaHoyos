@@ -119,6 +119,9 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('questions/{slug}/detail', 'Api\QuestionController@questionDetail');
 
 
+    //Orders
+    Route::post('order/payment', 'Api\orderController@createOrder');
+    Route::get('order-user', 'Api\orderController@OrdersByUser');
 
 
     // Route::get('units/{id}/questions-user', 'Api\UnitController@questionsByUnitUser');
