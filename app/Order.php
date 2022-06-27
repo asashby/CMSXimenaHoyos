@@ -8,5 +8,6 @@ class Order extends Model
 {
     protected $casts = [
         'detail' => 'object',
+        'shipping' => 'object'
     ];
 }
