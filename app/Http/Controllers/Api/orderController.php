@@ -20,6 +20,7 @@ class orderController extends Controller
                 $order->user_id = $user->id;
                 $order->origin = $request->origin ?? "";
                 $order->detail = $request->line_items ?? [];
+                $order->shipping = $request->shipping ?? [];
                 $order->cost_shipping = $request->cost_shipping;
                 $order->total = $request->total ?? 0.0;
                 $order->save();
