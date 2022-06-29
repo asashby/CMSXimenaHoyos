@@ -11,7 +11,8 @@ class Product extends Model implements HasMedia
 
     use HasMediaTrait;
 
-    protected $fillable = ["name", "slug", "attributes", "description", "price"];
+    protected $fillable = ["name", "slug", "attributes", "description", "price", "url_image"];
+
 
     protected $casts = [
         'attributes' => 'object',

@@ -85,7 +85,7 @@
                                     <tbody>
                                     </tbody>
                                 </table>
-                                <input id="attributesFinal" name="attributes" type="hidden">
+                                <input id="attributesFinal" name="attributes[]" type="hidden">
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -94,30 +94,37 @@
 
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="exampleInputFile">Imagen de Portada</label>
+                                    <input type="file" class="form-control" name="productImage" id="productImage"
+                                        onchange="preview_image(event)">
+                                    <br>
+                                    <img style="margin-top: 10px;" class="img-fluid" width="300" id="output_image" " />
+                                </div>
                             </div>
                         </div>
                 </div>
             </div>
 
             <!-- /.row -->
-            <div class="card-footer">
-                <div class="form-actions">
-                    <input type="submit" value="Guardar" class="btn btn-info">
+            <div class=" card-footer">
+                                    <div class="form-actions">
+                                        <input type="submit" value="Guardar" class="btn btn-info">
+                                    </div>
+                                </div>
+                    </form>
+                    <!-- /.row -->
+
                 </div>
+                <!-- /.card-body -->
+
             </div>
-            </form>
-            <!-- /.row -->
-
-        </div>
-        <!-- /.card-body -->
-
-</div>
-<!-- /.card -->
-</section>
+            <!-- /.card -->
+    </section>
 
 
 
-<!-- /.content -->
+    <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
 
@@ -147,6 +154,19 @@ name = uploadedDocumentMap[file.name]
 $('form').find('input[name="photo[]"][value="' + name + '"]').remove()
 }
 }
+function preview_image(event)
+        {
+            var reader = new FileReader();
+            reader.onload = function()
+            {
+            var output = document.getElementById('output_image');
+            output.src = reader.result;
+            output.width = 400;
+            output.height = 300
+
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
 </script>
 @endpush
 @endsection

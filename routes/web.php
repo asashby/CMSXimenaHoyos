@@ -113,6 +113,7 @@ Route::namespace('Admin')->group(function () {
 
         //Products
         Route::resource('/products', ProductController::class);
+        Route::get('/products/delete/{id}', 'ProductController@destroy');
         Route::post('/store/media', 'ProductController@storeMedia')->name('products.storeMedia');
         /*Route::post('/upd-product-status', 'ProductController@updateProductStatus');
         Route::match(['get', 'post'], '/products/create', 'ProductController@addProduct');

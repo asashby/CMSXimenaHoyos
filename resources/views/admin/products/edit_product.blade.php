@@ -95,13 +95,21 @@
                                     <label for="exampleInputFile">Imagenes</label>
                                     <div class="needsclick dropzone" id="document-dropzone"></div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="exampleInputFile">Imagen de Portada</label>
+                                    <input type="file" class="form-control" name="productImage" id="productImage"
+                                        onchange="preview_image(event)" value="{{ $product->url_image }}">
+                                    <br>
+                                    <img style="margin-top: 10px;" class="img-fluid" width="300" id="output_image"
+                                        src="{{ $product->url_image }}" />
+                                </div>
                             </div>
                         </div>
                 </div>
             </div>
 
             <!-- /.row -->
-            <div class="card-footer">
+            <div class=" card-footer">
                 <div class="form-actions">
                     <input type="submit" value="Guardar" class="btn btn-info">
                 </div>
@@ -158,6 +166,7 @@ file = {
 width: 226,
 height: 324
 }
+console.log(file)
 var original_url = `${urlBase}/storage/${file.id}/${file.file_name}`;
  this.options.addedfile.call(this, file)
                this.options.thumbnail.call(this, file, original_url)
@@ -168,6 +177,20 @@ $('form').append('<input type="hidden" name="photo[]" value="' + file.file_name 
 @endif
 }
 }
+
+function preview_image(event)
+        {
+            var reader = new FileReader();
+            reader.onload = function()
+            {
+            var output = document.getElementById('output_image');
+            output.src = reader.result;
+            output.width = 400;
+            output.height = 300
+
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
 </script>
 @endpush
 @endsection

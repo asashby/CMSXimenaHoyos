@@ -76,7 +76,7 @@
                                                 <i class="far fa-edit"></i>
                                             </a>
                                             <a href="javascript:void(0)" class="confirmDelete" style="cursor: pointer;"
-                                                record="product" recordId="{{ $product->id }}" data-toggle="tooltip"
+                                                record="products" recordId="{{ $product->id }}" data-toggle="tooltip"
                                                 title="Eliminar">
                                                 <i style="color: red;" class="fas fa-trash-alt"></i>
                                             </a>

@@ -57,6 +57,7 @@ class ProductController extends Controller
         $product = Product::create([
             'name' => $request->productTitle,
             'slug' => Str::slug($request->productTitle),
+            'url_image' => $this->loadFile($request, 'productImage', 'products/images', 'products_images'),
             'attributes' => $request->attributes ?? [],
             'description' => $request->productResume,
             'price' => $request->productPrice,
@@ -126,6 +127,7 @@ class ProductController extends Controller
         $product->update([
             'name' => $request->productTitle,
             'slug' => Str::slug($request->productTitle),
+            'url_image' => $this->loadFile($request, 'productImage', 'products/images', 'products_images'),
             'attributes' => $request->attributes ?? [],
             'description' => $request->productResume,
             'price' => $request->productPrice,
@@ -159,6 +161,9 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Product::find($id)->delete();
+        $message = 'EL producto se elimino correctamente';
+        Session::flash('success_message', $message);
+        return redirect()->route('products.index');
     }
 }

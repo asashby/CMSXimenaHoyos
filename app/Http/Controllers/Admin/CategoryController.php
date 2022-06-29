@@ -32,7 +32,7 @@ class CategoryController extends Controller
 
             $category = new Category;
 
-            $category->title = $data['categoryTitle'];
+            $category->name = $data['categoryTitle'];
             $category->description = $data['categoryResume'];
             $category->save();
             Session::flash('success_message', 'La categoria se creo Correctamente');
