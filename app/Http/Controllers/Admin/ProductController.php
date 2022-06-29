@@ -60,8 +60,11 @@ class ProductController extends Controller
             'url_image' => $this->loadFile($request, 'productImage', 'products/images', 'products_images'),
             'attributes' => $request->attributes ?? [],
             'description' => $request->productResume,
+            'sku' => $request->productSku ?? '',
             'price' => $request->productPrice,
         ]);
+
+        $product->categories()->sync($request->categories ?? []);
 
         if ($request->has('photo')) {
             foreach ($request->input('photo', []) as $file) {
@@ -112,7 +115,18 @@ class ProductController extends Controller
         $photos = $product->getMedia();
         $company = new Company;
         $companyData = $company->getCompanyInfo();
-        return view('admin.products.edit_product', compact('product', 'companyData', 'photos'));
+        $categoriesProduct = $product->categories()->pluck('categories.id')->toArray();
+        $categories = Category::get();
+        $categories_drop_down = "<option disabled>Select</option>";
+        foreach ($categories as $category) {
+            if (in_array($category->id, $categoriesProduct)) {
+                $selected = "selected";
+            } else {
+                $selected = "";
+            }
+            $categories_drop_down .= "<option value='" . $category->id . "'>" . $category->name . "</option>";
+        }
+        return view('admin.products.edit_product', compact('product', 'companyData', 'photos', 'categories_drop_down'));
     }
 
     /**
@@ -129,6 +143,7 @@ class ProductController extends Controller
             'slug' => Str::slug($request->productTitle),
             'url_image' => $this->loadFile($request, 'productImage', 'products/images', 'products_images'),
             'attributes' => $request->attributes ?? [],
+            'sku' => $request->productSku,
             'description' => $request->productResume,
             'price' => $request->productPrice,
         ]);
@@ -139,6 +154,8 @@ class ProductController extends Controller
                 }
             }
         }
+
+        $product->categories()->sync($request->categories ?? []);
 
         $media = $product->getMedia()->pluck('file_name')->toArray();
 

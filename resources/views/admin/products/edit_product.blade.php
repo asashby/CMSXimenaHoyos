@@ -46,12 +46,12 @@
                         @method('PUT')
                         <div class="row">
                             <div class="col-md-6">
-                                {{-- <div class="form-group">
+                                <div class="form-group">
                                     <label>Seleccione Categoria</label>
-                                    <select id="category" name="productCategory" class="form-control">
+                                    <select id="categories" name="categories[]" class="form-control">
                                         <?php echo $categories_drop_down; ?>
                                     </select>
-                                </div> --}}
+                                </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Título</label>
                                     <input type="text" class="form-control" id="exampleInputEmail1" name="productTitle"
@@ -62,6 +62,11 @@
                                     <textarea class="form-control" name="productResume" id="productResume"
                                         placeholder="Ingrese Resumen"
                                         style="margin-top: 0px; margin-bottom: 0px; height: 93px;">{{ $product->description }}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">SKU</label>
+                                    <input type="text" class="form-control" placeholder="Ingrese Sku" name="productSku"
+                                        id="productSku" value="{{ $product->sku }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Precio</label>
@@ -179,18 +184,19 @@ $('form').append('<input type="hidden" name="photo[]" value="' + file.file_name 
 }
 
 function preview_image(event)
-        {
-            var reader = new FileReader();
-            reader.onload = function()
-            {
-            var output = document.getElementById('output_image');
-            output.src = reader.result;
-            output.width = 400;
-            output.height = 300
-
-            }
-            reader.readAsDataURL(event.target.files[0]);
+{
+    var reader = new FileReader();
+    reader.onload = function()
+    {
+        var output = document.getElementById('output_image');
+        output.src = reader.result;
+        output.width = 400;
+        output.height = 300
         }
+    reader.readAsDataURL(event.target.files[0]);
+}
+
+
 </script>
 @endpush
 @endsection

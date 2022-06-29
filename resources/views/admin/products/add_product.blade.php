@@ -45,9 +45,12 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Seleccione Categoria</label>
-                                    <select id="category" name="productCategory" class="form-control">
-                                        <?php echo $categories_drop_down; ?>
+                                    <label>Seleccione Categorias</label>
+                                    <select name="categories[]" id="categories" class="form-control select2"
+                                        style="width: 100%;">
+                                        @php
+                                        echo $categories_drop_down;
+                                        @endphp
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -60,6 +63,10 @@
                                     <textarea class="form-control" name="productResume" id="productResume"
                                         placeholder="Ingrese Resumen"
                                         style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">SKU</label>
+                                    <input type="text" placeholder="Ingrese Sku" name="productSku" id="productSku">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Precio</label>
@@ -127,7 +134,6 @@
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-
 @push('script')
 <script>
     var uploadedDocumentMap = {}
@@ -167,6 +173,7 @@ function preview_image(event)
             }
             reader.readAsDataURL(event.target.files[0]);
         }
+
 </script>
 @endpush
 @endsection
