@@ -64,7 +64,7 @@
                                     @foreach ($categories as $category)
                                     <tr>
                                         <td>{{ $category->id }}</td>
-                                        <td>{{ $category->title }}</td>
+                                        <td>{{ $category->name }}</td>
                                         <td>{{ $category->description }}</td>
                                         <td>
                                             {{-- <span data-toggle="modal" id="excercises" data-target="#unitsListModal"
