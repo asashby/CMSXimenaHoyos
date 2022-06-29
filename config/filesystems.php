@@ -52,6 +52,10 @@ return [
             'driver' => 'local',
             'root' => public_path('units/images'),
         ],
+        'products_images' => [
+            'driver' => 'local',
+            'root' => public_path('products/images'),
+        ],
         'type_answers_images' => [
             'driver' => 'local',
             'root' => public_path('answers/images'),
