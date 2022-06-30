@@ -37,9 +37,9 @@ class Product extends Model implements HasMedia
             });
     }
 
-    public function scopeTitle($query, $title)
+    public function scopeSearch($query, $search)
     {
-        if ($title)
-            return $query->where('title', 'LIKE', "%$title%");
+        if ($search)
+            return $query->where('name', 'LIKE', "%$search%");
     }
 }

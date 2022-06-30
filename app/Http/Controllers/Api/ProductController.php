@@ -15,7 +15,7 @@ class ProductController extends Controller
         $category = $request->get('categoryId');
         $search = $request->get('search');
         $limit = !empty($limit) && is_numeric($limit) ? $limit : 10;
-        $product = Product::with('categories:id,name')->category($category)->orderBy('created_at')->paginate($limit);
+        $product = Product::with('categories:id,name')->search($search)->category($category)->orderBy('created_at')->paginate($limit);
 
         return $product;
     }
