@@ -59,9 +59,9 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Descripcion de Producto</label>
-                                    <textarea class="form-control" name="productResume" id="productResume"
-                                        placeholder="Ingrese Resumen"
-                                        style="margin-top: 0px; margin-bottom: 0px; height: 93px;">{{ $product->description }}</textarea>
+                                    <textarea class="form-control textAreaEditor" name="productResume"
+                                        id="productResume" placeholder="Ingrese Resumen"
+                                        style="margin-top: 0px; margin-bottom: 0px; height: 93px;">{!! $product->description !!}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">SKU</label>

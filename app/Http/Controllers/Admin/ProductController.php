@@ -59,7 +59,7 @@ class ProductController extends Controller
             'slug' => Str::slug($request->productTitle),
             'url_image' => $this->loadFile($request, 'productImage', 'products/images', 'products_images'),
             'attributes' => $request->attributes ?? [],
-            'description' => $request->productResume,
+            'description' => htmlspecialchars_decode(e($request->productResume)),
             'sku' => $request->productSku ?? '',
             'price' => $request->productPrice,
         ]);
@@ -144,7 +144,7 @@ class ProductController extends Controller
             'url_image' => $this->loadFile($request, 'productImage', 'products/images', 'products_images'),
             'attributes' => $request->attributes ?? [],
             'sku' => $request->productSku,
-            'description' => $request->productResume,
+            'description' => htmlspecialchars_decode(e($request->productResume)),
             'price' => $request->productPrice,
         ]);
         if (count($product->getMedia()) > 0) {
