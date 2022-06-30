@@ -124,7 +124,7 @@ class ProductController extends Controller
             } else {
                 $selected = "";
             }
-            $categories_drop_down .= "<option value='" . $category->id . "'>" . $category->name . "</option>";
+            $categories_drop_down .= "<option value='" . $category->id . "' " . $selected . ">" . $category->name . "</option>";
         }
         return view('admin.products.edit_product', compact('product', 'companyData', 'photos', 'categories_drop_down'));
     }
