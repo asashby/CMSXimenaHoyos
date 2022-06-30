@@ -66,7 +66,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">SKU</label>
-                                    <input type="text" placeholder="Ingrese Sku" name="productSku" id="productSku">
+                                    <input type="text" placeholder="Ingrese Sku" class="form-control" name="productSku"
+                                        id="productSku">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Precio</label>
