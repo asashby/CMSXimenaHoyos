@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Order;
 use App\User;
+use App\Order;
 use Exception;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class orderController extends Controller
 {
@@ -15,6 +16,7 @@ class orderController extends Controller
     {
         try {
             $user = Auth::user();
+            $emailUser = $user->email;
             if ($user) {
                 $order = new Order();
                 $order->user_id = $user->id;
@@ -24,6 +26,12 @@ class orderController extends Controller
                 $order->cost_shipping = $request->cost_shipping;
                 $order->total = $request->total ?? 0.0;
                 $order->save();
+                if ($order) {
+                    Mail::send('emails.confirmOrder', ['user' => $user, 'dataOrder' => $request->line_items, 'orderId' =>  $order->id, 'price' => $request->total, 'dateOrder' => fecha_string(), 'shipping', $request->cost_shipping ?? 0], function ($message) use ($emailUser) {
+                        $message->to($emailUser);
+                        $message->subject('Compra Exitosa');
+                    });
+                }
                 return response()->json([
                     'status' => 200,
                     'message' => 'Compra Exitosa',
