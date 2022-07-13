@@ -163,6 +163,27 @@ $(function(){
         })
     });
 
+    $(document).on("click", "#detailOrder", function(){
+        $("#unitsListModal #courseModalLabel").text($(this).attr('data-title'));
+        var idOrder = $(this).attr('data-id');
+        $.ajax({
+            url: `/dashboard/order/${idOrder}/detail`,
+            success: function(products){
+                console.log(products.detail);
+                $(".data-order .products-list tbody tr").remove();
+                (products.detail || []).forEach(product => {
+                    $(".data-order .products-list tbody").append(
+                    `<tr>
+                        <td>${product.name}</td>
+                        <td>${product.count}</td>
+                    </tr>`);
+                });
+            },error: function(){
+                alert('error');
+            }
+        })
+    });
+
     $(document).on('click' ,'.addIngredient' , function(){
         var ingredient = $("input[id='recipeIngredient']").val();
         $('#ingredients-list').append(`
@@ -272,7 +293,7 @@ $(function(){
     $(document).on('change', '#course_id_2', function(){
         courseId = $(this).val();
         $.ajax({
-            url: `/courses/${courseId}/units`,
+            url: `/dashboard/courses/${courseId}/units`,
             type: 'get',
             success: function(data){
                 $("#day_id").empty();
@@ -287,7 +308,7 @@ $(function(){
     $(document).on('change', '#course_id_2', function(){
         courseId = $(this).val();
         $.ajax({
-            url: `/courses/${courseId}/units`,
+            url: `/dashboard/courses/${courseId}/units`,
             type: 'get',
             success: function(data){
                 $("#day_id").empty();
@@ -301,7 +322,7 @@ $(function(){
 
 
     function getExcercises(unitId) {
-        let url = `/list-questions/${unitId}/unit`;
+        let url = `/dashboard/list-questions/${unitId}/unit`;
         axios.get(url).then(function (response) {
             $('.table-questions').empty();
             $('.table-questions').html(response.data);

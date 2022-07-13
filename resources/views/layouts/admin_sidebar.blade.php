@@ -173,7 +173,8 @@
                         <p>Ejercicios Focalizados</p>
                     </a>
                 </li>
-                @if (Session::get('page') == 'products' || Session::get('page') == 'categories')
+                @if (Session::get('page') == 'products' || Session::get('page') == 'categories' || Session::get('page')
+                == 'orders')
                 <?php $active = 'active'; $menuOpen = 'menu-open'; ?>
                 @else
                 <?php $active = ''; $menuOpen = ''; ?>
@@ -193,7 +194,7 @@
                             @else
                             <?php $active = ''; ?>
                             @endif
-                            <a href="{{url('dashboard/products')}}" class="nav-link {{ $active }}">
+                            <a href="{{route('products.index')}}" class="nav-link {{ $active }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Lista de Productos</p>
                             </a>
@@ -207,6 +208,17 @@
                             <a href="{{url('dashboard/categories')}}" class="nav-link {{ $active }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Categorias</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            @if (Session::get('page') == 'orders')
+                            <?php $active = 'active'; ?>
+                            @else
+                            <?php $active = ''; ?>
+                            @endif
+                            <a href="{{url('dashboard/orders')}}" class="nav-link {{ $active }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Ordenes</p>
                             </a>
                         </li>
                     </ul>

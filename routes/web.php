@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\OrderController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -87,7 +86,7 @@ Route::namespace('Admin')->group(function () {
         Route::get('/courses-detail-course/{id}', 'CourseController@getTemplateDetailCourse');
         Route::match(['get', 'post'], '/courses/create', 'CourseController@addCourse');
         Route::match(['get', 'post'], '/courses/edit/{id?}', 'CourseController@editCourse');
-        Route::get('/courses/{id}/units', 'CourseController@getUnitCourse');
+        Route::get('courses/{id}/units', 'CourseController@getUnitCourse');
         Route::get('/dashboard/course/delete/{id}', 'CourseController@deleteCourse');
 
         //Unit
