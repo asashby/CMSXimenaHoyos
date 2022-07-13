@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\OrderController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -115,6 +116,10 @@ Route::namespace('Admin')->group(function () {
         Route::resource('/products', ProductController::class);
         Route::get('/products/delete/{id}', 'ProductController@destroy');
         Route::post('/store/media', 'ProductController@storeMedia')->name('products.storeMedia');
+
+        //Orders
+        Route::resource('/orders', 'OrderController');
+        Route::get('order/{id}/detail', 'OrderController@detail');
         /*Route::post('/upd-product-status', 'ProductController@updateProductStatus');
         Route::match(['get', 'post'], '/products/create', 'ProductController@addProduct');
         Route::match(['get', 'post'], '/products/edit/{id?}', 'ProductController@editProduct');
