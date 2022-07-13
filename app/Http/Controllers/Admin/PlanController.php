@@ -27,10 +27,11 @@ class PlanController extends Controller
         return view('admin.plans.plans', compact('plans', 'companyData'));
     }
 
-    public function plansByCourse($id)
+    public function plansByCourse($slug)
     {
         try {
-            $plansByCourse = Plan::orderByDesc('created_at')->course($id)->get();
+            $courseDetail = Course::where('slug', $slug)->first();
+            $plansByCourse = $courseDetail->plans;
             return response()->json([
                 'plansByCourse' => $plansByCourse,
             ]);
