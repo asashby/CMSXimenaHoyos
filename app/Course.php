@@ -39,7 +39,7 @@ class Course extends Model
 
     public function plans()
     {
-        return $this->belongsToMany(Plan::class, 'courses_plans')->withPivot('id', 'course_id', 'plan_id')->select(['plans.id', 'plans.title', 'plans.price', 'plans.description']);
+        return $this->belongsToMany(Plan::class, 'courses_plans')->withPivot('id', 'course_id', 'plan_id');
     }
 
     public function cleanSlug($title)
