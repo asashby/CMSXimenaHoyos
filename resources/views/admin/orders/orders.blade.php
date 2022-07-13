@@ -67,10 +67,26 @@
                                         <td>{{ $order->id }}</td>
                                         <td>{{ $order->user->name }} {{ $order->user->sur_name }}</td>
                                         <td>{{ $order->total }}</td>
-                                        <td>{{ $order->state_id }}</td>
+                                        <td>@if ($order->state_id == 1)
+                                            <small class="badge badge-info update-status-order" style="cursor: pointer;"
+                                                id="order-{{ $order->id }}" order_id="{{ $order->id }}">
+                                                Pendiente
+                                            </small>
+                                            @elseif ($order->state_id == 2)
+                                            <small class="badge badge-success" style="cursor: pointer;"
+                                                id="order-{{ $order->id }}" order_id="{{ $order->id }}">
+                                                Entregado
+                                            </small>
+                                            @else
+                                            <small class="badge badge-danger" style="cursor: pointer;">
+                                                Cancelado
+                                            </small>
+                                            @endif
+                                        </td>
                                         <td>
-                                            {{-- <span data-toggle="modal" id="excercises" data-target="#unitsListModal"
-                                                data-id="{{$order->id}}" data-title="{{$order->title}}">
+                                            {{-- <span data-toggle=" modal" id="excercises"
+                                                data-target="#unitsListModal" data-id="{{$order->id}}"
+                                                data-title="{{$order->title}}">
                                                 <a data-toggle="tooltip" style="cursor: pointer" title="Ver Ejercicios">
                                                     <i class="fas fa-file text-info"></i>
                                                 </a>
@@ -79,14 +95,14 @@
                                                 data-target="#productsList" title="Ver Productos">
                                                 <i style="color: blue; cursor:pointer" class="fas fa-eye"></i>
                                             </a>
-                                            {{-- <a href="javascript:void(0)" class="confirmDelete"
-                                                style="cursor: pointer;" record="order" recordId="{{ $order->id }}"
-                                                data-toggle="tooltip" title="Eliminar">
+                                            <a href="javascript:void(0)" class="confirmCancel" style="cursor: pointer;"
+                                                record="order" recordId="{{ $order->id }}" data-toggle="tooltip"
+                                                title="Anular">
                                                 <i style="color: red;" class="fas fa-trash-alt"></i>
-                                            </a> --}}
+                                            </a>
+                                        </td>
                                     </tr>
                                     @endforeach
-                                    </td>
                                 </tbody>
                             </table>
                         </div>

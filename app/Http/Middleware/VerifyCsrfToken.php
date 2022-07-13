@@ -15,6 +15,7 @@ class VerifyCsrfToken extends Middleware
         'dashboard/verify-curr-pwd',
         'dashboard/upd-section-status',
         'dashboard/slider/upd-slider-order',
-        'dashboard/units/order'
+        'dashboard/units/order',
+        'dashboard/upd-order-status'
     ];
 }

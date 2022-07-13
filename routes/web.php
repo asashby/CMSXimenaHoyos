@@ -119,6 +119,8 @@ Route::namespace('Admin')->group(function () {
         //Orders
         Route::resource('/orders', 'OrderController');
         Route::get('order/{id}/detail', 'OrderController@detail');
+        Route::post('upd-order-status', 'OrderController@updateOrderStatus');
+        Route::get('order/cancel/{id}', 'OrderController@cancelOrder');
         /*Route::post('/upd-product-status', 'ProductController@updateProductStatus');
         Route::match(['get', 'post'], '/products/create', 'ProductController@addProduct');
         Route::match(['get', 'post'], '/products/edit/{id?}', 'ProductController@editProduct');
@@ -126,7 +128,7 @@ Route::namespace('Admin')->group(function () {
 
         //Categories
         Route::resource('/categories', 'CategoryController');
-        Route::post('/upd-category-status', 'CategiryController@updateCategoryStatus');
+        Route::post('/upd-category-status', 'CategoryController@updateCategoryStatus');
         Route::match(['get', 'post'], '/categories/create', 'CategoryController@addCategory');
         Route::match(['get', 'post'], '/categories/edit/{id?}', 'CategoryController@editCategory');
         Route::get('/category/delete/{id}', 'CategoryController@deleteCategory');

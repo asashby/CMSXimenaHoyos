@@ -24,4 +24,32 @@ class OrderController extends Controller
         $orderDetail = Order::select('detail')->where('id', $id)->first();
         return $orderDetail;
     }
+
+    public function updateOrderStatus(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = $request->all();
+            if ($data['status'] == 'Pendiente') {
+                $status = 2;
+            } else {
+                $status = 1;
+            }
+            Order::where('id', $data['order_id'])->update(['state_id' => $status]);
+            return response()->json(['status' => $status, 'order_id' => $data['order_id']]);
+        }
+    }
+
+    public function cancelOrder(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = $request->all();
+            if ($data['status'] == 'Pendiente') {
+                $status = 2;
+            } else {
+                $status = 1;
+            }
+            Order::where('id', $data['order_id'])->update(['state_id' => $status]);
+            return response()->json(['status' => $status, 'order_id' => $data['order_id']]);
+        }
+    }
 }
