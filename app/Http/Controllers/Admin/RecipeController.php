@@ -273,7 +273,6 @@ class RecipeController extends Controller
         $recipeDetail = Recipe::where('id', $id)->first();
         $courses = Course::all();
         $company = new Company;
-        // dd(json_decode($recipeDetail-> steps));
         $companyData = $company->getCompanyInfo();
         return view('admin.recipes.edit_recipe')->with(compact('recipeDetail', 'courses', 'companyData'));
     }

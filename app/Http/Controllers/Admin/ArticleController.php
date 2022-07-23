@@ -213,7 +213,6 @@ class ArticleController extends Controller
         }
 
         $articleDetail = Article::where(['slug' => $slug])->first();
-        $articleDetail->addittional_info = $articleDetail->addittional_info;
         $sections = Section::get();
         $section_drop_down = "<option value='' disabled>Select</option>";
         foreach ($sections as $section) {

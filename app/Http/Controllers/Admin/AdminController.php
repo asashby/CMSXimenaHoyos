@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session;
-use Auth;
 use Hash;
 use App\Admin;
 use App\Course;
@@ -13,6 +12,7 @@ use App\User;
 use App\Company;
 use App\Article;
 use App\Unit;
+use Illuminate\Support\Facades\Auth;
 use Image;
 
 class AdminController extends Controller
@@ -44,7 +44,7 @@ class AdminController extends Controller
     {
         if ($request->isMethod('post')) {
             $data = $request->all();
-            /* echo "<pre>"; print_r($data); die; */
+
             $rulesData = [
                 'email' => 'required|email|max:255',
                 'password' => 'required',
@@ -57,7 +57,6 @@ class AdminController extends Controller
             ];
 
             $this->validate($request, $rulesData, $customMessages);
-
             if (Auth::guard('admin')->attempt(['email' => $data['email'], 'password' => $data['password']])) {
                 return redirect('dashboard');
             } else {

@@ -17,8 +17,8 @@ class AdminTableSeeder extends Seeder
                 'id' => 1,
                 'name' => 'Ichu',
                 'type' => 'admin',
-                'email' => 'admin@apprunn.com',
-                'password' => '$2y$10$1YE0fji.pxz.g4S./hIRdOHUvVN7RYvD.vaAHWaC4qzFE3JbK8CUu',
+                'email' => 'admin@gmail.com',
+                'password' => bcrypt('Admin 123'),
                 'image' => '',
                 'activated' => 1,
             ],
@@ -26,8 +26,8 @@ class AdminTableSeeder extends Seeder
                 'id' => 2,
                 'name' => 'Marcelo',
                 'type' => 'admin',
-                'email' => 'marcelo@apprunn.com',
-                'password' => '$2y$10$1YE0fji.pxz.g4S./hIRdOHUvVN7RYvD.vaAHWaC4qzFE3JbK8CUu',
+                'email' => 'marcelo@gmail.com',
+                'password' => bcrypt('Admin 123'),
                 'image' => '',
                 'activated' => 1,
             ],
@@ -35,14 +35,13 @@ class AdminTableSeeder extends Seeder
                 'id' => 3,
                 'name' => 'Coral',
                 'type' => 'admin',
-                'email' => 'coral@apprunn.com',
-                'password' => '$2y$10$1YE0fji.pxz.g4S./hIRdOHUvVN7RYvD.vaAHWaC4qzFE3JbK8CUu',
+                'email' => 'coral@gmail.com',
+                'password' => bcrypt('Admin 123'),
                 'image' => '',
                 'activated' => 1,
             ],
         ];
 
         DB::table('admins')->insert($adminRecords);
-
     }
 }

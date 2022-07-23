@@ -13,6 +13,7 @@ class Article extends Model
         'id',
         'title',
         'subtitle',
+        'description',
         'slug',
         'route',
         'admin_id',

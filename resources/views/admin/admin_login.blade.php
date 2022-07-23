@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,88 +19,90 @@
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
+
 <body class="hold-transition login-page">
-<div class="login-box">
-  <div class="login-logo">
-    <a href="{{ url('/') }}"><b>Panel</b>Admin</a>
-  </div>
-  <!-- /.login-logo -->
-  <div class="card">
-    <div class="card-body login-card-body">
-      <p class="login-box-msg">Inicia Sesion</p>
+  <div class="login-box">
+    <div class="login-logo">
+      <a href="{{ url('/') }}"><b>Panel</b>Admin</a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+      <div class="card-body login-card-body">
+        <p class="login-box-msg">Inicia Sesion</p>
 
-      @if (Session::has('error_message'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          {{ Session::get('error_message') }}
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      @endif
+        @if (Session::has('error_message'))
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ Session::get('error_message') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        @endif
 
-      @if ($errors->any())
-        <div class="alert alert-danger">
-          <ul>
+        @if ($errors->any())
+          <div class="alert alert-danger">
+            <ul>
               @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>  
+                <li>{{ $error }}</li>
               @endforeach
-          </ul>
-        </div>
-      @endif
-      
+            </ul>
+          </div>
+        @endif
 
-      <form action="{{ url('/') }}" method="post">@csrf
-        <div class="input-group mb-3">
-          <input type="email" id="email" name="email" class="form-control" placeholder="Email">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
-            </div>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <input type="password" id="password" name="password"  class="form-control" placeholder="Contraseña">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-8">
-            <div class="icheck-primary">
-              <input type="checkbox" id="remember">
-              <label for="remember">
-                Remember Me
-              </label>
-            </div>
-          </div>
-          <!-- /.col -->
-          <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
-          </div>
-          <!-- /.col -->
-        </div>
-      </form>
 
-      {{--  <p class="mb-1">
+        <form action="{{ url('/') }}" method="post">@csrf
+          <div class="input-group mb-3">
+            <input type="email" id="email" name="email" class="form-control" placeholder="Email">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8">
+              <div class="icheck-primary">
+                <input type="checkbox" id="remember">
+                <label for="remember">
+                  Remember Me
+                </label>
+              </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-4">
+              <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+            </div>
+            <!-- /.col -->
+          </div>
+        </form>
+
+        {{-- <p class="mb-1">
         <a href="forgot-password.html">I forgot my password</a>
       </p>
       <p class="mb-0">
         <a href="register.html" class="text-center">Register a new membership</a>
-      </p>  --}}
+      </p> --}}
+      </div>
+      <!-- /.login-card-body -->
     </div>
-    <!-- /.login-card-body -->
   </div>
-</div>
-<!-- /.login-box -->
+  <!-- /.login-box -->
 
-<!-- jQuery -->
-<script src="{{ url('plugins/jquery/jquery.min.js') }}"></script>
-<!-- Bootstrap 4 -->
-<script src="{{ url('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ url('js/adminlte.min.js') }}"></script>
+  <!-- jQuery -->
+  <script src="{{ url('plugins/jquery/jquery.min.js') }}"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{{ url('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <!-- AdminLTE App -->
+  <script src="{{ url('js/adminlte.min.js') }}"></script>
 
 </body>
+
 </html>

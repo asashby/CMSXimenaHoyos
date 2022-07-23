@@ -16,14 +16,18 @@ class UsersTableSeeders extends Seeder
         $userRecord = [
             [
                 'id' => 1,
-                'name' => 'Airom',
-                'sur_name' => 'Vergara',
-                'email' => 'airom@gmail.com',
-                'password' => '$2y$10$1YE0fji.pxz.g4S./hIRdOHUvVN7RYvD.vaAHWaC4qzFE3JbK8CUu',
+                'name' => 'Administrator',
+                'sur_name' => 'Admin',
+                'email' => 'admin@gmail.com',
+                'password' => bcrypt('Admin 123'),
                 'is_activated' => 1,
                 'external_enterprise' => 0,
                 'enterprise' => 'Enel',
-                'addittional_info' => json_encode(['gender' => 'male', 'worker_type' => 'Independiente', 'nameCity' => 'Lima']),
+                'addittional_info' => json_encode([
+                    'gender' => 'male',
+                    'worker_type' => 'Independiente',
+                    'nameCity' => 'Lima'
+                ]),
                 'created_at' => $fecha,
                 'updated_at' => $fecha,
             ],

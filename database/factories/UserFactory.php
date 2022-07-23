@@ -44,7 +44,7 @@ $factory->define(Article::class, function (Faker $faker) {
         'route' => $slug,
         'title' => $title,
         'subtitle' => $sub_title,
-        'resume' => $faker->paragraph,
+        'description' => $faker->paragraph,
         'content' => $faker->paragraph,
         'page_image' => 'https://placeimg.com/100/100/any?' . rand(1, 100),
         'published_at' => now(),
@@ -55,7 +55,8 @@ $factory->define(App\Course::class, function (Faker $faker) {
         'title' => $faker->name,
         'is_activated' => true,
         'url_image' => $faker->url,
-        'file_url' => null
+        'file_url' => null,
+        'days' => 10
     ];
 });
 
