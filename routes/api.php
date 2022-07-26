@@ -123,7 +123,6 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::post('order/payment', 'Api\orderController@createOrder');
     Route::get('order-user', 'Api\orderController@OrdersByUser');
 
-
     // Route::get('units/{id}/questions-user', 'Api\UnitController@questionsByUnitUser');
     // Route::get('questions', 'Api\QuestionController@index');
     // Route::get('questions/{id}/answers-user', 'Api\QuestionController@index');

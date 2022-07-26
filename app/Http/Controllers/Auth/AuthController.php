@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Hash;
 use App\Tip;
 use App\Area;
 use App\User;
@@ -10,27 +9,22 @@ use DateTime;
 use Validator;
 use App\Slider;
 use App\Article;
-// use JWTAuth;
 use App\Company;
 use App\Section;
 use DateTimeZone;
 use App\Addresses;
 use Illuminate\Support\Str;
-use App\Mail\ActivationMail;
 use Illuminate\Http\Request;
-use App\Mail\ResetPasswordMail;
 use App\Http\Requests\MailRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\RegisterRequest;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Requests\ResetPasswordRequest;
-use Tymon\JWTAuth\Facades\JWTAuth as JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use GuzzleHttp\Client as GuzzleHttpClient;
-use GuzzleHttp\Exception\ClientException;
 
 class AuthController extends Controller
 {
@@ -347,7 +341,6 @@ class AuthController extends Controller
 
     public function ResetPassword(ResetPasswordRequest $request)
     {
-
         $token = $request->get('token');
         $password = $request->get('password');
         $passwordReset = DB::table('password_resets')->where('token', $token)->first();

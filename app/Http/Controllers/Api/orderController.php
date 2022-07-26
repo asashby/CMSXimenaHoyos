@@ -25,9 +25,16 @@ class orderController extends Controller
                 $order->shipping = $request->shipping ?? [];
                 $order->cost_shipping = $request->cost_shipping;
                 $order->total = $request->total ?? 0.0;
-                $order->save();
-                if ($order) {
-                    Mail::send('emails.confirmOrder', ['user' => $user, 'dataOrder' => $request->line_items, 'orderId' =>  $order->id, 'price' => $request->total, 'dateOrder' => fecha_string(), 'shipping', $request->cost_shipping ?? 0], function ($message) use ($emailUser) {
+                $orderIsSaved = $order->save();
+                if ($orderIsSaved) {
+                    Mail::send('emails.confirmOrder', [
+                        'user' => $user,
+                        'dataOrder' => $order->detail,
+                        'orderId' =>  $order->id,
+                        'price' => $order->total,
+                        'dateOrder' => fecha_string(),
+                        'shipping' => $order->cost_shipping ?? 0
+                    ], function ($message) use ($emailUser) {
                         $message->to($emailUser);
                         $message->subject('Compra Exitosa');
                     });
