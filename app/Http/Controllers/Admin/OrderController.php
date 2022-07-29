@@ -13,7 +13,7 @@ class OrderController extends Controller
     public function index()
     {
         Session::put('page', 'orders');
-        $orders = Order::with('user')->get();
+        $orders = Order::query()->with('user')->get();
         $company = new Company;
         $companyData = $company->getCompanyInfo();
         return view('admin.orders.orders', compact('orders', 'companyData'));

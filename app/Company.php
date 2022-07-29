@@ -25,8 +25,7 @@ class Company extends Model
 
     public function getCompanyInfo()
     {
-        $company = Company::where('code', env('CODE_COMPANY'))->first();
-        return $company;
+        return Company::query()->where('code', env('CODE_COMPANY'))->first();
     }
 
     public function cleanSlug($title)

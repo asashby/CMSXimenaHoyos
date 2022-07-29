@@ -15,7 +15,7 @@ class AdminTableSeeder extends Seeder
         $adminRecords = [
             [
                 'id' => 1,
-                'name' => 'Ichu',
+                'name' => 'Admin',
                 'type' => 'admin',
                 'email' => 'admin@gmail.com',
                 'password' => bcrypt('Admin 123'),

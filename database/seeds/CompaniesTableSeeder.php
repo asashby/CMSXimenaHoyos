@@ -33,7 +33,8 @@ class CompaniesTableSeeder extends Seeder
                         'seoTitle' => '',
                         'seoDescription' => '',
                         'seoImage' => '',
-                    ]),
+                    ]
+                ),
                 'cookiePolicy' => json_encode([
                     'title' => 'Políticas de cookies',
                     'slug' => 'políticas-de-cookies',
@@ -55,7 +56,17 @@ class CompaniesTableSeeder extends Seeder
                 'companySeo' => json_encode([
                     'title' => 'SEO para Compañia',
                     'description' => 'Esta es una compañia para SEO',
-                    'url_image' =>'',
+                    'url_image' => '',
+                ]),
+                'facebook' => json_encode([
+                    'client_id' => '',
+                    'client_secret' => '',
+                    'redirect' => '',
+                ]),
+                'google' => json_encode([
+                    'client_id' => '',
+                    'client_secret' => '',
+                    'redirect' => '',
                 ]),
                 'beforeRegister' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam et ligula efficitur, facilisis erat auctor, faucibus nisl. Nunc varius nisi nulla, euismod rutrum risus eleifend nec. Etiam posuere aliquam sollicitudin. Proin placerat non libero varius vestibulum. Nullam sit amet feugiat felis. Nunc ut nibh sit amet nibh dignissim imperdiet quis quis felis. Nam at tristique sapien. Aenean commodo ante at tellus pulvinar, nec faucibus leo fringilla. Nullam purus augue, faucibus et interdum quis, elementum eu orci.',
             ],

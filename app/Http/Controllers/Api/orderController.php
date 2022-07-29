@@ -7,6 +7,7 @@ use App\Order;
 use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\OrderResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -64,8 +65,7 @@ class orderController extends Controller
             $user = Auth::user();
             if ($user) {
                 $limit = $request->get('limit') ?? 10;
-                $ordersUser = User::find($user->id)->orders()->paginate($limit);
-                return $ordersUser;
+                return OrderResource::collection(Order::query()->where('user_id', $user->id)->paginate($limit));
             }
             return response()->json([
                 'status' => 400,
