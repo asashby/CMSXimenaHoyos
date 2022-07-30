@@ -25,6 +25,7 @@ class OrderResource extends JsonResource
             'total' => $this->total,
             'state_id' => $this->state_id,
             'state_name' => Order::STATES[$this->state_id],
+            'created_at' => $this->created_at,
         ];
     }
 }

@@ -54,6 +54,7 @@
                   <thead>
                     <tr>
                       <th>Id</th>
+                      <th>Fecha</th>
                       <th>Usuario</th>
                       <th>Envio</th>
                       <th>Total</th>
@@ -65,6 +66,7 @@
                     @foreach ($orders as $order)
                       <tr>
                         <td>{{ $order->id }}</td>
+                        <td>{{ $order->created_at }}</td>
                         <td>
                           {{ $order->user->name }} {{ $order->user->sur_name }}
                           <br>
