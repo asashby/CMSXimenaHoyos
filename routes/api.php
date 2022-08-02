@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\MailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -136,6 +137,8 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
     //Rutas para Culqui
     Route::post('culqui/create-charge', 'Api\CulquiController@createCharge');
+
+    Route::post('client-contact', [MailController::class, 'clientContact']);
 });
 
 

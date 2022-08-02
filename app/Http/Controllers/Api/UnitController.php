@@ -7,8 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Question;
 use App\Unit;
 use App\User;
-use JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTExceptions;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
