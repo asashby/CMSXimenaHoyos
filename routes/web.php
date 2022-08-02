@@ -119,8 +119,7 @@ Route::namespace('Admin')->group(function () {
         //Orders
         Route::resource('/orders', 'OrderController');
         Route::get('order/{id}/detail', 'OrderController@detail');
-        Route::post('upd-order-status', 'OrderController@updateOrderStatus');
-        Route::get('order/cancel/{id}', 'OrderController@cancelOrder');
+        Route::post('order/change-state', 'OrderController@changeOrderState')->name('orders.changeState');
         /*Route::post('/upd-product-status', 'ProductController@updateProductStatus');
         Route::match(['get', 'post'], '/products/create', 'ProductController@addProduct');
         Route::match(['get', 'post'], '/products/edit/{id?}', 'ProductController@editProduct');

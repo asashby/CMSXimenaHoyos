@@ -80,18 +80,16 @@
                           @php
                             $stateClass = $order->state_id == 1 ? 'badge-info' : ($order->state_id == 2 ? 'badge-success' : 'badge-danger');
                           @endphp
-                          <small class="badge {{ $stateClass }}" style="cursor: pointer;">
+                          <small class="badge {{ $stateClass }}" style="cursor: pointer;" data-toggle="modal"
+                            data-state="{{ $order->state_id }}" data-target="#changeStateModal"
+                            data-id="{{ $order->id }}">
                             {{ $order->getStateNameAttribute() }}
                           </small>
                         </td>
                         <td>
-                          <a data-toggle="modal" id="detailOrder" data-id="{{ $order->id }}"
+                          <a class="btn-sm" data-toggle="modal" id="detailOrder" data-id="{{ $order->id }}"
                             data-target="#productsList" title="Ver Productos">
-                            <i style="color: blue; cursor:pointer" class="fas fa-eye"></i>
-                          </a>
-                          <a href="javascript:void(0)" class="confirmCancel" style="cursor: pointer;" record="order"
-                            recordId="{{ $order->id }}" data-toggle="tooltip" title="Anular">
-                            <i style="color: red;" class="fas fa-trash-alt"></i>
+                            <i style="color: blue; cursor:pointer" class="far fa-eye"></i>
                           </a>
                         </td>
                       </tr>
@@ -143,6 +141,50 @@
       </div>
     </div>
   </div>
-
+  {{-- Modal Change State --}}
+  <div class="modal fade" id="changeStateModal" tabindex="-1" aria-labelledby="changeStateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title">Cambiar Estado</h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="{{ route('orders.changeState') }}" method="POST">
+          @csrf
+          <div class="modal-body">
+            <input type="hidden" name="id" id="order-id">
+            <div class="form-group">
+              <label for="state_id">Estado</label>
+              <select name="state_id" id="state_id" class="form-control" required>
+                @foreach (App\Order::STATES as $state_key => $state_name)
+                  <option value="{{ $state_key }}">{{ $state_name }}</option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger " data-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-success ">Cambiar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
   <!-- /.content-wrapper -->
+@endsection
+@section('scripts')
+  <script>
+    $(document).ready(function() {
+      $('#changeStateModal').on('shown.bs.modal', function(event) {
+        const button = $(event.relatedTarget);
+        const orderId = button.data("id")
+        const stateId = button.data("state");
+        $('#state').trigger('focus')
+        $("#order-id").val(orderId);
+        $("#state_id").val(stateId);
+      })
+    });
+  </script>
 @endsection

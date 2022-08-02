@@ -21,35 +21,16 @@ class OrderController extends Controller
 
     public function detail($id)
     {
-        $orderDetail = Order::select('detail')->where('id', $id)->first();
-        return $orderDetail;
+        return Order::query()->select('detail')->where('id', $id)->first();
     }
 
-    public function updateOrderStatus(Request $request)
+    public function changeOrderState(Request $request)
     {
-        if ($request->ajax()) {
-            $data = $request->all();
-            if ($data['status'] == 'Pendiente') {
-                $status = 2;
-            } else {
-                $status = 1;
-            }
-            Order::where('id', $data['order_id'])->update(['state_id' => $status]);
-            return response()->json(['status' => $status, 'order_id' => $data['order_id']]);
+        $order = Order::query()->findOrFail($request->input('id'));
+        if (array_key_exists($request->input('state_id'), Order::STATES)) {
+            $order->state_id = $request->input('state_id');
+            $order->save();
         }
-    }
-
-    public function cancelOrder(Request $request)
-    {
-        if ($request->ajax()) {
-            $data = $request->all();
-            if ($data['status'] == 'Pendiente') {
-                $status = 2;
-            } else {
-                $status = 1;
-            }
-            Order::where('id', $data['order_id'])->update(['state_id' => $status]);
-            return response()->json(['status' => $status, 'order_id' => $data['order_id']]);
-        }
+        return redirect()->route('orders.index');
     }
 }
