@@ -64,6 +64,15 @@
                                 placeholder="Ingrese Resumen"
                                 style="margin-top: 0px; margin-bottom: 0px; height: 93px;">{!! $focusedDetail->description !!}</textarea>
                         </div>
+                         <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Video de Portada</label>
+                                    <input type="text" class="form-control" id="focusedUrlVideo" name="focusedUrlVideo"
+                                        placeholder="Ingrese Titulo" value="{{ $focusedDetail->video_url }}">
+                                </div>
+                            </div>
+                        </div>
                         {{-- <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
