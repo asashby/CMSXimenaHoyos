@@ -1,27 +1,27 @@
 @extends('layouts.admin_layout')
 @section('title', 'Cambiar Contraseña')
 @section('content')
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+
+  <div class="content-wrapper">
+
     <div class="content-header">
-        <div class="container-fluid">
+      <div class="container-fluid">
         <div class="row mb-2">
-            <div class="col-sm-6">
+          <div class="col-sm-6">
             <h1 class="m-0 text-dark">Configuracion</h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
+          </div>
+          <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Home</a></li>
-                <li class="breadcrumb-item active">Settings</li>
+              <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Home</a></li>
+              <li class="breadcrumb-item active">Settings</li>
             </ol>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+          </div>
+        </div>
+      </div>
     </div>
     <!-- /.content-header -->
 
-    <!-- Main content -->
+
     <section class="content">
       <div class="container-fluid">
         <div class="row">
@@ -32,8 +32,8 @@
               <div class="card-header">
                 <h3 class="card-title">Actualizar Contraseña</h3>
               </div>
-              <!-- /.card-header -->
-              
+
+
               @if (Session::has('error_message'))
                 <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
                   {{ Session::get('error_message') }}
@@ -54,30 +54,35 @@
 
 
               <!-- form start -->
-              <form role="form" method="post" action="{{ url('/dashboard/update-pwd')}}" name="updatePasswordForm" id="updatePasswordForm">@csrf
+              <form role="form" method="post" action="{{ url('/dashboard/update-pwd') }}" name="updatePasswordForm"
+                id="updatePasswordForm">@csrf
                 <div class="card-body">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Nombre</label>
-                        <input type="text" class="form-control" value="{{ $adminDetails->name }}" placeholder="Ingrese Nombre" id="adminName" name="adminName">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Email</label>
-                        <input type="email" value="{{ $adminDetails->email }}" class="form-control" readonly="">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Contraseña Actual</label>
-                        <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="Contraseña Actual" required>
-                        <span id="verCurrPwd"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Contraseña Nueva</label>
-                        <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="Nueva Contraseña">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Confirmar Contraseña</label>
-                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirmar Nueva Contraseña" required>
-                    </div>
-                 {{--   <div class="form-group">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Nombre</label>
+                    <input type="text" class="form-control" value="{{ $adminDetails->name }}"
+                      placeholder="Ingrese Nombre" id="adminName" name="adminName">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Email</label>
+                    <input type="email" value="{{ $adminDetails->email }}" class="form-control" readonly="">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Contraseña Actual</label>
+                    <input type="password" class="form-control" id="currentPassword" name="currentPassword"
+                      placeholder="Contraseña Actual" required>
+                    <span id="verCurrPwd"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Contraseña Nueva</label>
+                    <input type="password" class="form-control" id="newPassword" name="newPassword"
+                      placeholder="Nueva Contraseña">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Confirmar Contraseña</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                      placeholder="Confirmar Nueva Contraseña" required>
+                  </div>
+                  {{-- <div class="form-group">
                     <label for="exampleInputFile">File input</label>
                     <div class="input-group">
                       <div class="custom-file">
@@ -88,22 +93,22 @@
                         <span class="input-group-text" id="">Upload</span>
                       </div>
                     </div>
-                  </div>  --}}
-                {{--    <div class="form-check">
+                  </div> --}}
+                  {{-- <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                     <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                  </div>  --}}
+                  </div> --}}
                 </div>
-                <!-- /.card-body -->
+
 
                 <div class="card-footer">
                   <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
               </form>
             </div>
-            <!-- /.card -->
 
-{{--              <!-- Form Element sizes -->
+
+            {{-- <!-- Form Element sizes -->
             <div class="card card-success">
               <div class="card-header">
                 <h3 class="card-title">Different Height</h3>
@@ -115,9 +120,9 @@
                 <br>
                 <input class="form-control form-control-sm" type="text" placeholder=".form-control-sm">
               </div>
-              <!-- /.card-body -->
+
             </div>
-            <!-- /.card -->
+
 
             <div class="card card-danger">
               <div class="card-header">
@@ -136,9 +141,9 @@
                   </div>
                 </div>
               </div>
-              <!-- /.card-body -->
+
             </div>
-            <!-- /.card -->
+
 
             <!-- Input addon -->
             <div class="card card-info">
@@ -224,7 +229,7 @@
                   </div>
                   <!-- /.col-lg-6 -->
                 </div>
-                <!-- /.row -->
+
 
                 <h5 class="mt-4 mb-2">With buttons</h5>
 
@@ -267,15 +272,15 @@
                 </div>
                 <!-- /input-group -->
               </div>
-              <!-- /.card-body -->
+
             </div>
-            <!-- /.card -->
+
             <!-- Horizontal Form -->
             <div class="card card-info">
               <div class="card-header">
                 <h3 class="card-title">Horizontal Form</h3>
               </div>
-              <!-- /.card-header -->
+
               <!-- form start -->
               <form class="form-horizontal">
                 <div class="card-body">
@@ -300,26 +305,24 @@
                     </div>
                   </div>
                 </div>
-                <!-- /.card-body -->
+
                 <div class="card-footer">
                   <button type="submit" class="btn btn-info">Sign in</button>
                   <button type="submit" class="btn btn-default float-right">Cancel</button>
                 </div>
                 <!-- /.card-footer -->
               </form>
-            </div>
-            <!-- /.card -->
-  --}}
+            </div> --}}
           </div>
           <!--/.col (left) -->
-       {{--     <!-- right column -->
+          {{-- <!-- right column -->
           <div class="col-md-6">
             <!-- general form elements disabled -->
             <div class="card card-warning">
               <div class="card-header">
                 <h3 class="card-title">General Elements</h3>
               </div>
-              <!-- /.card-header -->
+
               <div class="card-body">
                 <form role="form">
                   <div class="row">
@@ -387,7 +390,7 @@
                           <label class="form-check-label">Checkbox disabled</label>
                         </div>
                       </div>
-                    </div> 
+                    </div>
                     <div class="col-sm-6">
                       <!-- radio -->
                       <div class="form-group">
@@ -464,15 +467,15 @@
                   </div>
                 </form>
               </div>
-              <!-- /.card-body -->
+
             </div>
-            <!-- /.card -->
+
             <!-- general form elements disabled -->
             <div class="card card-secondary">
               <div class="card-header">
                 <h3 class="card-title">Custom Elements</h3>
               </div>
-              <!-- /.card-header -->
+
               <div class="card-body">
                 <form role="form">
                   <div class="row">
@@ -492,7 +495,7 @@
                           <label for="customCheckbox3" class="custom-control-label">Custom Checkbox disabled</label>
                         </div>
                       </div>
-                    </div> 
+                    </div>
                     <div class="col-sm-6">
                       <!-- radio -->
                       <div class="form-group">
@@ -610,16 +613,16 @@
                   </div>
                 </form>
               </div>
-              <!-- /.card-body -->
+
             </div>
-            <!-- /.card -->
+
           </div>
-          <!--/.col (right) -->  --}}
+          <!--/.col (right) --> --}}
         </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
+
+      </div>
     </section>
-    <!-- /.content -->
-    <!-- /.content -->
-    </div>
+
+
+  </div>
 @endsection

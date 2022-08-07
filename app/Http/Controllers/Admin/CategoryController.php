@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Company;
-use Session;
+
 use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 
 class CategoryController extends Controller
 {
@@ -26,7 +27,6 @@ class CategoryController extends Controller
 
     public function addCategory(Request $request)
     {
-
         if ($request->isMethod('post')) {
             $data = $request->all();
 

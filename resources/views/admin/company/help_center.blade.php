@@ -1,9 +1,9 @@
 @extends('layouts.admin_layout')
 @section('title', 'Actualizar Datos')
 @section('content')
-  <!-- Content Wrapper. Contains page content -->
+
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+
     <div class="content-header">
       <div class="container-fluid">
         @if (Session::has('error_message'))
@@ -25,27 +25,27 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0 text-dark">Configuración de la Compañia</h1>
-          </div><!-- /.col -->
+          </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Home</a></li>
               <li class="breadcrumb-item active">Settings</li>
             </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
+          </div>
+        </div>
+      </div>
     </div>
     <!-- /.content-header -->
 
-    <!-- Main content -->
+
     <section class="content">
       <div class="container-fluid">
-        <!-- SELECT2 EXAMPLE -->
+
         <div class="card card-default">
           <div class="card-header">
             <h3 class="card-title">Editar Datos de la Compañía</h3>
           </div>
-          <!-- /.card-header -->
+
           <div class="card-body">
             @if ($errors->any())
               <div class="alert alert-danger" style="margin-top: 10px;">
@@ -134,28 +134,28 @@
                     <input type="hidden" name="currentCompanyIcon" value="{{ $companyData->companyInfo->url_icon }}">
                   </div>
                 </div>
-                <!-- /.col -->
-                <!-- /.col -->
+
+
               </div>
           </div>
-          <!-- /.row -->
+
           <div class="card-footer">
             <div class="form-actions">
               <input type="submit" value="Actualizar Configuración" class="btn btn-info">
             </div>
           </div>
           </form>
-          <!-- /.row -->
+
 
         </div>
-        <!-- /.card-body -->
+
 
       </div>
-      <!-- /.card -->
-  </div><!-- /.container-fluid -->
+
+  </div>
   </section>
-  <!-- /.content -->
-  <!-- /.content -->
+
+
   <script>
     function preview_image(event) {
       var reader = new FileReader();

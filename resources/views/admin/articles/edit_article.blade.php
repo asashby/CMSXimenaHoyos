@@ -1,9 +1,9 @@
 @extends('layouts.admin_layout')
 @section('title', 'Editar Datos')
 @section('content')
-  <!-- Content Wrapper. Contains page content -->
+
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -17,10 +17,10 @@
             </ol>
           </div>
         </div>
-      </div><!-- /.container-fluid -->
+      </div>
     </section>
 
-    <!-- Main content -->
+
     <section class="content">
       <div class="container-fluid">
         @if (Session::has('error_message'))
@@ -39,12 +39,12 @@
             </button>
           </div>
         @endif
-        <!-- SELECT2 EXAMPLE -->
+
         <div class="card card-default">
           <div class="card-header">
             <h3 class="card-title">Editar Datos</h3>
           </div>
-          <!-- /.card-header -->
+
           <div class="card-body">
             @if ($errors->any())
               <div class="alert alert-danger" style="margin-top: 10px;">
@@ -94,7 +94,7 @@
                       placeholder="Ingrese Texto Link">
                   </div>
                 </div>
-                <!-- /.col -->
+
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="exampleInputFile">Insertar Imagen Banner</label>
@@ -128,7 +128,7 @@
                     <input type="hidden" name="currentUrlVideo" value="{{ $articleDetail->url_video }}">
                   </div>
                 </div>
-                <!-- /.col -->
+
               </div>
 
               <h5>Contenido del Articulo</h5>
@@ -144,27 +144,27 @@
                 </div>
                 <!-- /.form-group -->
               </div>
-              <!-- /.col -->
+
           </div>
-          <!-- /.row -->
+
           <div class="card-footer">
             <div class="form-actions">
               <input type="submit" value="Actualizar Datos" class="btn btn-info">
             </div>
           </div>
           </form>
-          <!-- /.row -->
+
 
         </div>
-        <!-- /.card-body -->
+
 
       </div>
-      <!-- /.card -->
-  </div><!-- /.container-fluid -->
-  </section>
-  <!-- /.content -->
+
   </div>
-  <!-- /.content-wrapper -->
+  </section>
+
+  </div>
+
   <script type='text/javascript'>
     function preview_image(event) {
       var reader = new FileReader();

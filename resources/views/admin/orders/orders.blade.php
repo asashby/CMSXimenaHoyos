@@ -1,9 +1,9 @@
 @extends('layouts.admin_layout')
 @section('title', 'Ordenes')
 @section('content')
-  <!-- Content Wrapper. Contains page content -->
+
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -17,9 +17,9 @@
             </ol>
           </div>
         </div>
-      </div><!-- /.container-fluid -->
+      </div>
     </section>
-    <!-- Main content -->
+
     <section class="content">
       <div class="container-fluid">
         @if (Session::has('error_message'))
@@ -48,7 +48,7 @@
                                 style="max-width: 150px; float: right; display:inline-block;"
                                 class="btn btn-block btn-success">Agregar Plan</a>
                         </div> --}}
-              <!-- /.card-header -->
+
               <div class="card-body">
                 <table id="ordersTable" class="table table-bordered table-striped">
                   <thead>
@@ -98,17 +98,17 @@
                 </table>
               </div>
             </div>
-            <!-- /.card-body -->
+
           </div>
-          <!-- /.card -->
+
         </div>
-        <!-- /.col -->
+
       </div>
-      <!-- /.row -->
+
   </div>
-  <!-- /.container-fluid -->
+
   </section>
-  <!-- /.content -->
+
   </div>
   {{-- -- LISTAR PREGUNTAS POR UNIDAD --- --}}
   <div class="modal fade" id="productsList" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -172,7 +172,7 @@
       </div>
     </div>
   </div>
-  <!-- /.content-wrapper -->
+
 @endsection
 @section('scripts')
   <script>

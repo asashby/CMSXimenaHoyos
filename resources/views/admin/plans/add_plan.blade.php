@@ -1,88 +1,87 @@
 @extends('layouts.admin_layout')
 @section('title', 'Crear Plan')
 @section('content')
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+
+  <div class="content-wrapper">
+
     <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Planes</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{ url('dashboard/plans') }}">Planes</a></li>
-                        <li class="breadcrumb-item active">Agregar Planes</li>
-                    </ol>
-                </div>
-            </div>
-        </div><!-- /.container-fluid -->
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Planes</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Home</a></li>
+              <li class="breadcrumb-item"><a href="{{ url('dashboard/plans') }}">Planes</a></li>
+              <li class="breadcrumb-item active">Agregar Planes</li>
+            </ol>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- Main content -->
+
     <section class="content">
-        <div class="container-fluid">
-            <!-- SELECT2 EXAMPLE -->
-            <div class="card card-default">
-                <div class="card-header">
-                    <h3 class="card-title">Agregar Plan</h3>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                    @if ($errors->any())
-                    <div class="alert alert-danger" style="margin-top: 10px;">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @endif
-                    <form method="post" action="{{ url('dashboard/plans/create')}}" name="createRecipe"
-                        id="createRecipe" enctype="multipart/form-data">@csrf
-                        <div class="row">
-                            <div class="col-md-6">
-                                {{-- <div class="form-group">
+      <div class="container-fluid">
+
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">Agregar Plan</h3>
+          </div>
+
+          <div class="card-body">
+            @if ($errors->any())
+              <div class="alert alert-danger" style="margin-top: 10px;">
+                <ul>
+                  @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                  @endforeach
+                </ul>
+              </div>
+            @endif
+            <form method="post" action="{{ url('dashboard/plans/create') }}" name="createRecipe" id="createRecipe"
+              enctype="multipart/form-data">@csrf
+              <div class="row">
+                <div class="col-md-6">
+                  {{-- <div class="form-group">
                                     <label>Seleccione Reto</label>
                                     <select id="challenges" name="challenges[]" class="form-control"
                                         multiple="multiple">
                                         <?php echo $courses_drop_down; ?>
                                     </select>
                                 </div> --}}
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Título</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" name="planTitle"
-                                        placeholder="Ingrese Titulo">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Descripcion de Plan</label>
-                                    <textarea class="form-control" name="planResume" id="planResume"
-                                        placeholder="Ingrese Resumen"
-                                        style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Cantidad de Meses</label>
-                                    <input type="number" class="form-control" id="exampleInputEmail1" name="planMonths"
-                                        placeholder="Numero de Meses">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Precio</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" name="planPrice"
-                                        placeholder="Ingrese Dificultad">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Asignar Retos</label><br>
-                                    @foreach ($courses as $id => $course)
-                                    <input type="checkbox" name="courses[]" value="{{ $id }}">{{ $course }}<br />
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Título</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" name="planTitle"
+                      placeholder="Ingrese Titulo">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Descripcion de Plan</label>
+                    <textarea class="form-control" name="planResume" id="planResume" placeholder="Ingrese Resumen"
+                      style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Cantidad de Meses</label>
+                    <input type="number" class="form-control" id="exampleInputEmail1" name="planMonths"
+                      placeholder="Numero de Meses">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Precio</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" name="planPrice"
+                      placeholder="Ingrese Dificultad">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Asignar Retos</label><br>
+                    @foreach ($courses as $id => $course)
+                      <input type="checkbox" name="courses[]" value="{{ $id }}">{{ $course }}<br />
+                    @endforeach
+                  </div>
+                </div>
+              </div>
 
 
-                        {{-- <div class="row">
+              {{-- <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="mb-2">Registrar Ingredientes</label>
@@ -116,71 +115,65 @@
                                 </div>
                             </div>
                         </div> --}}
-                </div>
+          </div>
 
-                <!-- /.row -->
-                <div class="card-footer">
-                    <div class="form-actions">
-                        <input type="submit" value="Publicar" class="btn btn-info">
-                    </div>
-                </div>
-                </form>
-                <!-- /.row -->
 
+          <div class="card-footer">
+            <div class="form-actions">
+              <input type="submit" value="Publicar" class="btn btn-info">
             </div>
-            <!-- /.card-body -->
+          </div>
+          </form>
+
 
         </div>
-        <!-- /.card -->
+
+
+      </div>
+
     </section>
 
 
 
-    <!-- /.content -->
-</div>
-<!-- /.content-wrapper -->
 
-<script>
-    function preview_image(event)
-        {
-            var reader = new FileReader();
-            reader.onload = function()
-            {
-            var output = document.getElementById('output_image');
-            output.src = reader.result;
-            output.width = 400;
-            output.height = 300
+  </div>
 
-            }
-            reader.readAsDataURL(event.target.files[0]);
-        }
 
-        function preview_image2(event)
-        {
-            var reader = new FileReader();
-            reader.onload = function()
-            {
-            var output = document.getElementById('output_image2');
-            output.src = reader.result;
-            output.width = 400;
-            output.height = 300
+  <script>
+    function preview_image(event) {
+      var reader = new FileReader();
+      reader.onload = function() {
+        var output = document.getElementById('output_image');
+        output.src = reader.result;
+        output.width = 400;
+        output.height = 300
 
-            }
-            reader.readAsDataURL(event.target.files[0]);
-        }
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
 
-        function preview_image3(event)
-        {
-            var reader = new FileReader();
-            reader.onload = function()
-            {
-            var output = document.getElementById('output_image3');
-            output.src = reader.result;
-            output.width = 400;
-            output.height = 300
+    function preview_image2(event) {
+      var reader = new FileReader();
+      reader.onload = function() {
+        var output = document.getElementById('output_image2');
+        output.src = reader.result;
+        output.width = 400;
+        output.height = 300
 
-            }
-            reader.readAsDataURL(event.target.files[0]);
-        }
-</script>
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+
+    function preview_image3(event) {
+      var reader = new FileReader();
+      reader.onload = function() {
+        var output = document.getElementById('output_image3');
+        output.src = reader.result;
+        output.width = 400;
+        output.height = 300
+
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  </script>
 @endsection
