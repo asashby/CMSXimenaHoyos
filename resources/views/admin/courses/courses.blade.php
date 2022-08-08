@@ -37,7 +37,7 @@
         @endif
         <div class="row">
           <div class="col-12">
-            <!--Elegido-->
+
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Tabla de Retos</h3>

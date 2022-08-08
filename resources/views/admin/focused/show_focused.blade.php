@@ -1,17 +1,18 @@
 @extends('layouts.admin_layout')
-@section('title', 'Ejercicios Focalizados')
+@section('title', 'Detalle Ejercicio Focalizado')
 @section('content')
   <div class="content-wrapper">
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Ejercicios Focalizados</h1>
+            <h1>Detalle Ejercicio Focalizado: {{ $focused->title }}</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Home</a></li>
-              <li class="breadcrumb-item active">Ejercicios Focalizados</li>
+              <li class="breadcrumb-item"><a href="{{ route('focused.index') }}">Ejercicios Focalizados</a></li>
+              <li class="breadcrumb-item active">Detalle</li>
             </ol>
           </div>
         </div>
@@ -37,13 +38,12 @@
         @endif
         <div class="row">
           <div class="col-12">
-
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Tabla de Ejercicios Focalizados</h3>
-                <a href="{{ url('dashboard/focused/create') }}" style="float: right; display:inline-block;"
-                  class="btn btn-success">
-                  Agregar Focalizado
+                <h3 class="card-title">Tabla de Ejercicios: {{ $focused->title }}</h3>
+                <a href="{{ route('focused_exercise_item.create', ['focused_exercise_id' => $focused->id]) }}"
+                  style="float: right;" class="btn btn-success">
+                  Agregar Ejercicio
                 </a>
               </div>
               <div class="card-body">
@@ -51,33 +51,37 @@
                   <thead>
                     <tr>
                       <th>Título</th>
-                      <th>Descripción</th>
                       <th>Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach ($exercises as $exercise)
+                    @foreach ($focused->focused_exercise_items as $focusedExerciseItem)
                       <tr>
-                        <td>{{ $exercise->title }}</td>
-                        <td>{{ $exercise->subtitle }}</td>
+                        <td>{{ $focusedExerciseItem->title }}</td>
                         <td>
-                          <a href="{{ route('focused.show', $exercise->id) }}" data-toggle="tooltip" class="btn-sm"
-                            title="Detalle">
-                            <i class="fas fa-eye text-info"></i>
-                          </a>
-                          <a data-toggle="tooltip" href="{{ url('dashboard/focused/edit/' . $exercise->id) }}"
-                            title="Editar" class="btn-sm">
-                            <i class="far fa-edit"></i>
-                          </a>
-                          <a href="javascript:void(0)" class="confirmDelete btn-sm" style="cursor: pointer;"
-                            record="focused" recordId="{{ $exercise->id }}" data-toggle="tooltip" title="Eliminar">
-                            <i class="fas fa-trash-alt text-danger"></i>
-                          </a>
+                          <form action="{{ route('focused_exercise_item.destroy', $focusedExerciseItem->id) }}"
+                            method="post" onsubmit="return confirm('Eliminar?')">
+                            @csrf
+                            @method('DELETE')
+                            <a data-toggle="tooltip"
+                              href="{{ route('focused_exercise_item.edit', $focusedExerciseItem->id) }}" title="Editar"
+                              class="btn btn-sm">
+                              <i class="far fa-edit text-primary"></i>
+                            </a>
+                            <button type="submit" class="btn btn-sm btn-link" data-toggle="tooltip" title="Eliminar">
+                              <i class="fas fa-trash-alt text-danger"></i>
+                            </button>
+                          </form>
                         </td>
                       </tr>
                     @endforeach
                   </tbody>
                 </table>
+              </div>
+              <div class="card-footer">
+                <a class="btn btn-secondary" href="{{ route('focused.index') }}">
+                  <i class="fas fa-undo"></i> Regresar
+                </a>
               </div>
             </div>
           </div>

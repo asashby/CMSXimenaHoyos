@@ -10,7 +10,7 @@ use App\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
-use Session;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\File as File;
 
 class CourseController extends Controller

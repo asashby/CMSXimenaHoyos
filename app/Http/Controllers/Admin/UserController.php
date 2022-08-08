@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Session;
+use Illuminate\Support\Facades\Session;
 use App\Plan;
 use App\User;
 use App\Course;
@@ -88,7 +88,7 @@ class UserController extends Controller
         $user->external_enterprise = $request->external_enterprise;
         $user->enterprise = $request->enterprise;
         $finalArray = array();
-        $date_now = Carbon::now('America/Lima');
+        $date_now = Carbon::now();
         if (isset($request->plans)) {
             foreach ($request->plans as $plan) {
                 $detPlan = Plan::find($plan);

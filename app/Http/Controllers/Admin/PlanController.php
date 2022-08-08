@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Session;
+use Illuminate\Support\Facades\Session;
 use App\Plan;
 use Exception;
 use App\Course;

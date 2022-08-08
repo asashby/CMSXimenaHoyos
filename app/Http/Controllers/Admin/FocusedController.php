@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Session;
 use App\Company;
-use File;
 use App\Focused;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 
 class FocusedController extends Controller
 {
@@ -30,36 +30,10 @@ class FocusedController extends Controller
             $focused = new Focused();
 
             $focused->slug = Str::slug($data['focusedTitle']);
-            //echo '<pre>'; print_r($slug); die;
 
             if (!File::exists('images/backend_images/focused')) {
                 $path = 'images/admin_images/focused';
                 File::makeDirectory($path, 0755, true, true);
-            }
-
-            // Upload Image
-            if ($request->hasFile('focusedImage')) {
-                $image_tmp = $request->file('focusedImage');
-                if ($image_tmp->isValid()) {
-                    // Upload Images after Resize
-                    $extension = $image_tmp->getClientOriginalExtension();
-                    $fileName = rand(111, 99999) . '.' . $extension;
-                    $large_image_path = 'images/admin_images/focused/' . $fileName;
-                    Image::make($image_tmp)->save($large_image_path);
-                    $focused->page_image = env('URL_DOMAIN') . '/' . $large_image_path;
-                }
-            }
-
-            if ($request->hasFile('focusedMobileImage')) {
-                $image_tmp = $request->file('focusedMobileImage');
-                if ($image_tmp->isValid()) {
-                    // Upload Images after Resize
-                    $extension = $image_tmp->getClientOriginalExtension();
-                    $fileName = rand(111, 99999) . '.' . $extension;
-                    $large_image_path = 'images/admin_images/focused/' . $fileName;
-                    Image::make($image_tmp)->save($large_image_path);
-                    $focused->mobile_image = env('URL_DOMAIN') . '/' . $large_image_path;
-                }
             }
 
             if (empty($data['focusedUrlVideo'])) {
@@ -69,7 +43,7 @@ class FocusedController extends Controller
             $focused->title = $data['focusedTitle'];
             $focused->subtitle = $data['focusedSubTitle'];
             $focused->video_url = !empty($data['focusedUrlVideo']) ? $data['focusedUrlVideo'] : '';
-            $focused->published_at = Carbon::now('America/Lima');
+            $focused->published_at = Carbon::now();
             $focused->description = htmlspecialchars_decode(e($data['focusedContent']));
 
             $focused->save();
@@ -83,69 +57,15 @@ class FocusedController extends Controller
 
     public function editFocused(Request $request, $id)
     {
-
         if ($request->isMethod('post')) {
 
             $data = $request->all();
 
             $focused = Focused::find($id);
 
-
             $slug = Str::slug($data['focusedTitle']);
 
-            // echo '<pre>'; print_r($slug); die;
-
-            // Upload Image
-            if ($request->hasFile('focusedImage')) {
-                $image_tmp = $request->file('focusedImage');
-                if ($image_tmp->isValid()) {
-                    // Upload Images after Resize
-                    $extension = $image_tmp->getClientOriginalExtension();
-                    $fileName = rand(111, 99999) . '.' . $extension;
-                    $large_image_path = 'images/admin_images/focused/' . $fileName;
-                    Image::make($image_tmp)->save($large_image_path);
-                    $completePath = env('URL_DOMAIN') . '/' . $large_image_path;
-                }
-            } else if (!empty($data['currentFocusedImage'])) {
-                $completePath = $data['currentFocusedImage'];
-            } else {
-                $completePath = '';
-            }
-
-            if ($request->hasFile('focusedBanner')) {
-                $image_tmp = $request->file('focusedBanner');
-                if ($image_tmp->isValid()) {
-                    // Upload Images after Resize
-                    $extension = $image_tmp->getClientOriginalExtension();
-                    $fileName = rand(111, 99999) . '.' . $extension;
-                    $large_image_path = 'images/admin_images/focused/' . $fileName;
-                    Image::make($image_tmp)->save($large_image_path);
-                    $completePathBanner = env('URL_DOMAIN') . '/' . $large_image_path;
-                }
-            } else if (!empty($data['currentFocusedBanner'])) {
-                $completePathBanner = $data['currentFocusedBanner'];
-            } else {
-                $completePathBanner = '';
-            }
-
-            if ($request->hasFile('focusedBannerMobile')) {
-                $image_tmp = $request->file('focusedBannerMobile');
-                if ($image_tmp->isValid()) {
-                    // Upload Images after Resize
-                    $extension = $image_tmp->getClientOriginalExtension();
-                    $fileName = rand(111, 99999) . '.' . $extension;
-                    $large_image_path = 'images/admin_images/focused/' . $fileName;
-                    Image::make($image_tmp)->save($large_image_path);
-                    $completePathBannerMobile = env('URL_DOMAIN') . '/' . $large_image_path;
-                }
-            } else if (!empty($data['currentFocusedBannerMobile'])) {
-                $completePathBannerMobile = $data['currentFocusedBannerMobile'];
-            } else {
-                $completePathBannerMobile = '';
-            }
-
-
-            $focused->update(['title' => $data['focusedTitle'], 'slug' => $slug,  'subtitle' => $data['focusedSubTitle'], 'video_url' => $data['focusedUrlVideo'] ?? '', 'published_at' => Carbon::now('America/Lima'), 'description' => htmlspecialchars_decode(e($data['focusedContent']))]);
+            $focused->update(['title' => $data['focusedTitle'], 'slug' => $slug,  'subtitle' => $data['focusedSubTitle'], 'video_url' => $data['focusedUrlVideo'] ?? '', 'published_at' => Carbon::now(), 'description' => htmlspecialchars_decode(e($data['focusedContent']))]);
 
             Session::flash('success_message', 'Los Datos se Actualizaron Correctamente');
             return redirect('dashboard/focused');
@@ -163,5 +83,17 @@ class FocusedController extends Controller
         $message = 'El Focalizado se Elimino correctamente';
         Session::flash('success_message', $message);
         return redirect('dashboard/focused');
+    }
+
+    public function showFocused(int $focusedId)
+    {
+        $focused = Focused::query()->with(['focused_exercise_items'])
+            ->findOrFail($focusedId);
+        $company = new Company;
+        $companyData = $company->getCompanyInfo();
+        return view('admin.focused.show_focused', [
+            'focused' => $focused,
+            'companyData' => $companyData,
+        ]);
     }
 }

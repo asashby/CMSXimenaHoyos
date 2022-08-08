@@ -40,7 +40,7 @@ class EmailSoonToExpire extends Command
      */
     public function handle()
     {
-        $currentDay = Carbon::now('America/Lima');
+        $currentDay = Carbon::now();
         $usersToExpire = User::select('users.name', 'users.email', 'user_courses.expiration_date', 'courses.title')->join('user_courses', 'user_courses.user_id', '=', 'users.id')->join('courses', 'user_courses.course_id', '=', 'courses.id')->whereRaw('DATEDIFF(user_courses.expiration_date, ?) = ?')->setBindings([$currentDay, 0])->get();
 
         foreach ($usersToExpire as $user) {

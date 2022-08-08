@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Session;
+use Illuminate\Support\Facades\Session;
 use App\Order;
 use App\Company;
 use Illuminate\Http\Request;

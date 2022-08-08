@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/* Route::get('/', function () {
-    return view('welcome');
-}); */
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -134,11 +130,17 @@ Route::namespace('Admin')->group(function () {
 
 
         //Focused
-        Route::resource('/focused', 'FocusedController');
+        Route::get('/focused', 'FocusedController@index')->name('focused.index');
         Route::patch('/focused/status', 'FocusedController@updateFocusedStatus');
         Route::match(['get', 'post'], '/focused/create', 'FocusedController@addFocused');
         Route::match(['get', 'post'], '/focused/edit/{id}', 'FocusedController@editFocused');
         Route::get('/focused/delete/{id}', 'FocusedController@deleteFocused');
+        Route::get('/focused/{focused}', 'FocusedController@showFocused')->name('focused.show');
+        Route::get('/focused-exercise-item/create', 'FocusedExerciseItemController@create')->name('focused_exercise_item.create');
+        Route::post('/focused-exercise-item', 'FocusedExerciseItemController@store')->name('focused_exercise_item.store');
+        Route::get('/focused-exercise-item/{focusedExerciseItem}/edit', 'FocusedExerciseItemController@edit')->name('focused_exercise_item.edit');
+        Route::put('/focused-exercise-item/{focusedExerciseItem}', 'FocusedExerciseItemController@update')->name('focused_exercise_item.update');
+        Route::delete('/focused-exercise-item/{focusedExerciseItem}', 'FocusedExerciseItemController@destroy')->name('focused_exercise_item.destroy');
 
         //TypeAnswers
         Route::resource('/type-answers', 'TypeAnswerController');

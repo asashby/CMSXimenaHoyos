@@ -10,7 +10,7 @@ use App\Company;
 use Auth;
 use DateTime;
 use DateTimeZone;
-use Session;
+use Illuminate\Support\Facades\Session;
 use File;
 use Image;
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\TypeAnswer;
-use Session;
+use Illuminate\Support\Facades\Session;
 use App\Company;
 
 class TypeAnswerController extends Controllers\Controller
@@ -17,7 +17,7 @@ class TypeAnswerController extends Controllers\Controller
         $type_answers = TypeAnswer::orderBy('created_at', 'desc')->get(['id', 'name', 'url_image', 'confirm_answer', 'series', 'reps']);
         $company = new Company;
         $companyData = $company->getCompanyInfo();
-        return view('admin.type-answers.index', compact('type_answers','companyData'));
+        return view('admin.type-answers.index', compact('type_answers', 'companyData'));
     }
 
     public function create()
@@ -73,5 +73,4 @@ class TypeAnswerController extends Controllers\Controller
         $type_answers = TypeAnswer::orderBy('name', 'ASC')->pluck(['name', 'id']);
         return view('admin.questions.select', compact('type_answers'))->render();
     }
-
 }

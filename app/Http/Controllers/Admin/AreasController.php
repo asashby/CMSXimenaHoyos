@@ -6,11 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Area;
 use App\Company;
-use Session;
+use Illuminate\Support\Facades\Session;
 
 class AreasController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         Session::put('page', 'areas');
         $areas = Area::get();
         $company = new Company;
@@ -18,8 +19,9 @@ class AreasController extends Controller
         return view('admin.areas.areas')->with(compact('areas', 'companyData'));
     }
 
-    public function addArea(Request $request){
-        if($request->isMethod('post')){
+    public function addArea(Request $request)
+    {
+        if ($request->isMethod('post')) {
             $data = $request->all();
             /* echo '<pre>'; print_r($data['sectionName']); die; */
 
@@ -48,8 +50,9 @@ class AreasController extends Controller
         return view('admin.areas.add_area', compact('companyData'));
     }
 
-    public function editArea(Request $request, $id = null){
-        if($request->isMethod('post')){
+    public function editArea(Request $request, $id = null)
+    {
+        if ($request->isMethod('post')) {
             $data = $request->all();
             /* echo '<pre>'; print_r($data['sectionName']); die; */
 
@@ -64,7 +67,7 @@ class AreasController extends Controller
 
             $this->validate($request, $rulesData, $customMessage);
 
-            Area::where(['id'=>$id])->update(['name'=>$data['areaName']]);
+            Area::where(['id' => $id])->update(['name' => $data['areaName']]);
 
             $message = 'El area se actualizo correctamente';
             Session::flash('success_message', $message);
@@ -72,11 +75,12 @@ class AreasController extends Controller
         }
         $company = new Company;
         $companyData = $company->getCompanyInfo();
-        $areaDetail = Area::where(['id'=>$id])->first();
-        return view('admin.areas.edit_area')->with(compact('areaDetail','companyData'));
+        $areaDetail = Area::where(['id' => $id])->first();
+        return view('admin.areas.edit_area')->with(compact('areaDetail', 'companyData'));
     }
 
-    public function deleteArea($id){
+    public function deleteArea($id)
+    {
         Area::find($id)->delete();
         $message = 'El area se elimino correctamente';
         Session::flash('success_message', $message);

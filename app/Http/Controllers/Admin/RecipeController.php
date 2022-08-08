@@ -8,7 +8,7 @@ use App\Course;
 use App\Company;
 use App\Recipe;
 use App\Section;
-use Session;
+use Illuminate\Support\Facades\Session;
 use File;
 use Auth;
 use Image;

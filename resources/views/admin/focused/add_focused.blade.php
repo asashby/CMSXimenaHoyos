@@ -41,7 +41,7 @@
                   <div class="form-group">
                     <label for="exampleInputEmail1">Título</label>
                     <input type="text" class="form-control" id="exampleInputEmail1" name="focusedTitle"
-                      placeholder="Ingrese Titulo">
+                      placeholder="Ingrese Titulo" autofocus>
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Descripcion de Ejercicio</label>

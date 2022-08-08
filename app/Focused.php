@@ -11,4 +11,9 @@ class Focused extends Model
     protected $fillable = [
         'title', 'slug', 'subtitle', 'video_url', 'description'
     ];
+
+    public function focused_exercise_items()
+    {
+        return $this->hasMany(FocusedExerciseItem::class, 'focused_exercise_id');
+    }
 }
