@@ -14,4 +14,10 @@ class FocusedExerciseItem extends Model
         'title',
         'video_url',
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
 }

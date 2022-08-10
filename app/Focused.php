@@ -12,6 +12,12 @@ class Focused extends Model
         'title', 'slug', 'subtitle', 'video_url', 'description'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
     public function focused_exercise_items()
     {
         return $this->hasMany(FocusedExerciseItem::class, 'focused_exercise_id');

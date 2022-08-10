@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\FocusedExerciseController;
 use App\Http\Controllers\Api\MailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -139,6 +140,9 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::post('culqui/create-charge', 'Api\CulquiController@createCharge');
 
     Route::post('client-contact', [MailController::class, 'clientContact']);
+
+    Route::get('focused-exercises', [FocusedExerciseController::class, 'index']);
+    Route::get('focused-exercises/{focusedExercise}', [FocusedExerciseController::class, 'show']);
 });
 
 

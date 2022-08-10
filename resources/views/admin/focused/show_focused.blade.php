@@ -80,7 +80,7 @@
               </div>
               <div class="card-footer">
                 <a class="btn btn-secondary" href="{{ route('focused.index') }}">
-                  <i class="fas fa-undo"></i> Regresar
+                  <i class="fas fa-reply"></i> Regresar
                 </a>
               </div>
             </div>
