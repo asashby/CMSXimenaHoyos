@@ -29,9 +29,6 @@ class CourseController extends Controller
         if ($request->isMethod('post')) {
             $data = $request->all();
 
-
-            // echo '<pre>'; print_r($data['courseTitle']); die;
-
             $course = new Course;
 
             $rulesData = [
@@ -134,11 +131,8 @@ class CourseController extends Controller
 
     public function editCourse(Request $request, $id = null)
     {
-
         if ($request->isMethod('post')) {
-
             $data = $request->all();
-            // echo '<pre>'; print_r($data); die;
             $rulesData = [
                 'courseTitle' => 'required|regex:/^[A-Za-zá-úÁ-ÚñÑ0-9\-! ,&\'\"\/@\.:\(\)]+$/',
                 'courseSubTitle' => 'nullable|regex:/^[A-Za-zá-úÁ-ÚñÑ0-9\-! ,&\'\"\/@\.:\(\)]+$/',
@@ -167,8 +161,6 @@ class CourseController extends Controller
 
             $slug = strtr(strtolower($slugClean), ' ', '-');
             $route = strtr(strtolower($data['courseTitle']), ' ', '-');
-
-            //echo '<pre>'; print_r($slug); die;
 
             // Upload Image
             if ($request->hasFile('courseBanner')) {
@@ -225,7 +217,6 @@ class CourseController extends Controller
                 $urlVideo = $data['courseUrlVideo'];
             }
 
-
             Course::where(['id' => $id])->update(['title' => $data['courseTitle'], 'subtitle' => $data['courseSubTitle'], 'type' => $data['courseType'], 'days' => $data['courseDays'], 'slug' => $slug, 'frequency' => $data['courseFrequence'], 'description' => $data['courseDescription'], 'banner' => $completePathBanner, 'url_image' => $completePathContent, 'mobile_image' => $completePathBannerMobile, 'level' => $data['courseLevel'], 'duration' => $data['courseDuration'], 'url_video' => $urlVideo, 'prices' => $data['coursePrice'] ?? 0.00]);
 
             Session::flash('success_message', 'El articulo se Actualizo Correctamente');
@@ -233,16 +224,6 @@ class CourseController extends Controller
         }
 
         $courseDetail = Course::where(['id' => $id])->first();
-        /*        $section_drop_down = "<option value='' disabled>Select</option>";
-        for($i = 0; $i <= $articleDetail->days; $i++) {
-			if($section->id==$articleDetail->section_id){
-				$selected = "selected";
-			}else{
-				$selected = "";
-            }
-
-			$section_drop_down .= "<option value='".$section->id."' ".$selected.">".$section->name."</option>";
-        } */
         $company = new Company;
         $companyData = $company->getCompanyInfo();
         return view('admin.courses.edit_course')->with(compact('courseDetail', 'companyData'));

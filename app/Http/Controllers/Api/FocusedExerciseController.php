@@ -10,12 +10,18 @@ class FocusedExerciseController extends Controller
 {
     public function index()
     {
-        return FocusedExerciseResource::collection(Focused::query()->get());
+        return FocusedExerciseResource::collection(Focused::query()->get()
+            ->append(['desktop_image_url', 'mobile_image_url']));
     }
 
     public function show($focusedExerciseId)
     {
-        return FocusedExerciseResource::make(Focused::query()->with(['focused_exercise_items'])
-            ->findOrFail($focusedExerciseId));
+        return FocusedExerciseResource::make(Focused::query()
+            ->with(['focused_exercise_items'])
+            ->findOrFail($focusedExerciseId)
+            ->append([
+                'desktop_image_url',
+                'mobile_image_url',
+            ]));
     }
 }

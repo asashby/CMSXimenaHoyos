@@ -29,7 +29,8 @@
           <div class="card-header">
             <h3 class="card-title">Editar Ejercicio Focalizado</h3>
           </div>
-          <form method="post" action="{{ route('focused_exercise_item.update', $focusedExerciseItem->id) }}">
+          <form method="post" action="{{ route('focused_exercise_item.update', $focusedExerciseItem->id) }}"
+            enctype="multipart/form-data">
             @method('PUT')
             @csrf
             <div class="card-body">
@@ -51,4 +52,16 @@
       </div>
     </section>
   </div>
+@endsection
+@section('scripts')
+  <script>
+    function preview_image(event, elementId) {
+      const reader = new FileReader();
+      reader.onload = function() {
+        const output = document.getElementById(elementId);
+        output.src = reader.result;
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  </script>
 @endsection

@@ -32,10 +32,27 @@ class FocusedExerciseItemRequest extends FormRequest
                 'required',
                 'string'
             ],
+            'description' => [
+                'nullable',
+            ],
+            'series' => [
+                'nullable',
+            ],
+            'repetitions' => [
+                'nullable',
+            ],
+            'desktop_image' => [
+                'nullable',
+                'image'
+            ],
+            'mobile_image' => [
+                'nullable',
+                'image'
+            ],
             'video_url' => [
                 'nullable',
                 'url'
-            ]
+            ],
         ];
     }
 }

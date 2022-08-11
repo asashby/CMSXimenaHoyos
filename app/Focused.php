@@ -3,13 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class Focused extends Model
 {
     protected $table = 'focused_exercises';
 
     protected $fillable = [
-        'title', 'slug', 'subtitle', 'video_url', 'description'
+        'title',
+        'slug',
+        'subtitle',
+        'video_url',
     ];
 
     protected $hidden = [
@@ -21,5 +26,21 @@ class Focused extends Model
     public function focused_exercise_items()
     {
         return $this->hasMany(FocusedExerciseItem::class, 'focused_exercise_id');
+    }
+
+    public function getDesktopImageUrlAttribute()
+    {
+        if ($this->desktop_image) {
+            return Storage::disk('public')->url($this->desktop_image);
+        }
+        return '';
+    }
+
+    public function getMobileImageUrlAttribute()
+    {
+        if ($this->mobile_image) {
+            return Storage::disk('public')->url($this->mobile_image);
+        }
+        return '';
     }
 }

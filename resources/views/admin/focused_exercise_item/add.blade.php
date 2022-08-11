@@ -29,7 +29,7 @@
           <div class="card-header">
             <h3 class="card-title">Agregar Ejercicio Focalizado</h3>
           </div>
-          <form method="post" action="{{ route('focused_exercise_item.store') }}">
+          <form method="post" action="{{ route('focused_exercise_item.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="card-body">
               @include('admin.focused_exercise_item.partial_form')
@@ -50,4 +50,16 @@
       </div>
     </section>
   </div>
+@endsection
+@section('scripts')
+  <script>
+    function preview_image(event, elementId) {
+      const reader = new FileReader();
+      reader.onload = function() {
+        const output = document.getElementById(elementId);
+        output.src = reader.result;
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  </script>
 @endsection

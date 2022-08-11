@@ -8,15 +8,15 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class FocusedController extends Controller
 {
     public function index()
     {
         Session::put('page', 'focused');
-        $exercises = Focused::get();
+        $exercises = Focused::query()->get();
         $company = new Company();
         $companyData = $company->getCompanyInfo();
         return view('admin.focused.focused', compact('exercises', 'companyData'));
@@ -27,54 +27,57 @@ class FocusedController extends Controller
         if ($request->isMethod('post')) {
             $data = $request->all();
 
-            $focused = new Focused();
-
-            $focused->slug = Str::slug($data['focusedTitle']);
-
-            if (!File::exists('images/backend_images/focused')) {
-                $path = 'images/admin_images/focused';
-                File::makeDirectory($path, 0755, true, true);
+            $focusedExercise = new Focused($request->all());
+            $focusedExercise->slug = Str::slug($focusedExercise->title);
+            $focusedExercise->description = htmlspecialchars_decode(e($data['description']));
+            $focusedExercise->published_at = Carbon::now();
+            if ($request->hasFile('desktop_image')) {
+                $focusedExercise->desktop_image = $request->file('desktop_image')->storePublicly('focused_exercises', 'public');
             }
-
-            if (empty($data['focusedUrlVideo'])) {
-                $urlVideo = '';
+            if ($request->hasFile('mobile_image')) {
+                $focusedExercise->mobile_image = $request->file('mobile_image')->storePublicly('mobile_image', 'public');
             }
-
-            $focused->title = $data['focusedTitle'];
-            $focused->subtitle = $data['focusedSubTitle'];
-            $focused->video_url = !empty($data['focusedUrlVideo']) ? $data['focusedUrlVideo'] : '';
-            $focused->published_at = Carbon::now();
-            $focused->description = htmlspecialchars_decode(e($data['focusedContent']));
-
-            $focused->save();
+            $focusedExercise->save();
             Session::flash('success_message', 'El ejercicio focalizado se creo Correctamente');
             return redirect('dashboard/focused');
         }
         $company = new Company;
         $companyData = $company->getCompanyInfo();
-        return view('admin.focused.add_focused')->with(compact('companyData'));
+        $focusedExercise = new Focused();
+        return view('admin.focused.add_focused')->with([
+            'companyData' => $companyData,
+            'focusedExercise' => $focusedExercise,
+        ]);
     }
 
-    public function editFocused(Request $request, $id)
+    public function editFocused(Request $request, int $id)
     {
+        $focusedExercise = Focused::query()->findOrFail($id);
         if ($request->isMethod('post')) {
-
-            $data = $request->all();
-
-            $focused = Focused::find($id);
-
-            $slug = Str::slug($data['focusedTitle']);
-
-            $focused->update(['title' => $data['focusedTitle'], 'slug' => $slug,  'subtitle' => $data['focusedSubTitle'], 'video_url' => $data['focusedUrlVideo'] ?? '', 'published_at' => Carbon::now(), 'description' => htmlspecialchars_decode(e($data['focusedContent']))]);
-
+            $focusedExercise->fill($request->all());
+            $focusedExercise->slug = Str::slug($focusedExercise->title);
+            $focusedExercise->description = htmlspecialchars_decode(e($request->input('description')));
+            $focusedExercise->published_at = Carbon::now();
+            if ($request->hasFile('desktop_image')) {
+                if ($focusedExercise->desktop_image) {
+                    Storage::disk('public')->delete($focusedExercise->desktop_image);
+                }
+                $focusedExercise->desktop_image = $request->file('desktop_image')->storePublicly('focused_exercises', 'public');
+            }
+            if ($request->hasFile('mobile_image')) {
+                if ($focusedExercise->mobile_image) {
+                    Storage::disk('public')->delete($focusedExercise->mobile_image);
+                }
+                $focusedExercise->mobile_image = $request->file('mobile_image')->storePublicly('mobile_image', 'public');
+            }
+            $focusedExercise->save();
             Session::flash('success_message', 'Los Datos se Actualizaron Correctamente');
             return redirect('dashboard/focused');
         }
 
-        $focusedDetail = Focused::find($id);
         $company = new Company;
         $companyData = $company->getCompanyInfo();
-        return view('admin.focused.edit_focused')->with(compact('focusedDetail', 'companyData'));
+        return view('admin.focused.edit_focused')->with(compact('focusedExercise', 'companyData'));
     }
 
     public function deleteFocused($id)
@@ -87,12 +90,12 @@ class FocusedController extends Controller
 
     public function showFocused(int $focusedId)
     {
-        $focused = Focused::query()->with(['focused_exercise_items'])
+        $focusedExercise = Focused::query()->with(['focused_exercise_items'])
             ->findOrFail($focusedId);
         $company = new Company;
         $companyData = $company->getCompanyInfo();
         return view('admin.focused.show_focused', [
-            'focused' => $focused,
+            'focused' => $focusedExercise,
             'companyData' => $companyData,
         ]);
     }

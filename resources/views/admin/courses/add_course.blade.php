@@ -1,9 +1,7 @@
 @extends('layouts.admin_layout')
 @section('title', 'Crear Reto')
 @section('content')
-
   <div class="content-wrapper">
-
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -20,16 +18,12 @@
         </div>
       </div>
     </section>
-
-
     <section class="content">
       <div class="container-fluid">
-
         <div class="card card-default">
           <div class="card-header">
             <h3 class="card-title">Agregar Reto</h3>
           </div>
-
           <div class="card-body">
             @if ($errors->any())
               <div class="alert alert-danger" style="margin-top: 10px;">
@@ -95,7 +89,6 @@
                       placeholder="Ingrese URL">
                   </div>
                 </div>
-
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="exampleInputFile">Insertar Imagen Principal</label>
@@ -116,62 +109,18 @@
                     <img style="margin-top: 10px;" class="img-fluid" id="output_image2" />
                   </div>
                 </div>
-
               </div>
-              {{-- <h5>Contenido del Articulo</h5>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Descripción</label>
-                                    <textarea class="form-control textAreaEditor" name="articleContent"
-                                        id="articleContent" placeholder="Ingrese Descripcion"
-                                        style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
-                                </div>
-                            </div>
-                            <!-- /.form-group -->
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Título para SEO</label>
-                            <input type="text" class="form-control" placeholder="Ingrese Titulo" id="articleSeoTitle"
-                                name="articleSeoTitle">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Descripción para SEO</label>
-                            <textarea class="form-control" name="articleSeoDescription" id="articleSeoDescription"
-                                placeholder="Ingrese Descripcion"
-                                style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputFile">Insertar Imagen para SEO</label>
-                            <input type="file" class="form-control" onchange="preview_image2(event)"
-                                name="articleSeoImage" id="articleSeoImage">
-                            <img style="margin-top: 10px;" id="output_image2" />
-                        </div> --}}
           </div>
-
-
           <div class="card-footer">
             <div class="form-actions">
               <input type="submit" value="Publicar" class="btn btn-info">
             </div>
           </div>
           </form>
-
-
         </div>
-
-
       </div>
-
     </section>
-
-
-
-
   </div>
-
 
   <script>
     function preview_image(event) {

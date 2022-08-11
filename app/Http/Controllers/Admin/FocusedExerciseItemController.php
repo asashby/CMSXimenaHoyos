@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\FocusedExerciseItemRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class FocusedExerciseItemController extends Controller
 {
@@ -27,8 +28,14 @@ class FocusedExerciseItemController extends Controller
 
     public function store(FocusedExerciseItemRequest $request)
     {
-        $focusedExerciseItem = FocusedExerciseItem::query()
-            ->create($request->validated());
+        $focusedExerciseItem = new FocusedExerciseItem($request->validated());
+        if ($request->hasFile('desktop_image')) {
+            $focusedExerciseItem->desktop_image = $request->file('desktop_image')->storePublicly('focused_exercises', 'public');
+        }
+        if ($request->hasFile('mobile_image')) {
+            $focusedExerciseItem->mobile_image = $request->file('mobile_image')->storePublicly('mobile_image', 'public');
+        }
+        $focusedExerciseItem->save();
         Session::flash('success_message', 'El ejercicio focalizado se creo Correctamente');
         return redirect()->route('focused.show', $focusedExerciseItem->focused_exercise_id);
     }
@@ -45,7 +52,20 @@ class FocusedExerciseItemController extends Controller
 
     public function update(FocusedExerciseItem $focusedExerciseItem, FocusedExerciseItemRequest $request)
     {
-        $focusedExerciseItem->update($request->validated());
+        $focusedExerciseItem->fill($request->validated());
+        if ($request->hasFile('desktop_image')) {
+            if ($focusedExerciseItem->desktop_image) {
+                Storage::disk('public')->delete($focusedExerciseItem->desktop_image);
+            }
+            $focusedExerciseItem->desktop_image = $request->file('desktop_image')->storePublicly('focused_exercises', 'public');
+        }
+        if ($request->hasFile('mobile_image')) {
+            if ($focusedExerciseItem->mobile_image) {
+                Storage::disk('public')->delete($focusedExerciseItem->mobile_image);
+            }
+            $focusedExerciseItem->mobile_image = $request->file('mobile_image')->storePublicly('mobile_image', 'public');
+        }
+        $focusedExerciseItem->save();
         Session::flash('success_message', 'El ejercicio focalizado se modifico correctamente');
         return redirect()->route('focused.show', $focusedExerciseItem->focused_exercise_id);
     }
