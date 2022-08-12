@@ -115,7 +115,6 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
     Route::post('purchase/confirm', 'Api\CourseController@confirmPurchaseProductMail');
 
-
     Route::get('units/{id}/questions', 'Api\UnitController@questionsByUnit');
     Route::get('questions/{id}/answers', 'Api\QuestionController@index');
     Route::get('questions/{slug}/detail', 'Api\QuestionController@questionDetail');

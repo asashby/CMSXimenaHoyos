@@ -16,7 +16,7 @@ class FocusedController extends Controller
     public function index()
     {
         Session::put('page', 'focused');
-        $exercises = Focused::query()->get();
+        $exercises = Focused::query()->latest()->get();
         $company = new Company();
         $companyData = $company->getCompanyInfo();
         return view('admin.focused.focused', compact('exercises', 'companyData'));

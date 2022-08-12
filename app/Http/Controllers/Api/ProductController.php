@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Product;
-use GuzzleHttp\Handler\Proxy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -15,7 +15,10 @@ class ProductController extends Controller
         $category = $request->get('categoryId');
         $search = $request->get('search');
         $limit = !empty($limit) && is_numeric($limit) ? $limit : 10;
-        $product = Product::with('categories:id,name')->search($search)->category($category)->orderBy('created_at')->paginate($limit);
+        $product = Product::query()->with('categories:id,name')
+            ->when($request->filled('is_active'), fn (Builder $query) => $query->where('is_active', $request->input('is_active') == 'true'))
+            ->search($search)->category($category)
+            ->orderBy('created_at')->paginate($limit);
 
         return $product;
     }
