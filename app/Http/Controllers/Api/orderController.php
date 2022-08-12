@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\User;
 use App\Order;
 use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
+use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -17,15 +17,15 @@ class orderController extends Controller
     {
         try {
             $user = Auth::user();
-            $emailUser = $user->email;
             if ($user) {
                 $order = new Order();
                 $order->user_id = $user->id;
                 $order->origin = $request->origin ?? "";
                 $order->detail = $request->line_items ?? [];
-                $order->shipping = $request->shipping ?? [];
+                $order->shipping = $request->shipping ?? (object)[];
                 $order->cost_shipping = $request->cost_shipping;
                 $order->total = $request->total ?? 0.0;
+                $emailUser = $order->shipping->email ?? $user->email;
                 $orderIsSaved = $order->save();
                 if ($orderIsSaved) {
                     Mail::send('emails.confirmOrder', [
@@ -35,16 +35,21 @@ class orderController extends Controller
                         'price' => $order->total,
                         'dateOrder' => fecha_string(),
                         'shipping' => $order->cost_shipping ?? 0
-                    ], function ($message) use ($emailUser) {
+                    ], function (Message $message) use ($emailUser) {
                         $message->to($emailUser);
+                        $message->bcc('patriciapajaresr@gmail.com');
                         $message->subject('Compra Exitosa');
                     });
+                    return response()->json([
+                        'status' => 200,
+                        'message' => 'Compra Exitosa',
+                        'order_number' => $order->id,
+                    ], 200);
                 }
                 return response()->json([
-                    'status' => 200,
-                    'message' => 'Compra Exitosa',
-                    'order_number' => $order->id,
-                ], 200);
+                    'status' => 400,
+                    'message' => 'Algo salio mal',
+                ], 400);
             }
             return response()->json([
                 'status' => 400,

@@ -1,9 +1,7 @@
 @extends('layouts.admin_layout')
 @section('title', 'Ordenes')
 @section('content')
-
   <div class="content-wrapper">
-
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -19,7 +17,6 @@
         </div>
       </div>
     </section>
-
     <section class="content">
       <div class="container-fluid">
         @if (Session::has('error_message'))
@@ -40,22 +37,16 @@
         @endif
         <div class="row">
           <div class="col-12">
-
             <div class="card">
-              {{-- <div class="card-header">
-                            <h3 class="card-title">Tabla de Retos</h3>
-                            <a href="{{ url('dashboard/orders/create') }}"
-                                style="max-width: 150px; float: right; display:inline-block;"
-                                class="btn btn-block btn-success">Agregar Plan</a>
-                        </div> --}}
-
               <div class="card-body">
-                <table id="ordersTable" class="table table-bordered table-striped">
+                <table id="ordersTable" class="table table-sm table-bordered table-striped">
                   <thead>
                     <tr>
                       <th>Id</th>
                       <th>Fecha</th>
-                      <th>Usuario</th>
+                      <th>Documento</th>
+                      <th>Cliente</th>
+                      <th>Teléfono</th>
                       <th>Envio</th>
                       <th>Total</th>
                       <th>Estado</th>
@@ -67,11 +58,13 @@
                       <tr>
                         <td>{{ $order->id }}</td>
                         <td>{{ $order->created_at }}</td>
+                        <td>{{ optional($order->shipping)->dni }}</td>
                         <td>
-                          {{ $order->user->name }} {{ $order->user->sur_name }}
+                          {{ optional($order->shipping)->first_name }} {{ optional($order->shipping)->last_name }}
                           <br>
                           <small>{{ $order->user->email }}</small>
                         </td>
+                        <td>{{ optional($order->shipping)->phone }}</td>
                         <td>
                           {{ $order->getShippingAddressFormatted() }}
                         </td>
@@ -98,17 +91,10 @@
                 </table>
               </div>
             </div>
-
           </div>
-
         </div>
-
       </div>
-
-  </div>
-
-  </section>
-
+    </section>
   </div>
   {{-- -- LISTAR PREGUNTAS POR UNIDAD --- --}}
   <div class="modal fade" id="productsList" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
