@@ -50,7 +50,7 @@
                       <th>Envio</th>
                       <th>Total</th>
                       <th>Estado</th>
-                      <th>Acciones</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
