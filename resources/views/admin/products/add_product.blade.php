@@ -1,9 +1,7 @@
 @extends('layouts.admin_layout')
 @section('title', 'Crear Producto')
 @section('content')
-
   <div class="content-wrapper">
-
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -20,28 +18,16 @@
         </div>
       </div>
     </section>
-
-
     <section class="content">
       <div class="container-fluid">
-
         <div class="card card-default">
           <div class="card-header">
             <h3 class="card-title">Agregar Producto</h3>
           </div>
-
-          <div class="card-body">
-            @if ($errors->any())
-              <div class="alert alert-danger" style="margin-top: 10px;">
-                <ul>
-                  @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                  @endforeach
-                </ul>
-              </div>
-            @endif
-            <form method="POST" action="{{ route('products.store') }}" name="createRecipe" id="createRecipe"
-              enctype="multipart/form-data">@csrf
+          <form method="POST" action="{{ route('products.store') }}" name="createRecipe" id="createRecipe"
+            enctype="multipart/form-data">
+            @csrf
+            <div class="card-body">
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
@@ -53,29 +39,31 @@
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Título</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" name="productTitle"
-                      placeholder="Ingrese Titulo">
+                    <label for="name">Título</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Ingrese Titulo"
+                      autofocus>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Descripcion de Producto</label>
-                    <textarea class="form-control textAreaEditor" name="productResume" id="productResume" placeholder="Ingrese Resumen"
-                      style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
+                    <label for="description">Descripcion de Producto</label>
+                    <textarea class="form-control textAreaEditor" name="description" id="description" placeholder="Ingrese Resumen"></textarea>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">SKU</label>
-                    <input type="text" placeholder="Ingrese Sku" class="form-control" name="productSku"
-                      id="productSku">
+                    <label for="sku">SKU</label>
+                    <input type="text" placeholder="Ingrese Sku" class="form-control" name="sku" id="sku">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Precio</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" name="productPrice"
-                      placeholder="Ingrese Precio">
+                    <label for="price">Precio</label>
+                    <input type="text" class="form-control" id="price" name="price" placeholder="Ingrese Precio">
+                  </div>
+                  <div class="form-group">
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="is_active" name="is_active">
+                      <label class="custom-control-label" for="is_active">Activo</label>
+                    </div>
                   </div>
                   <div class="form-inline">
                     <label class="sr-only" for="inlineFormInputName2">Codigo</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="key" placeholder="Clave">
-
                     <label class="sr-only" for="inlineFormInputGroupUsername2">Valor</label>
                     <div class="input-group mb-2 mr-sm-2">
                       <input type="text" class="form-control" id="value" placeholder="Valor">
@@ -96,81 +84,66 @@
                 <div class="col-md-6">
                   <div class="mb-3">
                     <label for="document">Imagenes</label>
-                    <div class="needsclick dropzone" id="document-dropzone">
-
-                    </div>
+                    <div class="needsclick dropzone" id="document-dropzone"></div>
                   </div>
                   <div class="form-group">
                     <label for="exampleInputFile">Imagen de Portada</label>
                     <input type="file" class="form-control" name="productImage" id="productImage"
                       onchange="preview_image(event)">
                     <br>
-                    <img style="margin-top: 10px;" class="img-fluid" width="300" id="output_image" " />
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                      </div>
-                                  </div>
-
-
-                                  <div class=" card-footer">
-                                                          <div class="form-actions">
-                                                              <input type="submit" value="Guardar" class="btn btn-info">
-                                                          </div>
-                                                      </div>
-                                          </form>
-
-
-                                      </div>
-
-
-                                  </div>
-
-                          </section>
-
-
-
-
-                      </div>
-
-                      @push('script')
-    <script>
-      var uploadedDocumentMap = {}
-      Dropzone.options.documentDropzone = {
-        url: '{{ route('products.storeMedia') }}',
-        maxFilesize: 15, // MB
-        addRemoveLinks: true,
-        acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf",
-        headers: {
-          'X-CSRF-TOKEN': "{{ csrf_token() }}"
-        },
-        success: function(file, response) {
-          $('form').append('<input type="hidden" name="photo[]" value="' + response.name + '">')
-          uploadedDocumentMap[file.name] = response.name
-        },
-        removedfile: function(file) {
-          file.previewElement.remove()
-          var name = ''
-          if (typeof file.file_name !== 'undefined') {
-            name = file.file_name
-          } else {
-            name = uploadedDocumentMap[file.name]
-          }
-          $('form').find('input[name="photo[]"][value="' + name + '"]').remove()
-        }
-      }
-
-      function preview_image(event) {
-        var reader = new FileReader();
-        reader.onload = function() {
-          var output = document.getElementById('output_image');
-          output.src = reader.result;
-          output.width = 400;
-          output.height = 300
-
-        }
-        reader.readAsDataURL(event.target.files[0]);
-      }
-    </script>
-  @endpush
+                    <img style="margin-top: 10px;" class="img-fluid" width="300" id="output_image" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class=" card-footer">
+              <div class="form-actions">
+                <input type="submit" value="Guardar" class="btn btn-info">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
 @endsection
+@push('script')
+  <script>
+    var uploadedDocumentMap = {}
+    Dropzone.options.documentDropzone = {
+      url: '{{ route('products.storeMedia') }}',
+      maxFilesize: 15, // MB
+      addRemoveLinks: true,
+      acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf",
+      headers: {
+        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+      },
+      success: function(file, response) {
+        $('form').append('<input type="hidden" name="photo[]" value="' + response.name + '">')
+        uploadedDocumentMap[file.name] = response.name
+      },
+      removedfile: function(file) {
+        file.previewElement.remove()
+        var name = ''
+        if (typeof file.file_name !== 'undefined') {
+          name = file.file_name
+        } else {
+          name = uploadedDocumentMap[file.name]
+        }
+        $('form').find('input[name="photo[]"][value="' + name + '"]').remove()
+      }
+    }
+
+    function preview_image(event) {
+      var reader = new FileReader();
+      reader.onload = function() {
+        var output = document.getElementById('output_image');
+        output.src = reader.result;
+        output.width = 400;
+        output.height = 300
+
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  </script>
+@endpush

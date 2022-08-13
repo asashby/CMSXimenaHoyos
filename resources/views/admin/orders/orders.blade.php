@@ -62,7 +62,7 @@
                         <td>
                           {{ optional($order->shipping)->first_name }} {{ optional($order->shipping)->last_name }}
                           <br>
-                          <small>{{ $order->user->email }}</small>
+                          <small>{{ optional($order->shipping)->email }}</small>
                         </td>
                         <td>{{ optional($order->shipping)->phone }}</td>
                         <td>
@@ -96,7 +96,7 @@
       </div>
     </section>
   </div>
-  {{-- -- LISTAR PREGUNTAS POR UNIDAD --- --}}
+
   <div class="modal fade" id="productsList" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">

@@ -12,11 +12,6 @@ use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         Session::put('page', 'products');
@@ -26,11 +21,6 @@ class ProductController extends Controller
         return view('admin.products.products', compact('products', 'companyData'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $categories = Category::get();
@@ -44,24 +34,18 @@ class ProductController extends Controller
         return view('admin.products.add_product', compact('categories_drop_down', 'companyData'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $product = new Product();
-
         $product = Product::create([
-            'name' => $request->productTitle,
-            'slug' => Str::slug($request->productTitle),
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
             'url_image' => $this->loadFile($request, 'productImage', 'products/images', 'products_images'),
             'attributes' => $request->attributes ?? [],
-            'description' => htmlspecialchars_decode(e($request->productResume)),
-            'sku' => $request->productSku ?? '',
-            'price' => $request->productPrice,
+            'description' => htmlspecialchars_decode(e($request->description)),
+            'sku' => $request->sku ?? '',
+            'price' => $request->price,
+            'is_active' => $request->filled('is_active'),
         ]);
 
         $product->categories()->sync($request->categories ?? []);
@@ -94,22 +78,6 @@ class ProductController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Product $product)
-    {
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Product $product)
     {
         $photos = $product->getMedia();
@@ -129,23 +97,17 @@ class ProductController extends Controller
         return view('admin.products.edit_product', compact('product', 'companyData', 'photos', 'categories_drop_down'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Product $product)
     {
         $product->update([
-            'name' => $request->productTitle,
-            'slug' => Str::slug($request->productTitle),
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
             'url_image' => $this->loadFile($request, 'productImage', 'products/images', 'products_images'),
             'attributes' => $request->attributes ?? [],
-            'sku' => $request->productSku,
-            'description' => htmlspecialchars_decode(e($request->productResume)),
-            'price' => $request->productPrice,
+            'sku' => $request->sku,
+            'description' => htmlspecialchars_decode(e($request->description)),
+            'price' => $request->price,
+            'is_active' => $request->filled('is_active'),
         ]);
         if (count($product->getMedia()) > 0) {
             foreach ($product->getMedia() as $media) {
@@ -170,15 +132,9 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        Product::find($id)->delete();
+        Product::query()->find($id)->delete();
         $message = 'EL producto se elimino correctamente';
         Session::flash('success_message', $message);
         return redirect()->route('products.index');

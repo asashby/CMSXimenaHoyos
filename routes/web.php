@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -108,8 +109,13 @@ Route::namespace('Admin')->group(function () {
         Route::get('/plan/delete/{id}', 'PlanController@deletePlan');
 
         //Products
-        Route::resource('/products', ProductController::class);
+        Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+        Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+        Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+        Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+        Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
         Route::get('/products/delete/{id}', 'ProductController@destroy');
+
         Route::post('/store/media', 'ProductController@storeMedia')->name('products.storeMedia');
 
         //Orders

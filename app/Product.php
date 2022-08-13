@@ -11,7 +11,16 @@ class Product extends Model implements HasMedia
 {
     use HasMediaTrait, SoftDeletes;
 
-    protected $fillable = ["name", "slug", "attributes", "description", "price", "url_image", "sku"];
+    protected $fillable = [
+        "name",
+        "slug",
+        "attributes",
+        "description",
+        "price",
+        "url_image",
+        "sku",
+        "is_active",
+    ];
 
 
     protected $casts = [

@@ -1,9 +1,7 @@
 @extends('layouts.admin_layout')
 @section('title', 'Productos')
 @section('content')
-
   <div class="content-wrapper">
-
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -19,8 +17,6 @@
         </div>
       </div>
     </section>
-
-
     <section class="content">
       <div class="container-fluid">
         @if (Session::has('error_message'))
@@ -41,14 +37,12 @@
         @endif
         <div class="row">
           <div class="col-12">
-
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Tabla de Producto</h3>
                 <a href="{{ route('products.create') }}" style="max-width: 150px; float: right; display:inline-block;"
                   class="btn btn-block btn-success">Agregar Producto</a>
               </div>
-
               <div class="card-body">
                 <table id="coursesTable" class="table table-bordered table-striped">
                   <thead>
@@ -64,12 +58,6 @@
                         <td>{{ $product->id }}</td>
                         <td>{{ $product->name }}</td>
                         <td>
-                          {{-- <span data-toggle="modal" id="excercises" data-target="#unitsListModal"
-                                                data-id="{{$product->id}}" data-title="{{$product->title}}">
-                                                <a data-toggle="tooltip" style="cursor: pointer" title="Ver Ejercicios">
-                                                    <i class="fas fa-file text-info"></i>
-                                                </a>
-                                            </span> --}}
                           <a data-toggle="tooltip" href="{{ route('products.edit', $product->id) }}" title="Editar">
                             <i class="far fa-edit"></i>
                           </a>
@@ -78,27 +66,18 @@
                             <i style="color: red;" class="fas fa-trash-alt"></i>
                           </a>
                         </td>
+                        </td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+                </table>
               </div>
-              </td>
-              </tr>
-              @endforeach
-              </tbody>
-              </table>
             </div>
-
           </div>
-
         </div>
-
       </div>
-
+    </section>
   </div>
-
-  </section>
-
-  </div>
-  {{-- -- LISTAR PREGUNTAS POR UNIDAD --- --}}
-  {{-- -- LISTAR PREGUNTAS POR UNIDAD --- --}}
   <div class="modal fade" id="unitsListModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
@@ -120,7 +99,4 @@
       </div>
     </div>
   </div>
-
-
-
 @endsection

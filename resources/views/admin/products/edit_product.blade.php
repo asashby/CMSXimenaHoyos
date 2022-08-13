@@ -1,9 +1,7 @@
 @extends('layouts.admin_layout')
 @section('title', 'Editar Producto')
 @section('content')
-
   <div class="content-wrapper">
-
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -20,30 +18,17 @@
         </div>
       </div>
     </section>
-
-
     <section class="content">
       <div class="container-fluid">
-
         <div class="card card-default">
           <div class="card-header">
             <h3 class="card-title">Editar Producto</h3>
           </div>
-
-          <div class="card-body">
-            @if ($errors->any())
-              <div class="alert alert-danger" style="margin-top: 10px;">
-                <ul>
-                  @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                  @endforeach
-                </ul>
-              </div>
-            @endif
-            <form method="POST" action="{{ route('products.update', $product->id) }}" name="createRecipe"
-              id="createRecipe" enctype="multipart/form-data">
-              @csrf
-              @method('PUT')
+          <form method="POST" action="{{ route('products.update', $product->id) }}" name="createRecipe" id="createRecipe"
+            enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            <div class="card-body">
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
@@ -53,24 +38,31 @@
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Título</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" name="productTitle"
-                      placeholder="Ingrese Titulo" value="{{ $product->name }}">
+                    <label for="name">Título</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Ingrese Titulo"
+                      value="{{ $product->name }}">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Descripcion de Producto</label>
-                    <textarea class="form-control textAreaEditor" name="productResume" id="productResume" placeholder="Ingrese Resumen"
+                    <label for="description">Descripcion de Producto</label>
+                    <textarea class="form-control textAreaEditor" name="description" id="description" placeholder="Ingrese Resumen"
                       style="margin-top: 0px; margin-bottom: 0px; height: 93px;">{!! $product->description !!}</textarea>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">SKU</label>
-                    <input type="text" class="form-control" placeholder="Ingrese Sku" name="productSku" id="productSku"
+                    <label for="sku">SKU</label>
+                    <input type="text" class="form-control" placeholder="Ingrese Sku" name="sku" id="sku"
                       value="{{ $product->sku }}">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Precio</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" name="productPrice"
+                    <label for="price">Precio</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" name="price"
                       placeholder="Ingrese Precio" value="{{ $product->price }}">
+                  </div>
+                  <div class="form-group">
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="is_active" name="is_active"
+                        @if ($product->is_active) checked @endif>
+                      <label class="custom-control-label" for="is_active">Activo</label>
+                    </div>
                   </div>
                   <div class="form-inline">
                     <label class="sr-only" for="inlineFormInputName2">Codigo</label>
@@ -109,89 +101,76 @@
                   </div>
                 </div>
               </div>
-          </div>
+            </div>
+            <div class=" card-footer">
+              <div class="form-actions">
+                <input type="submit" value="Guardar" class="btn btn-info">
+              </div>
+            </div>
+          </form>
         </div>
-
-
-        <div class=" card-footer">
-          <div class="form-actions">
-            <input type="submit" value="Guardar" class="btn btn-info">
-          </div>
-        </div>
-        </form>
-
-
       </div>
-
-
+    </section>
   </div>
-
-  </section>
-
-
-
-
-  </div>
-
-  @push('script')
-    <script>
-      var uploadedDocumentMap = {}
-      var urlBase = '{{ env('APP_URL') }}';
-      Dropzone.options.documentDropzone = {
-        url: '{{ route('products.storeMedia') }}',
-        maxFilesize: 15, // MB
-        addRemoveLinks: true,
-        acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf",
-        headers: {
-          'X-CSRF-TOKEN': "{{ csrf_token() }}"
-        },
-        success: function(file, response) {
-          $('form').append('<input type="hidden" name="photo[]" value="' + response.name + '">')
-          uploadedDocumentMap[file.name] = response.name
-        },
-        removedfile: function(file) {
-          file.previewElement.remove()
-          var name = ''
-          if (typeof file.file_name !== 'undefined') {
-            name = file.file_name
-          } else {
-            name = uploadedDocumentMap[file.name]
-          }
-          $('form').find('input[name="photo[]"][value="' + name + '"]').remove()
-        },
-        init: function() {
-          @if (isset($photos))
-            var files =
-              {!! json_encode($photos) !!}
-            for (var i in files) {
-              var file = files[i]
-              file = {
-                ...file,
-                width: 226,
-                height: 324
-              }
-              console.log(file)
-              var original_url = `${urlBase}/storage/${file.id}/${file.file_name}`;
-              this.options.addedfile.call(this, file)
-              this.options.thumbnail.call(this, file, original_url)
-              file.previewElement.classList.add('dz-complete')
-
-              $('form').append('<input type="hidden" name="photo[]" value="' + file.file_name + '">')
-            }
-          @endif
-        }
-      }
-
-      function preview_image(event) {
-        var reader = new FileReader();
-        reader.onload = function() {
-          var output = document.getElementById('output_image');
-          output.src = reader.result;
-          output.width = 400;
-          output.height = 300
-        }
-        reader.readAsDataURL(event.target.files[0]);
-      }
-    </script>
-  @endpush
 @endsection
+@push('script')
+  <script>
+    var uploadedDocumentMap = {}
+    var urlBase = '{{ env('APP_URL') }}';
+    Dropzone.options.documentDropzone = {
+      url: '{{ route('products.storeMedia') }}',
+      maxFilesize: 15, // MB
+      addRemoveLinks: true,
+      acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf",
+      headers: {
+        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+      },
+      success: function(file, response) {
+        $('form').append('<input type="hidden" name="photo[]" value="' + response.name + '">')
+        uploadedDocumentMap[file.name] = response.name
+      },
+      removedfile: function(file) {
+        file.previewElement.remove()
+        var name = ''
+        if (typeof file.file_name !== 'undefined') {
+          name = file.file_name
+        } else {
+          name = uploadedDocumentMap[file.name]
+        }
+        $('form').find('input[name="photo[]"][value="' + name + '"]').remove()
+      },
+      init: function() {
+        @if (isset($photos))
+          var files =
+            {!! json_encode($photos) !!}
+          for (var i in files) {
+            var file = files[i]
+            file = {
+              ...file,
+              width: 226,
+              height: 324
+            }
+            console.log(file)
+            var original_url = `${urlBase}/storage/${file.id}/${file.file_name}`;
+            this.options.addedfile.call(this, file)
+            this.options.thumbnail.call(this, file, original_url)
+            file.previewElement.classList.add('dz-complete')
+
+            $('form').append('<input type="hidden" name="photo[]" value="' + file.file_name + '">')
+          }
+        @endif
+      }
+    }
+
+    function preview_image(event) {
+      var reader = new FileReader();
+      reader.onload = function() {
+        var output = document.getElementById('output_image');
+        output.src = reader.result;
+        output.width = 400;
+        output.height = 300
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  </script>
+@endpush

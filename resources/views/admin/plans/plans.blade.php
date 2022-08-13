@@ -101,8 +101,8 @@
   </section>
 
   </div>
-  {{-- -- LISTAR PREGUNTAS POR UNIDAD --- --}}
-  {{-- -- LISTAR PREGUNTAS POR UNIDAD --- --}}
+
+
   <div class="modal fade" id="unitsListModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
