@@ -16,7 +16,9 @@ class ProductController extends Controller
         $search = $request->get('search');
         $limit = !empty($limit) && is_numeric($limit) ? $limit : 10;
         $product = Product::query()->with('categories:id,name')
-            ->when($request->filled('is_active'), fn (Builder $query) => $query->where('is_active', $request->input('is_active') == 'true'))
+            ->when($request->filled('is_active'), function (Builder $query) use ($request) {
+                return $query->where('is_active', $request->input('is_active') == 'true');
+            })
             ->search($search)->category($category)
             ->orderBy('created_at')->paginate($limit);
 
