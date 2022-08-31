@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    public const CANCELADO = 0;
+    public const PENDIENTE = 1;
+    public const ENTREGADO = 2;
+
     public const STATES = [
-        0 => 'Cancelado',
-        1 => 'Pendiente',
-        2 => 'Entregado',
+        self::CANCELADO => 'Cancelado',
+        self::PENDIENTE => 'Pendiente',
+        self::ENTREGADO => 'Entregado',
     ];
 
     protected $casts = [

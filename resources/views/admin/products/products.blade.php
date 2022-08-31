@@ -50,7 +50,7 @@
                       <th>Id</th>
                       <th>Nombre</th>
                       <th>Stock</th>
-                      <th>Acciones</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
