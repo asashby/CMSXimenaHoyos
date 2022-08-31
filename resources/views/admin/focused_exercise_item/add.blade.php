@@ -35,7 +35,7 @@
               @include('admin.focused_exercise_item.partial_form')
             </div>
             <div class="card-footer">
-              <div class="form-actions">
+              <div>
                 <a class="btn btn-secondary"
                   href="{{ route('focused.show', $focusedExerciseItem->focused_exercise_id) }}">
                   <i class="fas fa-reply"></i> Regresar

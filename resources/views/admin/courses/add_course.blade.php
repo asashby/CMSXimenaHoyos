@@ -65,8 +65,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Descripcion de Reto</label>
-                    <textarea class="form-control" name="courseDescription" id="courseDescription" placeholder="Descripion del reto"
-                      style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
+                    <textarea class="form-control" name="courseDescription" id="courseDescription" placeholder="Descripion del reto"></textarea>
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Nivel</label>
@@ -112,7 +111,7 @@
               </div>
           </div>
           <div class="card-footer">
-            <div class="form-actions">
+            <div>
               <input type="submit" value="Publicar" class="btn btn-info">
             </div>
           </div>

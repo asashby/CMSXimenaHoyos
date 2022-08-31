@@ -73,8 +73,8 @@
                 <div class="col-12">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Descripción</label>
-                    <textarea class="form-control" name="helpCenterDescription" id="helpCenterDescription" placeholder="Ingrese Descripcion"
-                      style="margin-top: 0px; margin-bottom: 0px; height: 93px;">{{ $companyData->helpCenter->description }}</textarea>
+                    <textarea class="form-control" name="helpCenterDescription" id="helpCenterDescription"
+                      placeholder="Ingrese Descripcion">{{ $companyData->helpCenter->description }}</textarea>
                   </div>
                 </div>
 
@@ -82,7 +82,7 @@
           </div>
 
           <div class="card-footer">
-            <div class="form-actions">
+            <div>
               <input type="submit" value="Guardar Configuracion" class="btn btn-info">
             </div>
           </div>
@@ -124,7 +124,7 @@
                   <div class="form-group">
                     <label for="exampleInputEmail1">Descripción</label>
                     <textarea class="form-control" name="privacyPolicyDescription" id="privacyPolicyDescription"
-                      placeholder="Ingrese Descripcion" style="margin-top: 0px; margin-bottom: 0px; height: 93px;">{{ $companyData->privacyPolicy->description }}</textarea>
+                      placeholder="Ingrese Descripcion">{{ $companyData->privacyPolicy->description }}</textarea>
                   </div>
                 </div>
 
@@ -134,7 +134,7 @@
           </div>
 
           <div class="card-footer">
-            <div class="form-actions">
+            <div>
               <input type="submit" value="Guardar Configuración" class="btn btn-info">
             </div>
           </div>

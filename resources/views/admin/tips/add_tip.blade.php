@@ -56,8 +56,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Resumen del tip</label>
-                    <textarea class="form-control" name="tipResume" id="tipResume" placeholder="Ingrese Resumen"
-                      style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
+                    <textarea class="form-control" name="tipResume" id="tipResume" placeholder="Ingrese Resumen"></textarea>
                   </div>
                 </div>
 
@@ -87,8 +86,7 @@
                 <div class="col-12">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Descripción</label>
-                    <textarea class="form-control textAreaEditor" name="tipContent" id="tipContent" placeholder="Ingrese Descripcion"
-                      style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
+                    <textarea class="form-control textAreaEditor" name="tipContent" id="tipContent" placeholder="Ingrese Descripcion"></textarea>
                   </div>
                 </div>
                 <!-- /.form-group -->
@@ -96,7 +94,7 @@
 
 
               <div class="card-footer">
-                <div class="form-actions">
+                <div>
                   <input type="submit" value="Publicar" class="btn btn-info">
                 </div>
               </div>

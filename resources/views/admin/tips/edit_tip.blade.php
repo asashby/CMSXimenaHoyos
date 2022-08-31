@@ -56,8 +56,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Resumen de Artículo</label>
-                    <textarea class="form-control" name="tipResume" id="tipResume" placeholder="Ingrese Resumen"
-                      style="margin-top: 0px; margin-bottom: 0px; height: 93px;">{{ $tipDetail->resume }}</textarea>
+                    <textarea class="form-control" name="tipResume" id="tipResume" placeholder="Ingrese Resumen">{{ $tipDetail->resume }}</textarea>
                   </div>
                 </div>
 
@@ -87,8 +86,7 @@
                 <div class="col-12">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Descripción</label>
-                    <textarea class="form-control textAreaEditor" name="tipContent" id="tipContent" placeholder="Ingrese Descripcion"
-                      style="margin-top: 0px; margin-bottom: 0px; height: 93px;">{!! $tipDetail->content !!}</textarea>
+                    <textarea class="form-control textAreaEditor" name="tipContent" id="tipContent" placeholder="Ingrese Descripcion">{!! $tipDetail->content !!}</textarea>
                   </div>
                 </div>
                 <!-- /.form-group -->
@@ -97,7 +95,7 @@
           </div>
 
           <div class="card-footer">
-            <div class="form-actions">
+            <div>
               <input type="submit" value="Actualizar Tip" class="btn btn-info">
             </div>
           </div>

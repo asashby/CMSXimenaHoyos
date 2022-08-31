@@ -40,8 +40,7 @@
                 </ul>
               </div>
             @endif
-            <form method="post" action="{{ url('dashboard/plans/create') }}" name="createRecipe" id="createRecipe"
-              enctype="multipart/form-data">@csrf
+            <form method="post" action="{{ url('dashboard/plans/create') }}" enctype="multipart/form-data">@csrf
               <div class="row">
                 <div class="col-md-6">
                   {{-- <div class="form-group">
@@ -58,8 +57,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Descripcion de Plan</label>
-                    <textarea class="form-control" name="planResume" id="planResume" placeholder="Ingrese Resumen"
-                      style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
+                    <textarea class="form-control" name="planResume" id="planResume" placeholder="Ingrese Resumen"></textarea>
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Cantidad de Meses</label>
@@ -104,7 +102,7 @@
                                         placeholder="Paso Nro.">
                                     <div class="input-group mb-2 mr-sm-2">
                                         <textarea class="form-control" id="planStep" placeholder="Descripcion del Paso"
-                                            style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
+                                            ></textarea>
                                     </div>
                                     <input type="button" class="btn btn-primary addStep" value="Agregar">
                                     <div class="card-body">
@@ -119,7 +117,7 @@
 
 
           <div class="card-footer">
-            <div class="form-actions">
+            <div>
               <input type="submit" value="Publicar" class="btn btn-info">
             </div>
           </div>

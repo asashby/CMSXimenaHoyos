@@ -24,13 +24,13 @@
           <div class="card-header">
             <h3 class="card-title">Editar Focalizado</h3>
           </div>
-          <form method="post" action="{{ url('dashboard/focused/edit/' . $focusedExercise->id) }}" name="createRecipe"
-            id="createRecipe" enctype="multipart/form-data">@csrf
+          <form method="post" action="{{ url('dashboard/focused/edit/' . $focusedExercise->id) }}"
+            enctype="multipart/form-data">@csrf
             <div class="card-body">
               @include('admin.focused.partial_form')
             </div>
             <div class="card-footer">
-              <div class="form-actions">
+              <div>
                 <a class="btn btn-secondary" href="{{ route('focused.index') }}">
                   <i class="fas fa-reply"></i> Regresar
                 </a>

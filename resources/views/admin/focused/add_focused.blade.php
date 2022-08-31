@@ -24,8 +24,7 @@
           <div class="card-header">
             <h3 class="card-title">Agregar Focalizado</h3>
           </div>
-          <form method="post" action="{{ url('dashboard/focused/create') }}" name="createRecipe" id="createRecipe"
-            enctype="multipart/form-data">@csrf
+          <form method="post" action="{{ url('dashboard/focused/create') }}" enctype="multipart/form-data">@csrf
             <div class="card-body">
               @include('admin.focused.partial_form')
             </div>

@@ -140,7 +140,7 @@
           </div>
 
           <div class="card-footer">
-            <div class="form-actions">
+            <div>
               <input type="submit" value="Actualizar Configuración" class="btn btn-info">
             </div>
           </div>

@@ -80,8 +80,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Descripcion de Receta</label>
-                    <textarea class="form-control" name="recipeResume" id="recipeResume" placeholder="Ingrese Resumen"
-                      style="margin-top: 0px; margin-bottom: 0px; height: 93px;">{{ $recipeDetail->description }}</textarea>
+                    <textarea class="form-control" name="recipeResume" id="recipeResume" placeholder="Ingrese Resumen">{{ $recipeDetail->description }}</textarea>
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Dificultad</label>
@@ -194,8 +193,7 @@
                     <input type="number" class="form-control mb-2 mr-sm-2" id="stepOrder" min=0
                       placeholder="Paso Nro.">
                     <div class="input-group mb-2 mr-sm-2">
-                      <textarea class="form-control" id="recipeStep" placeholder="Descripcion del Paso"
-                        style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
+                      <textarea class="form-control" id="recipeStep" placeholder="Descripcion del Paso"></textarea>
                     </div>
                     <input type="button" class="btn btn-primary addStep" value="Agregar">
                     <div class="card-body">
@@ -236,7 +234,7 @@
                                     <label for="exampleInputEmail1">Descripción</label>
                                     <textarea class="form-control textAreaEditor" name="articleContent"
                                         id="articleContent" placeholder="Ingrese Descripcion"
-                                        style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
+                                        ></textarea>
                                 </div>
                             </div>
                             <!-- /.form-group -->
@@ -252,7 +250,7 @@
                             <label for="exampleInputEmail1">Descripción para SEO</label>
                             <textarea class="form-control" name="articleSeoDescription" id="articleSeoDescription"
                                 placeholder="Ingrese Descripcion"
-                                style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
+                                ></textarea>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputFile">Insertar Imagen para SEO</label>
@@ -264,7 +262,7 @@
 
 
           <div class="card-footer">
-            <div class="form-actions">
+            <div>
               <input type="submit" value="Actualizar Receta" class="btn btn-info">
             </div>
           </div>

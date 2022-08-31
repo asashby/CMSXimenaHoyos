@@ -24,82 +24,18 @@
           <div class="card-header">
             <h3 class="card-title">Agregar Producto</h3>
           </div>
-          <form method="POST" action="{{ route('products.store') }}" name="createRecipe" id="createRecipe"
-            enctype="multipart/form-data">
+          <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="card-body">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>Seleccione Categorias</label>
-                    <select name="categories[]" id="categories" class="form-control select2" style="width: 100%;">
-                      @php
-                        echo $categories_drop_down;
-                      @endphp
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="name">Título</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Ingrese Titulo"
-                      autofocus>
-                  </div>
-                  <div class="form-group">
-                    <label for="description">Descripcion de Producto</label>
-                    <textarea class="form-control textAreaEditor" name="description" id="description" placeholder="Ingrese Resumen"></textarea>
-                  </div>
-                  <div class="form-group">
-                    <label for="sku">SKU</label>
-                    <input type="text" placeholder="Ingrese Sku" class="form-control" name="sku" id="sku">
-                  </div>
-                  <div class="form-group">
-                    <label for="price">Precio</label>
-                    <input type="text" class="form-control" id="price" name="price" placeholder="Ingrese Precio">
-                  </div>
-                  <div class="form-group">
-                    <div class="custom-control custom-switch">
-                      <input type="checkbox" class="custom-control-input" id="is_active" name="is_active">
-                      <label class="custom-control-label" for="is_active">Activo</label>
-                    </div>
-                  </div>
-                  <div class="form-inline">
-                    <label class="sr-only" for="inlineFormInputName2">Codigo</label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="key" placeholder="Clave">
-                    <label class="sr-only" for="inlineFormInputGroupUsername2">Valor</label>
-                    <div class="input-group mb-2 mr-sm-2">
-                      <input type="text" class="form-control" id="value" placeholder="Valor">
-                    </div>
-                    <button type="button" class="btn btn-primary mb-2 addRow">+</button>
-                  </div>
-                  <table id="attributes" class="table table-bordered">
-                    <thead>
-                      <th>Codigo</th>
-                      <th>Valor</th>
-                      <th>Accion</th>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                  </table>
-                  <input id="attributesFinal" name="attributes[]" type="hidden">
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="document">Imagenes</label>
-                    <div class="needsclick dropzone" id="document-dropzone"></div>
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputFile">Imagen de Portada</label>
-                    <input type="file" class="form-control" name="productImage" id="productImage"
-                      onchange="preview_image(event)">
-                    <br>
-                    <img style="margin-top: 10px;" class="img-fluid" width="300" id="output_image" />
-                  </div>
-                </div>
-              </div>
+              @include('admin.products.partial_form')
             </div>
             <div class=" card-footer">
-              <div class="form-actions">
-                <input type="submit" value="Guardar" class="btn btn-info">
-              </div>
+              <a href="{{ route('products.index') }}" class="btn btn-secondary">
+                <i class="fas fa-reply"></i> Regresar
+              </a>
+              <button type="submit" class="btn btn-success">
+                <i class="fas fa-plus"></i> Agregar
+              </button>
             </div>
           </form>
         </div>
@@ -112,7 +48,7 @@
     var uploadedDocumentMap = {}
     Dropzone.options.documentDropzone = {
       url: '{{ route('products.storeMedia') }}',
-      maxFilesize: 15, // MB
+      maxFilesize: 5, // MB
       addRemoveLinks: true,
       acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf",
       headers: {

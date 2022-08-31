@@ -41,7 +41,7 @@
               </div>
             @endif
             <form method="post" action="{{ url('dashboard/categories/edit/' . $categoryDetail->id) }}"
-              name="createRecipe" id="createRecipe" enctype="multipart/form-data">@csrf
+              enctype="multipart/form-data">@csrf
               <div class="row">
                 <div class="col-md-6">
                   {{-- <div class="form-group">
@@ -58,8 +58,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Descripcion de Categoria</label>
-                    <textarea class="form-control" name="categoryResume" id="categoryResume" placeholder="Ingrese Resumen"
-                      style="margin-top: 0px; margin-bottom: 0px; height: 93px;">{{ $categoryDetail->description }}</textarea>
+                    <textarea class="form-control" name="categoryResume" id="categoryResume" placeholder="Ingrese Resumen">{{ $categoryDetail->description }}</textarea>
                   </div>
                 </div>
               </div>
@@ -89,7 +88,7 @@
                                     <div class="input-group mb-2 mr-sm-2">
                                         <textarea class="form-control" id="categoryStep"
                                             placeholder="Descripcion del Paso"
-                                            style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
+                                            ></textarea>
                                     </div>
                                     <input type="button" class="btn btn-primary addStep" value="Agregar">
                                     <div class="card-body">
@@ -104,7 +103,7 @@
 
 
           <div class="card-footer">
-            <div class="form-actions">
+            <div>
               <input type="submit" value="Publicar" class="btn btn-info">
             </div>
           </div>

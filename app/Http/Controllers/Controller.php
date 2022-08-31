@@ -24,7 +24,6 @@ class Controller extends BaseController
 
     public function loadFile(Request $request, $key, $path_image, $disk)
     {
-
         $path_complete = null;
         if ($request->file($key)) {
             if (!file_exists(public_path() . '/' . $path_image)) {
@@ -35,7 +34,7 @@ class Controller extends BaseController
                 }
             }
             $file = $request->file($key);
-            $name = "file-" . rand(111,99999) . '.' . $file->getClientOriginalExtension();
+            $name = "file-" . rand(111, 99999) . '.' . $file->getClientOriginalExtension();
             //$r2 = Storage::disk($disk)->put(utf8_decode($name), \File::get($file));
             //$path_complete = env('URL_BASE') . $path_image . '/' . $name;
             //return $path_complete;

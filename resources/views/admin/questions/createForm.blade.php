@@ -113,8 +113,7 @@
                 <div class="col-12">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Contenido</label>
-                    <textarea class="form-control" name="content" id="content" placeholder="Ingrese Contenido"
-                      style="margin-top: 0px; margin-bottom: 0px; height: 93px;"></textarea>
+                    <textarea class="form-control" name="content" id="content" placeholder="Ingrese Contenido"></textarea>
                   </div>
                 </div>
                 <!-- /.form-group -->
@@ -122,7 +121,7 @@
 
 
               <div class="card-footer">
-                <div class="form-actions">
+                <div>
                   <input type="submit" value="Publicar" class="btn btn-info">
                 </div>
               </div>

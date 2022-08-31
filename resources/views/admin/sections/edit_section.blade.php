@@ -56,7 +56,7 @@
                   <div class="form-group">
                     <label for="exampleInputEmail1">Descripción</label>
                     <textarea class="form-control textAreaEditorSection" rows="3" name="sectionDescription" id="sectionDescription"
-                      placeholder="Ingrese Descripcion" style="margin-top: 0px; margin-bottom: 0px; height: 93px;">{!! $sectionDetail['description'] !!}</textarea>
+                      placeholder="Ingrese Descripcion">{!! $sectionDetail['description'] !!}</textarea>
                   </div>
                   <div class="form-group">
                     <label for="exampleInputFile">Insertar Banner Principal</label>

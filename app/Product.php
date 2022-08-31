@@ -20,23 +20,29 @@ class Product extends Model implements HasMedia
         "url_image",
         "sku",
         "is_active",
+        "stock",
     ];
 
 
     protected $casts = [
         'attributes' => 'object',
+        'price' => 'float',
+        'stock' => 'float',
     ];
 
     protected $hidden = [
         'pivot',
     ];
 
+    public function getFormattedStockAttribute(): string
+    {
+        return number_format($this->stock, 2);
+    }
 
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'product_category')->withPivot('id', 'product_id', 'category_id');
     }
-
 
     public function scopeCategory($query, $category_id)
     {

@@ -24,88 +24,19 @@
           <div class="card-header">
             <h3 class="card-title">Editar Producto</h3>
           </div>
-          <form method="POST" action="{{ route('products.update', $product->id) }}" name="createRecipe" id="createRecipe"
-            enctype="multipart/form-data">
+          <form method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="card-body">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>Seleccione Categoria</label>
-                    <select id="categories" name="categories[]" class="form-control">
-                      <?php echo $categories_drop_down; ?>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="name">Título</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Ingrese Titulo"
-                      value="{{ $product->name }}">
-                  </div>
-                  <div class="form-group">
-                    <label for="description">Descripcion de Producto</label>
-                    <textarea class="form-control textAreaEditor" name="description" id="description" placeholder="Ingrese Resumen"
-                      style="margin-top: 0px; margin-bottom: 0px; height: 93px;">{!! $product->description !!}</textarea>
-                  </div>
-                  <div class="form-group">
-                    <label for="sku">SKU</label>
-                    <input type="text" class="form-control" placeholder="Ingrese Sku" name="sku" id="sku"
-                      value="{{ $product->sku }}">
-                  </div>
-                  <div class="form-group">
-                    <label for="price">Precio</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" name="price"
-                      placeholder="Ingrese Precio" value="{{ $product->price }}">
-                  </div>
-                  <div class="form-group">
-                    <div class="custom-control custom-switch">
-                      <input type="checkbox" class="custom-control-input" id="is_active" name="is_active"
-                        @if ($product->is_active) checked @endif>
-                      <label class="custom-control-label" for="is_active">Activo</label>
-                    </div>
-                  </div>
-                  <div class="form-inline">
-                    <label class="sr-only" for="inlineFormInputName2">Codigo</label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="key" placeholder="Clave">
-
-                    <label class="sr-only" for="inlineFormInputGroupUsername2">Valor</label>
-                    <div class="input-group mb-2 mr-sm-2">
-                      <input type="text" class="form-control" id="value" placeholder="Valor">
-                    </div>
-                    <button type="button" class="btn btn-primary mb-2 addRow">+</button>
-                  </div>
-                  <table id="attributes" class="table table-bordered">
-                    <thead>
-                      <th>Codigo</th>
-                      <th>Valor</th>
-                      <th>Accion</th>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                  </table>
-                  <input type="hidden" name="currentAttributesProduct">
-                  <input id="attributesFinal" name="attributes" type="hidden">
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="exampleInputFile">Imagenes</label>
-                    <div class="needsclick dropzone" id="document-dropzone"></div>
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputFile">Imagen de Portada</label>
-                    <input type="file" class="form-control" name="productImage" id="productImage"
-                      onchange="preview_image(event)" value="{{ $product->url_image }}">
-                    <br>
-                    <img style="margin-top: 10px;" class="img-fluid" width="300" id="output_image"
-                      src="{{ $product->url_image }}" />
-                  </div>
-                </div>
-              </div>
+              @include('admin.products.partial_form')
             </div>
-            <div class=" card-footer">
-              <div class="form-actions">
-                <input type="submit" value="Guardar" class="btn btn-info">
-              </div>
+            <div class="card-footer">
+              <a href="{{ route('products.index') }}" class="btn btn-secondary">
+                <i class="fas fa-reply"></i> Regresar
+              </a>
+              <button type="submit" class="btn btn-success">
+                <i class="fas fa-edit"></i> Editar
+              </button>
             </div>
           </form>
         </div>
@@ -119,7 +50,7 @@
     var urlBase = '{{ env('APP_URL') }}';
     Dropzone.options.documentDropzone = {
       url: '{{ route('products.storeMedia') }}',
-      maxFilesize: 15, // MB
+      maxFilesize: 5, // MB
       addRemoveLinks: true,
       acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf",
       headers: {

@@ -49,6 +49,7 @@
                     <tr>
                       <th>Id</th>
                       <th>Nombre</th>
+                      <th>Stock</th>
                       <th>Acciones</th>
                     </tr>
                   </thead>
@@ -57,6 +58,7 @@
                       <tr>
                         <td>{{ $product->id }}</td>
                         <td>{{ $product->name }}</td>
+                        <td>{{ $product->getFormattedStockAttribute() }}</td>
                         <td>
                           <a data-toggle="tooltip" href="{{ route('products.edit', $product->id) }}" title="Editar">
                             <i class="far fa-edit"></i>

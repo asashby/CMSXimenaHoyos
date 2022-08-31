@@ -137,8 +137,7 @@
                 <div class="col-12">
                   <div class="form-group">
                     <div class="form-group">
-                      <textarea class="form-control" name="articleResume" id="articleResume" placeholder="Ingrese Resumen"
-                        style="margin-top: 0px; margin-bottom: 0px; height: 93px;">{{ $articleDetail->description }}</textarea>
+                      <textarea class="form-control" name="articleResume" id="articleResume" placeholder="Ingrese Resumen">{{ $articleDetail->description }}</textarea>
                     </div>
                   </div>
                 </div>
@@ -148,7 +147,7 @@
           </div>
 
           <div class="card-footer">
-            <div class="form-actions">
+            <div>
               <input type="submit" value="Actualizar Datos" class="btn btn-info">
             </div>
           </div>
