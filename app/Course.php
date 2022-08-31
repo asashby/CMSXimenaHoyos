@@ -3,12 +3,13 @@
 namespace App;
 
 use App\Scopes\ActivatedScope;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Course extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
 
     protected $table = 'courses';
     protected $fillable = ['title', 'ext_id', 'prices', 'subtitle', 'type', 'url_image', 'mobile_image', 'days', 'level', 'frequency', 'is_activated', 'slug', 'banner', 'file_url', 'attributes'];

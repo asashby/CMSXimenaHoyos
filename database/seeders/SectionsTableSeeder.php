@@ -1,6 +1,9 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class SectionsTableSeeder extends Seeder
 {
@@ -20,7 +23,7 @@ class SectionsTableSeeder extends Seeder
                 'slug' => 'para-reconocer',
                 'route' => 'para-reconocer',
                 'activated' => 1,
-                'order' =>1,
+                'order' => 1,
             ],
             [
                 'id' => 2,
@@ -29,7 +32,7 @@ class SectionsTableSeeder extends Seeder
                 'slug' => 'para-compartir',
                 'route' => 'para-compartir',
                 'activated' => 1,
-                'order' =>2,
+                'order' => 2,
             ],
             [
                 'id' => 3,
@@ -38,7 +41,7 @@ class SectionsTableSeeder extends Seeder
                 'slug' => 'para-constuir',
                 'route' => 'para-constuir',
                 'activated' => 1,
-                'order' =>3,
+                'order' => 3,
             ],
             [
                 'id' => 4,
@@ -47,7 +50,7 @@ class SectionsTableSeeder extends Seeder
                 'slug' => 'para-avanzar',
                 'route' => 'para-avanzar',
                 'activated' => 1,
-                'order' =>4,
+                'order' => 4,
             ],
         ];
 

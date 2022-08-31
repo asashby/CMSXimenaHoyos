@@ -1,9 +1,11 @@
 <?php
 
-use App\Course;
+namespace Database\Seeders;
+
+use App\Question;
 use Illuminate\Database\Seeder;
 
-class CoursesTableSeeder extends Seeder
+class QuestionsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +14,6 @@ class CoursesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Course::class, 10)->create();
+        Question::factory(20)->create();
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Unit;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +14,6 @@ class UnitsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Unit::class, 10)->create();
+        Unit::factory(10)->create();
     }
 }

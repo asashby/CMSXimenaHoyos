@@ -1,6 +1,11 @@
 <?php
-use App\Recipe;
+
+namespace Database\Seeders;
+
+use DateTime;
+use DateTimeZone;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class RecipesTableSeeder extends Seeder
 {
@@ -43,7 +48,7 @@ class RecipesTableSeeder extends Seeder
                 ]),
                 'steps' => json_encode([
                     json_encode([
-                    'step1' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In luctus enim eros, non sagittis tellus pulvinar vitae. Duis eros enim, viverra quis lacus sit amet, rhoncus suscipit nisl. Nunc volutpat neque vitae massa varius tincidunt. Morbi tincidunt faucibus lacus, non imperdiet massa convallis venenatis. Donec sed mi in risus semper blandit sit amet id ex. Sed in luctus nisl, ac semper dolor. Quisque orci justo, mollis et ipsum at, convallis semper metus. Pellentesque lacinia ligula neque, sit amet semper augue sodales consectetur.'
+                        'step1' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In luctus enim eros, non sagittis tellus pulvinar vitae. Duis eros enim, viverra quis lacus sit amet, rhoncus suscipit nisl. Nunc volutpat neque vitae massa varius tincidunt. Morbi tincidunt faucibus lacus, non imperdiet massa convallis venenatis. Donec sed mi in risus semper blandit sit amet id ex. Sed in luctus nisl, ac semper dolor. Quisque orci justo, mollis et ipsum at, convallis semper metus. Pellentesque lacinia ligula neque, sit amet semper augue sodales consectetur.'
                     ]),
                     json_encode([
                         'step2' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In luctus enim eros, non sagittis tellus pulvinar vitae. Duis eros enim, viverra quis lacus sit amet, rhoncus suscipit nisl. Nunc volutpat neque vitae massa varius tincidunt. Morbi tincidunt faucibus lacus, non imperdiet massa convallis venenatis. Donec sed mi in risus semper blandit sit amet id ex. Sed in luctus nisl, ac semper dolor. Quisque orci justo, mollis et ipsum at, convallis semper metus. Pellentesque lacinia ligula neque, sit amet semper augue sodales consectetur.'
@@ -90,7 +95,7 @@ class RecipesTableSeeder extends Seeder
                 ]),
                 'steps' => json_encode([
                     json_encode([
-                    'step1' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In luctus enim eros, non sagittis tellus pulvinar vitae. Duis eros enim, viverra quis lacus sit amet, rhoncus suscipit nisl. Nunc volutpat neque vitae massa varius tincidunt. Morbi tincidunt faucibus lacus, non imperdiet massa convallis venenatis. Donec sed mi in risus semper blandit sit amet id ex. Sed in luctus nisl, ac semper dolor. Quisque orci justo, mollis et ipsum at, convallis semper metus. Pellentesque lacinia ligula neque, sit amet semper augue sodales consectetur.'
+                        'step1' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In luctus enim eros, non sagittis tellus pulvinar vitae. Duis eros enim, viverra quis lacus sit amet, rhoncus suscipit nisl. Nunc volutpat neque vitae massa varius tincidunt. Morbi tincidunt faucibus lacus, non imperdiet massa convallis venenatis. Donec sed mi in risus semper blandit sit amet id ex. Sed in luctus nisl, ac semper dolor. Quisque orci justo, mollis et ipsum at, convallis semper metus. Pellentesque lacinia ligula neque, sit amet semper augue sodales consectetur.'
                     ]),
                     json_encode([
                         'step2' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In luctus enim eros, non sagittis tellus pulvinar vitae. Duis eros enim, viverra quis lacus sit amet, rhoncus suscipit nisl. Nunc volutpat neque vitae massa varius tincidunt. Morbi tincidunt faucibus lacus, non imperdiet massa convallis venenatis. Donec sed mi in risus semper blandit sit amet id ex. Sed in luctus nisl, ac semper dolor. Quisque orci justo, mollis et ipsum at, convallis semper metus. Pellentesque lacinia ligula neque, sit amet semper augue sodales consectetur.'
@@ -137,7 +142,7 @@ class RecipesTableSeeder extends Seeder
                 ]),
                 'steps' => json_encode([
                     json_encode([
-                    'step1' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In luctus enim eros, non sagittis tellus pulvinar vitae. Duis eros enim, viverra quis lacus sit amet, rhoncus suscipit nisl. Nunc volutpat neque vitae massa varius tincidunt. Morbi tincidunt faucibus lacus, non imperdiet massa convallis venenatis. Donec sed mi in risus semper blandit sit amet id ex. Sed in luctus nisl, ac semper dolor. Quisque orci justo, mollis et ipsum at, convallis semper metus. Pellentesque lacinia ligula neque, sit amet semper augue sodales consectetur.'
+                        'step1' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In luctus enim eros, non sagittis tellus pulvinar vitae. Duis eros enim, viverra quis lacus sit amet, rhoncus suscipit nisl. Nunc volutpat neque vitae massa varius tincidunt. Morbi tincidunt faucibus lacus, non imperdiet massa convallis venenatis. Donec sed mi in risus semper blandit sit amet id ex. Sed in luctus nisl, ac semper dolor. Quisque orci justo, mollis et ipsum at, convallis semper metus. Pellentesque lacinia ligula neque, sit amet semper augue sodales consectetur.'
                     ]),
                     json_encode([
                         'step2' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In luctus enim eros, non sagittis tellus pulvinar vitae. Duis eros enim, viverra quis lacus sit amet, rhoncus suscipit nisl. Nunc volutpat neque vitae massa varius tincidunt. Morbi tincidunt faucibus lacus, non imperdiet massa convallis venenatis. Donec sed mi in risus semper blandit sit amet id ex. Sed in luctus nisl, ac semper dolor. Quisque orci justo, mollis et ipsum at, convallis semper metus. Pellentesque lacinia ligula neque, sit amet semper augue sodales consectetur.'
@@ -184,7 +189,7 @@ class RecipesTableSeeder extends Seeder
                 ]),
                 'steps' => json_encode([
                     json_encode([
-                    'step1' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In luctus enim eros, non sagittis tellus pulvinar vitae. Duis eros enim, viverra quis lacus sit amet, rhoncus suscipit nisl. Nunc volutpat neque vitae massa varius tincidunt. Morbi tincidunt faucibus lacus, non imperdiet massa convallis venenatis. Donec sed mi in risus semper blandit sit amet id ex. Sed in luctus nisl, ac semper dolor. Quisque orci justo, mollis et ipsum at, convallis semper metus. Pellentesque lacinia ligula neque, sit amet semper augue sodales consectetur.'
+                        'step1' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In luctus enim eros, non sagittis tellus pulvinar vitae. Duis eros enim, viverra quis lacus sit amet, rhoncus suscipit nisl. Nunc volutpat neque vitae massa varius tincidunt. Morbi tincidunt faucibus lacus, non imperdiet massa convallis venenatis. Donec sed mi in risus semper blandit sit amet id ex. Sed in luctus nisl, ac semper dolor. Quisque orci justo, mollis et ipsum at, convallis semper metus. Pellentesque lacinia ligula neque, sit amet semper augue sodales consectetur.'
                     ]),
                     json_encode([
                         'step2' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In luctus enim eros, non sagittis tellus pulvinar vitae. Duis eros enim, viverra quis lacus sit amet, rhoncus suscipit nisl. Nunc volutpat neque vitae massa varius tincidunt. Morbi tincidunt faucibus lacus, non imperdiet massa convallis venenatis. Donec sed mi in risus semper blandit sit amet id ex. Sed in luctus nisl, ac semper dolor. Quisque orci justo, mollis et ipsum at, convallis semper metus. Pellentesque lacinia ligula neque, sit amet semper augue sodales consectetur.'
@@ -206,6 +211,5 @@ class RecipesTableSeeder extends Seeder
         ];
 
         DB::table('recipes')->insert($recipesRecords);
-
     }
 }

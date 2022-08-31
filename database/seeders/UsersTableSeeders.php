@@ -1,6 +1,11 @@
 <?php
 
+namespace Database\Seeders;
+
+use DateTime;
+use DateTimeZone;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class UsersTableSeeders extends Seeder
 {

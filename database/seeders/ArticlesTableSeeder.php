@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Article;
 use Illuminate\Database\Seeder;
 
@@ -12,10 +14,10 @@ class ArticlesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Article::class, 1)->create([
+        Article::factory(1)->create([
             'title' => 'Sobre Ximena',
             'slug' => 'sobre-ximena',
         ]);
-        factory(Article::class, 10)->create();
+        Article::factory(10)->create();
     }
 }

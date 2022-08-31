@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -93,7 +95,7 @@ class PermissionTableSeeder extends Seeder
             ['name' => 'create_question'],
             ['name' => 'update_question'],
             ['name' => 'destroy_question'],
-             // Secciones
+            // Secciones
             ['name' => 'list_section'],
             ['name' => 'create_section'],
             ['name' => 'update_section'],

@@ -4,18 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Question;
-use App\Course;
-use App\Unit;
 use App\User;
 use Illuminate\Http\Request;
-use JWTAuth;
 use Illuminate\Database\Eloquent\Collection;
-use App\Comments;
-use App\Events\updateRateChallenge;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class QuestionController extends Controller
 {

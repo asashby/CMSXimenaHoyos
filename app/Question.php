@@ -3,12 +3,13 @@
 namespace App;
 
 use App\Scopes\ActivatedScope;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Question extends Model
 {
-    use softDeletes;
+    use softDeletes, HasFactory;
 
     protected $table = 'questions';
     protected $fillable = ['id', 'title', 'code', 'slug', 'subtitle', 'is_activated', 'content', 'unit_id', 'duration', 'level', 'frequency', 'max_time', 'time_rest', 'url_video', 'mobile_image', 'url_image', 'order'];

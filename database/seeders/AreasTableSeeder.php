@@ -1,6 +1,11 @@
 <?php
 
+namespace Database\Seeders;
+
+use DateTime;
+use DateTimeZone;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class AreasTableSeeder extends Seeder
 {
@@ -31,7 +36,7 @@ class AreasTableSeeder extends Seeder
                 'name' => 'RRHH',
                 'created_at' => $fecha,
                 'updated_at' => $fecha,
-            ],[
+            ], [
                 'id' => 4,
                 'name' => 'Contabilidad',
                 'created_at' => $fecha,
