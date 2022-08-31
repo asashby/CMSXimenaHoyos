@@ -50,6 +50,7 @@
                       <th>Id</th>
                       <th>Nombre</th>
                       <th>Stock</th>
+                      <th>Habilitado</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -59,6 +60,9 @@
                         <td>{{ $product->id }}</td>
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->getFormattedStockAttribute() }}</td>
+                        <td>
+                          {{ $product->is_active ? 'SI' : 'NO' }}
+                        </td>
                         <td>
                           <a data-toggle="tooltip" href="{{ route('products.edit', $product->id) }}" title="Editar">
                             <i class="far fa-edit"></i>
