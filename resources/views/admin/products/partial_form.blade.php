@@ -61,7 +61,7 @@
     <div class="form-group">
       <label for="stock">Stock</label>
       <input type="number" class="form-control @error('stock') is-invalid @enderror" id="stock" name="stock"
-        placeholder="Ingrese Precio" value="{{ old('stock', $product->stock) }}" step="0.01" required>
+        placeholder="Ingrese Stock" value="{{ old('stock', $product->stock) }}" step="0.01" required>
       @error('stock')
         <div class="invalid-feedback">
           {{ $message }}

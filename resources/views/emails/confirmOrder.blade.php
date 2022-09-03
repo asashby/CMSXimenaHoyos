@@ -165,7 +165,7 @@
 
 <body yahoo="fix" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 
-  <!--Main Table Start-->
+
 
   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#36373a">
     <tr>
@@ -199,9 +199,9 @@
           </tr>
         </table>
 
-        <!--Logo Part End-->
 
-        <!--Menu Part Start-->
+
+
 
         <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
           <tr>
@@ -217,9 +217,9 @@
           </tr>
         </table>
 
-        <!--Menu Part End-->
 
-        <!--Banner Part Start-->
+
+
 
         <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
           <tr>
@@ -253,9 +253,9 @@
           </tr>
         </table>
 
-        <!--Banner Part End-->
 
-        <!--Feature Part Start-->
+
+
 
         <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
           <tr>
@@ -341,9 +341,9 @@
     </tr>
   </table>
 
-  <!--Feature Part End-->
 
-  <!--Welcome text Part Start-->
+
+
 
   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
@@ -378,9 +378,9 @@
     </tr>
   </table>
 
-  <!--Welcome text Part End-->
 
-  <!--Welcome List Part Start-->
+
+
 
   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
@@ -423,12 +423,12 @@
   </table>
 
 
-  <!--Welcome List Part End-->
 
-  <!--Qustion Part Start-->
-  <!--Qustion Part End-->
 
-  <!--Qustion Image Part Start-->
+
+
+
+
 
   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
@@ -442,17 +442,17 @@
     </tr>
   </table>
 
-  <!--Qustion Image Part End-->
-
-  <!--Work Title Part Start-->
 
 
 
-  <!--Work Title Part End-->
 
 
 
-  <!--Space 150  part Start-->
+
+
+
+
+
 
   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
@@ -465,18 +465,18 @@
   </table>
 
 
-  <!--Video Image Part Start-->
-
-  <!--Video Play Part Start-->
-
-
-
-  <!--Video Play Part End-->
 
 
 
 
-  <!--About Part Start-->
+
+
+
+
+
+
+
+
 
   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
@@ -582,9 +582,9 @@
     </tr>
   </table>
 
-  <!--About Part End-->
 
-  <!--Copyright Part Start-->
+
+
 
   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
@@ -604,13 +604,13 @@
     </tr>
   </table>
 
-  <!--Copyright Part End-->
+
 
   </td>
   </tr>
   </table>
   <br>
-  <!--Main Table End-->
+
 
 </body>
 

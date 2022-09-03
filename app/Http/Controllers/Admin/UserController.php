@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Support\Facades\Session;
 use App\Plan;
 use App\User;
-use App\Course;
 use App\Company;
 use Illuminate\Support\Str;
 use App\Mail\ActivationMail;
@@ -14,7 +13,6 @@ use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\UserPostRequest;
-use Illuminate\Database\Eloquent\Builder;
 
 class UserController extends Controller
 {

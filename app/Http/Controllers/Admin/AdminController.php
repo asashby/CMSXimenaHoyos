@@ -13,7 +13,6 @@ use App\Company;
 use App\Article;
 use App\Unit;
 use Illuminate\Support\Facades\Auth;
-use Image;
 
 class AdminController extends Controller
 {
