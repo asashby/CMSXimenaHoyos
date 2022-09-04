@@ -10,18 +10,15 @@ use App\Company;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PlanRequest;
 
 class PlanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         Session::put('page', 'plans');
-        $plans = Plan::get();
+        $plans = Plan::query()->with(['courses'])
+            ->get();
         $company = new Company;
         $companyData = $company->getCompanyInfo();
         return view('admin.plans.plans', compact('plans', 'companyData'));
@@ -30,7 +27,7 @@ class PlanController extends Controller
     public function plansByCourse($slug)
     {
         try {
-            $courseDetail = Course::where('slug', $slug)->first();
+            $courseDetail = Course::query()->where('slug', $slug)->first();
             $plansByCourse = $courseDetail->plans;
             return response()->json([
                 'plansByCourse' => $plansByCourse,
@@ -45,7 +42,7 @@ class PlanController extends Controller
     public function plansByCourseSlug($slug)
     {
         try {
-            $courseDetail = Course::where('slug', $slug)->first();
+            $courseDetail = Course::query()->where('slug', $slug)->first();
             $plansByCourse = $courseDetail->plans;
             return response()->json([
                 'plansByCourse' => $plansByCourse,
@@ -57,89 +54,58 @@ class PlanController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function addPlan(Request $request)
     {
-
-        if ($request->isMethod('post')) {
-            $data = $request->all();
-
-            $plan = new Plan;
-
-            /* echo '<pre>';
-            print_r($data);
-            die; */
-
-            $slug = Str::slug(strtolower($data['planTitle']));
-
-            // echo '<pre>'; print_r($data['planTitle']); die;
-
-            $plan->title = $data['planTitle'];
-            $plan->slug = $slug;
-            $plan->description = $data['planResume'];
-            $plan->months = $data['planMonths'];
-            $plan->price = (float) $data['planPrice'];
-            $plan->course_id = $data['courses'] ?? '[]';
-            $plan->save();
-            if (isset($data['courses'])) {
-                $plan->courses()->sync($data['courses']);
-            }
-            Session::flash('success_message', 'EL plan se creo Correctamente');
-            return redirect('dashboard/plans');
-        }
         $courses = Course::orderBy('id', 'ASC')->pluck('title', 'id')->toArray();
         $company = new Company;
         $companyData = $company->getCompanyInfo();
-        return view('admin.plans.add_plan')->with(compact('courses', 'companyData'));
+        $plan = new Plan();
+        return view('admin.plans.add_plan')->with(compact('courses', 'companyData', 'plan'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function storePlan(PlanRequest $request)
+    {
+        $plan = new Plan($request->validated());
+        $plan->slug = Str::slug(strtolower($plan->title));
+        $plan->course_id = $request->input('courses', []);
+        $plan->save();
+        $plan->courses()->sync($plan->course_id);
+        return redirect()->route('plans.index')->with([
+            'success_message' => 'EL plan se creo Correctamente',
+        ]);
+    }
+
     public function editPlan(Request $request, $id)
     {
-
-        if ($request->isMethod('post')) {
-
-            $data = $request->all();
-
-            $slug = Str::slug($data['planTitle']);
-
-            $plan = Plan::find($id);
-            $finalArray = array_map(function ($item) {
-                return (int) $item;
-            }, $data['courses'] ?? []);
-
-            $plan->update([
-                'title' => $data['planTitle'], 'slug' => $slug, 'description' => $data['planResume'], 'price' => (float) $data['planPrice'], 'months' => $data['planMonths'], 'course_id' => $finalArray ?? '[]'
-            ]);
-            if (isset($data['courses'])) {
-                $plan->find($id)->courses()->sync($data['courses']);
-            }
-            Session::flash('success_message', 'El plan se Actualizo Correctamente');
-            return redirect('dashboard/plans');
-        }
-
-
-        $planDetail = Plan::find($id);
+        $plan = Plan::query()->find($id);
         $courses = Course::orderBy('id', 'ASC')->pluck('title', 'id')->toArray();
         $company = new Company;
         $companyData = $company->getCompanyInfo();
-        return view('admin.plans.edit_plan')->with(compact('planDetail', 'courses', 'companyData'));
+        return view('admin.plans.edit_plan')->with(compact('plan', 'courses', 'companyData'));
+    }
+
+    public function updatePlan(PlanRequest $request, $id)
+    {
+        $plan = Plan::query()->find($id);
+        $plan->fill($request->validated());
+        $plan->slug = Str::slug(strtolower($plan->title));
+
+        $finalArray = array_map(function ($item) {
+            return (int) $item;
+        }, $request->input('courses', []));
+        $plan->course_id = $finalArray;
+        $plan->save();
+        $plan->courses()->sync($plan->course_id);
+        return redirect()->route('plans.index')->with([
+            'success_message' => 'El plan se Actualizo Correctamente',
+        ]);
     }
 
     public function deletePlan($id)
     {
-        Plan::find($id)->delete();
+        Plan::query()->find($id)->delete();
         $message = 'El reto se elimino correctamente';
         Session::flash('success_message', $message);
-        return redirect('dashboard/plans');
+        return redirect()->route('plans.index');
     }
 }

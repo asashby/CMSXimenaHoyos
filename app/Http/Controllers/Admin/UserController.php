@@ -89,7 +89,7 @@ class UserController extends Controller
         $date_now = Carbon::now();
         if (isset($request->plans)) {
             foreach ($request->plans as $plan) {
-                $detPlan = Plan::find($plan);
+                $detPlan = Plan::query()->find($plan);
                 foreach ($detPlan->course_id as $course) {
                     $finalArray[$course] = [
                         'insc_date' => $date_now,

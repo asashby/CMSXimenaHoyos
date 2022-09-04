@@ -13,7 +13,7 @@
       @enderror
     </div>
     <div class="form-group">
-      <label for="description">Descripcion</label>
+      <label for="description">Descripción</label>
       <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description"
         placeholder="Ingrese Resumen" rows="3">{{ old('description', $focusedExerciseItem->description) }}</textarea>
       @error('description')

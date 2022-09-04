@@ -74,7 +74,7 @@
                   <div class="form-group">
                     <label for="exampleInputEmail1">Descripción</label>
                     <textarea class="form-control" name="helpCenterDescription" id="helpCenterDescription"
-                      placeholder="Ingrese Descripcion">{{ $companyData->helpCenter->description }}</textarea>
+                      placeholder="Ingrese Descripción">{{ $companyData->helpCenter->description }}</textarea>
                   </div>
                 </div>
 
@@ -124,7 +124,7 @@
                   <div class="form-group">
                     <label for="exampleInputEmail1">Descripción</label>
                     <textarea class="form-control" name="privacyPolicyDescription" id="privacyPolicyDescription"
-                      placeholder="Ingrese Descripcion">{{ $companyData->privacyPolicy->description }}</textarea>
+                      placeholder="Ingrese Descripción">{{ $companyData->privacyPolicy->description }}</textarea>
                   </div>
                 </div>
 

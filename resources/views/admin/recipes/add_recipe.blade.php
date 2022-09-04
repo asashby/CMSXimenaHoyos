@@ -65,7 +65,7 @@
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Descripcion de Receta</label>
+                    <label for="exampleInputEmail1">Descripción de Receta</label>
                     <textarea class="form-control" name="recipeResume" id="recipeResume" placeholder="Ingrese Resumen"></textarea>
                   </div>
                   <div class="form-group">
@@ -142,7 +142,7 @@
                     <input type="number" class="form-control mb-2 mr-sm-2" id="stepOrder" min=0
                       placeholder="Paso Nro.">
                     <div class="input-group mb-2 mr-sm-2">
-                      <textarea class="form-control" id="recipeStep" placeholder="Descripcion del Paso"></textarea>
+                      <textarea class="form-control" id="recipeStep" placeholder="Descripción del Paso"></textarea>
                     </div>
                     <input type="button" class="btn btn-primary addStep" value="Agregar">
                     <div class="card-body">
@@ -176,7 +176,7 @@
                                     <label class="mb-2">Registrar Pasos</label>
                                         <input type="number" class="form-control mb-2 mr-sm-2" id="stepOrder" min=0 placeholder="Paso Nro.">
                                         <div class="input-group mb-2 mr-sm-2">
-                                            <textarea class="form-control" id="recipeStep" placeholder="Descripcion del Paso" ></textarea>
+                                            <textarea class="form-control" id="recipeStep" placeholder="Descripción del Paso" ></textarea>
                                         </div>
                                         <input type="button" class="btn btn-primary addStep" value="Agregar">
                                     <div class="card-body">

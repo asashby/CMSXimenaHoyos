@@ -93,7 +93,7 @@
                   <div class="form-group">
                     <label for="exampleInputEmail1">Descripción</label>
                     <textarea class="form-control textAreaEditor" name="articleContent" id="articleContent"
-                      placeholder="Ingrese Descripcion"></textarea>
+                      placeholder="Ingrese Descripción"></textarea>
                   </div>
                 </div>
                 <!-- /.form-group -->

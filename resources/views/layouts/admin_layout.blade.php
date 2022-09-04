@@ -120,7 +120,7 @@
         ]
       });
       $('.textAreaEditorSection').summernote({
-        placeholder: 'Inserte Descripcion',
+        placeholder: 'Inserte Descripción',
         tabsize: 2,
         height: 120,
         toolbar: [

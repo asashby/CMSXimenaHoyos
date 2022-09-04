@@ -56,7 +56,7 @@
                   <div class="form-group">
                     <label for="exampleInputEmail1">Descripción</label>
                     <textarea class="form-control textAreaEditorSection" rows="3" name="sectionDescription" id="sectionDescription"
-                      placeholder="Ingrese Descripcion"></textarea>
+                      placeholder="Ingrese Descripción"></textarea>
                   </div>
                   <div class="form-group">
                     <label for="exampleInputFile">Insertar Banner Principal</label>

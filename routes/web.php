@@ -96,16 +96,17 @@ Route::namespace('Admin')->group(function () {
         //Question
         Route::resource('/questions', 'QuestionController');
         Route::patch('/questions/{id}/status', 'QuestionController@changeStatus');
-        Route::get('list-questions/{id}/unit', 'QuestionController@getTableQuestionByUnit');
+        Route::get('/list-questions/{id}/unit', 'QuestionController@getTableQuestionByUnit');
         Route::post('/questions/edit/{id}', 'QuestionController@update');
-        Route::get('course/{id}/units', 'UnitController@unitsByChallenge');
-        Route::get('courses/{id}/units', 'UnitController@unitsByChallenge2');
+        Route::get('/course/{id}/units', 'UnitController@unitsByChallenge');
+        Route::get('/courses/{id}/units', 'UnitController@unitsByChallenge2');
 
         //Plans
-        Route::resource('/plans', 'PlanController');
-        Route::post('/upd-plan-status', 'PlanController@updatePlanStatus');
-        Route::match(['get', 'post'], '/plans/create', 'PlanController@addPlan');
-        Route::match(['get', 'post'], '/plans/edit/{id?}', 'PlanController@editPlan');
+        Route::get('/plans', 'PlanController@index')->name('plans.index');
+        Route::get('/plans/create', 'PlanController@addPlan')->name('plans.create');
+        Route::post('/plans/create', 'PlanController@storePlan')->name('plans.store');
+        Route::get('/plans/edit/{id?}', 'PlanController@editPlan')->name('plans.edit');
+        Route::post('/plans/edit/{id?}', 'PlanController@updatePlan')->name('plans.update');
         Route::get('/plan/delete/{id}', 'PlanController@deletePlan');
 
         //Products

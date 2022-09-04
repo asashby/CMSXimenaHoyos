@@ -56,7 +56,7 @@
                     <tr>
                       <th>Id</th>
                       <th>Título</th>
-                      <th>Descripcion</th>
+                      <th>Descripción</th>
                       <th>Acciones</th>
                     </tr>
                   </thead>

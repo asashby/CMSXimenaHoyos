@@ -16,70 +16,46 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-Route::post('login', 'Auth\AuthController@login');
-Route::post('login-social', 'Auth\AuthController@loginSocial');
-Route::post('register', 'Auth\AuthController@register');
-Route::get('home', 'Auth\AuthController@home');
-Route::get('sections/{slugSection}/articles', 'Auth\AuthController@getArticlesBySections');
-Route::get('article/{idArticle}', 'Auth\AuthController@getArticleDetail');
+Route::post('/login', 'Auth\AuthController@login');
+Route::post('/login-social', 'Auth\AuthController@loginSocial');
+Route::post('/register', 'Auth\AuthController@register');
+Route::get('/home', 'Auth\AuthController@home');
+Route::get('/sections/{slugSection}/articles', 'Auth\AuthController@getArticlesBySections');
+Route::get('/article/{idArticle}', 'Auth\AuthController@getArticleDetail');
 Route::get('/sections', 'Auth\AuthController@getSections');
 Route::get('/banner', 'Auth\AuthController@getSlide');
 Route::get('/areas', 'Auth\AuthController@getAreas');
-Route::get('tips', 'Auth\AuthController@getTips');
-Route::get('tips/{slug}', 'Auth\AuthController@getTipDetail');
+Route::get('/tips', 'Auth\AuthController@getTips');
+Route::get('/tips/{slug}', 'Auth\AuthController@getTipDetail');
 Route::get('/company/public', 'Auth\AuthController@getCompanyData');
 Route::get('/sections/{slug}', 'Auth\AuthController@getSectionDetail');
-
 Route::get('/about/{slug}', 'Auth\AuthController@aboutXimena');
 
-Route::get('activation/{data}/{content}', 'Auth\AuthController@activate');
-Route::post('forget-password', 'Auth\AuthController@sendLinkResetPassword');
-Route::post('reset-password', 'Auth\AuthController@ResetPassword');
+Route::get('/activation/{data}/{content}', 'Auth\AuthController@activate');
+Route::post('/forget-password', 'Auth\AuthController@sendLinkResetPassword');
+Route::post('/reset-password', 'Auth\AuthController@ResetPassword');
 
 //ruta para recetas -> esta publico temporalmente
-Route::get('recipes', 'Api\RecipeController@index');
-Route::get('recipes/{slug}', 'Api\RecipeController@detailRecipe');
+Route::get('/recipes', 'Api\RecipeController@index');
+Route::get('/recipes/{slug}', 'Api\RecipeController@detailRecipe');
 
+Route::get('/certificate/{id}/course/download', 'Api\CourseController@downloadPdf');
 
-Route::get('certificate/{id}/course/download', 'Api\CourseController@downloadPdf');
+Route::patch('/order/{orderId}/confirm-payment', 'Api\CourseController@confirmPaymentOrder');
 
-Route::patch('order/{orderId}/confirm-payment', 'Api\CourseController@confirmPaymentOrder');
-
-
-Route::get('courses', 'Api\CourseController@index');
-Route::get('courses/{slug}/detail', 'Api\CourseController@detailCourse');
-Route::get('course/{id}/plans', 'Admin\PlanController@plansByCourse');
-Route::get('course/{slug}/plans-list', 'Admin\PlanController@plansByCourseSlug');
-Route::get('courses/{slug}/units', 'Api\CourseController@unitsByCourse');
-Route::get('units/{slug}/detail', 'Api\UnitController@getUnitDetail');
-
+Route::get('/courses', 'Api\CourseController@index');
+Route::get('/courses/{slug}/detail', 'Api\CourseController@detailCourse');
+Route::get('/course/{id}/plans', 'Admin\PlanController@plansByCourse');
+Route::get('/course/{slug}/plans-list', 'Admin\PlanController@plansByCourseSlug');
+Route::get('/courses/{slug}/units', 'Api\CourseController@unitsByCourse');
+Route::get('/units/{slug}/detail', 'Api\UnitController@getUnitDetail');
 
 //Categories
-Route::get('categories', 'Api\CategoryController@index');
+Route::get('/categories', 'Api\CategoryController@index');
 
 //Products
-Route::get('products', 'Api\ProductController@index');
-Route::get('products/{id}/detail', 'Api\ProductController@productDetail');
-//Route::get('units/{id}/questions', 'Api\UnitController@questionsByUnit');
-// Route::get('questions', 'Api\QuestionController@index');
-// Route::get('questions/{id}/answers', 'Api\QuestionController@index');
-// Route::get('questions/{code}/detail', 'Api\QuestionController@questionDetail');
-
-
-//courses: colocando endpoints publicos, para pruebas
-// Route::get('courses/{slug}/units', 'Api\CourseController@unitsByCourse');
-// Route::get('units', 'Api\UnitController@index');
-// Route::get('units/{slug}/detail','Api\UnitController@getUnitDetail');
-// Route::get('units/{id}/questions', 'Api\UnitController@questionsByUnit');
-// Route::get('questions', 'Api\QuestionController@index');
-
-
-// Route::post('questions/final','Api\UnitController@finishQuestion');
-// Route::post('units/{id}/final','Api\UnitController@finishUnit');
-
-// Route::post('rating/course/{slug}', 'Api\CourseController@rateAndCommentCourse');
-// Route::get('comments/course/{slug}', 'Api\CourseController@commentsByCourse');
+Route::get('/products', 'Api\ProductController@index');
+Route::get('/products/{id}/detail', 'Api\ProductController@productDetail');
 
 Route::group(['middleware' => 'auth.jwt'], function () {
     Route::post('logout', 'Auth\AuthController@logout');
@@ -88,12 +64,9 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('current/courses', 'Auth\AuthController@getCoursesCount');
     Route::post('current/additionalInfo', 'Auth\AuthController@setAdditionalInfo');
 
-
     //courses
-    // Route::patch('courses/{slug}/payment', 'Api\CourseController@UserRegisterOnCourse');
     Route::post('courses/{slug}/check-free', 'Api\CourseController@checkCourseFree');
-
-    Route::patch('courses/payment', 'Api\CourseController@UserRegisterOnCourse');
+    Route::patch('courses/payment', 'Api\CourseController@userRegisterOnCourse');
 
     //directions
     Route::get('address', 'Auth\AuthController@getUserAddress');
@@ -110,8 +83,6 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('courses/{slug}/detail-user', 'Api\CourseController@detailCourseUser');
     Route::get('courses/{slug}/units-user', 'Api\CourseController@unitsByCourseUser');
     Route::get('units', 'Api\UnitController@index');
-    // Route::get('units/{slug}/detail', 'Api\UnitController@getUnitDetail');
-
 
     Route::post('purchase/confirm', 'Api\CourseController@confirmPurchaseProductMail');
 
@@ -119,15 +90,10 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('questions/{id}/answers', 'Api\QuestionController@index');
     Route::get('questions/{slug}/detail', 'Api\QuestionController@questionDetail');
 
-
     //Orders
     Route::post('order/payment', 'Api\orderController@createOrder');
     Route::get('order-user', 'Api\orderController@OrdersByUser');
 
-    // Route::get('units/{id}/questions-user', 'Api\UnitController@questionsByUnitUser');
-    // Route::get('questions', 'Api\QuestionController@index');
-    // Route::get('questions/{id}/answers-user', 'Api\QuestionController@index');
-    // Route::get('questions/{code}/detail-user', 'Api\QuestionController@questionDetailUser');
     //RUTA PARA FINALIZAR EL CURSO
     Route::post('questions/final', 'Api\UnitController@finishQuestion');
     Route::post('units/{id}/final', 'Api\UnitController@finishUnit');

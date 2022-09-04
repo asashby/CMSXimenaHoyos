@@ -158,7 +158,7 @@
           @else
             <?php $active = ''; ?>
           @endif
-          <a href="{{ url('dashboard/plans') }}" class="nav-link {{ $active }}">
+          <a href="{{ route('plans.index') }}" class="nav-link {{ $active }}">
             <i class="nav-icon fas fa-tasks"></i>
             <p>Planes</p>
           </a>

@@ -29,7 +29,7 @@
       @enderror
     </div>
     <div class="form-group">
-      <label for="description">Descripcion de Producto</label>
+      <label for="description">Descripción de Producto</label>
       <textarea class="form-control textAreaEditor @error('description') is-invalid @enderror" name="description"
         id="description" placeholder="Ingrese Resumen">{!! old('description', $product->description) !!}</textarea>
       @error('description')

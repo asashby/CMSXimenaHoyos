@@ -217,13 +217,13 @@ class CourseController extends Controller
                 $urlVideo = $data['courseUrlVideo'];
             }
 
-            Course::where(['id' => $id])->update(['title' => $data['courseTitle'], 'subtitle' => $data['courseSubTitle'], 'type' => $data['courseType'], 'days' => $data['courseDays'], 'slug' => $slug, 'frequency' => $data['courseFrequence'], 'description' => $data['courseDescription'], 'banner' => $completePathBanner, 'url_image' => $completePathContent, 'mobile_image' => $completePathBannerMobile, 'level' => $data['courseLevel'], 'duration' => $data['courseDuration'], 'url_video' => $urlVideo, 'prices' => $data['coursePrice'] ?? 0.00]);
+            Course::query()->where(['id' => $id])->update(['title' => $data['courseTitle'], 'subtitle' => $data['courseSubTitle'], 'type' => $data['courseType'], 'days' => $data['courseDays'], 'slug' => $slug, 'frequency' => $data['courseFrequence'], 'description' => $data['courseDescription'], 'banner' => $completePathBanner, 'url_image' => $completePathContent, 'mobile_image' => $completePathBannerMobile, 'level' => $data['courseLevel'], 'duration' => $data['courseDuration'], 'url_video' => $urlVideo, 'prices' => $data['coursePrice'] ?? 0.00]);
 
             Session::flash('success_message', 'El articulo se Actualizo Correctamente');
             return redirect('dashboard/courses');
         }
 
-        $courseDetail = Course::where(['id' => $id])->first();
+        $courseDetail = Course::query()->where(['id' => $id])->first();
         $company = new Company;
         $companyData = $company->getCompanyInfo();
         return view('admin.courses.edit_course')->with(compact('courseDetail', 'companyData'));

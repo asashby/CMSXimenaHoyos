@@ -35,12 +35,15 @@ class Course extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_courses')->withPivot('id', 'init_date', 'final_date', 'insc_date', 'flag_registered', 'flag_completed', 'paid');
+        return $this->belongsToMany(User::class, 'user_courses')
+            ->withPivot('id', 'init_date', 'final_date', 'insc_date', 'flag_registered', 'flag_completed', 'paid');
     }
 
     public function plans()
     {
-        return $this->belongsToMany(Plan::class, 'courses_plans')->withPivot('id', 'course_id', 'plan_id')->select(['plans.id', 'plans.title', 'plans.price', 'plans.description']);
+        return $this->belongsToMany(Plan::class, 'courses_plans')
+            ->withPivot('id', 'course_id', 'plan_id')
+            ->select(['plans.id', 'plans.title', 'plans.price', 'plans.description']);
     }
 
     public function cleanSlug($title)

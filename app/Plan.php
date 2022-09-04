@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Scopes\ActivatedScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -10,8 +9,15 @@ class Plan extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'plans';
-    protected $fillable = ['id', 'title', 'description', 'price', 'course_id', 'slug', 'woocommerce_ids'];
+    protected $fillable = [
+        'id',
+        'title',
+        'description',
+        'price',
+        'months',
+        'course_id',
+        'slug',
+    ];
 
     protected $casts = [
         'course_id' => 'array',
@@ -25,12 +31,6 @@ class Plan extends Model
     {
         return $this->belongsToMany(Course::class, 'courses_plans')->withPivot('id', 'course_id', 'plan_id');
     }
-
-    /* public static function boot()
-    {
-        parent::boot();
-        static::addGlobalScope(new ActivatedScope);
-    } */
 
     static function scopeCourse($query, $id)
     {

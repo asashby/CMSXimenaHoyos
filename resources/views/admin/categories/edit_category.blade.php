@@ -57,7 +57,7 @@
                       placeholder="Ingrese Titulo" value="{{ $categoryDetail->title }}">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Descripcion de Categoria</label>
+                    <label for="exampleInputEmail1">Descripción de Categoria</label>
                     <textarea class="form-control" name="categoryResume" id="categoryResume" placeholder="Ingrese Resumen">{{ $categoryDetail->description }}</textarea>
                   </div>
                 </div>
@@ -87,7 +87,7 @@
                                         placeholder="Paso Nro.">
                                     <div class="input-group mb-2 mr-sm-2">
                                         <textarea class="form-control" id="categoryStep"
-                                            placeholder="Descripcion del Paso"
+                                            placeholder="Descripción del Paso"
                                             ></textarea>
                                     </div>
                                     <input type="button" class="btn btn-primary addStep" value="Agregar">

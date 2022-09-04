@@ -70,7 +70,7 @@
                       value="{{ $courseDetail->prices }}" placeholder="Precio">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Descripcion de Reto</label>
+                    <label for="exampleInputEmail1">Descripción de Reto</label>
                     <textarea class="form-control" name="courseDescription" id="courseDescription" placeholder="Descripion del reto">{{ $courseDetail->description }}</textarea>
                   </div>
                   <div class="form-group">

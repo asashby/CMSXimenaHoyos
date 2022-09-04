@@ -86,7 +86,7 @@
                 <div class="col-12">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Descripción</label>
-                    <textarea class="form-control textAreaEditor" name="tipContent" id="tipContent" placeholder="Ingrese Descripcion">{!! $tipDetail->content !!}</textarea>
+                    <textarea class="form-control textAreaEditor" name="tipContent" id="tipContent" placeholder="Ingrese Descripción">{!! $tipDetail->content !!}</textarea>
                   </div>
                 </div>
                 <!-- /.form-group -->

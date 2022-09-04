@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ConfirmPurchaseMail;
 
-
 class CourseController extends Controller
 {
     public function coursesByUser(Request $request)
@@ -39,18 +38,9 @@ class CourseController extends Controller
         return $courses;
     }
 
-    /*
-    public function detailCourseByUser($id)
-    {
-        $courseData = Course::find($id);
-        $courseData['attributes'] = json_decode($courseData['attributes']);
-        return response()->json($courseData, 200);
-    }
-    */
-
     public function detailCourse($slug, Request $request)
     {
-        $courseData = Course::where('slug', $slug)->first();
+        $courseData = Course::query()->where('slug', $slug)->first();
         $courseUsers = $courseData->users;
         if (isset($data)) {
             $user = User::find(Auth::user()->id);
@@ -69,11 +59,7 @@ class CourseController extends Controller
 
     public function unitsByCourse($slug)
     {
-        /*     $courseData = Course::where('slug', $slug)->first();
-        $units = Unit::select('id', 'title', 'day', 'slug', 'url_icon')->where('course_id', $courseData->id)->orderBy('day', 'ASC')->get();
-     */
-        // $user = User::find(Auth::user()->id);
-        $courseData = Course::where('slug', $slug)->first();
+        $courseData = Course::query()->where('slug', $slug)->first();
         $units = Unit::select('id', 'title', 'day', 'slug', 'url_icon')->where('course_id', $courseData->id)->orderBy('day', 'ASC')->get();
         if (isset($user)) {
             $units_by_user = $user->units->where('course_id', $courseData->id);
@@ -99,11 +85,8 @@ class CourseController extends Controller
 
     public function unitsByCourseUser($slug)
     {
-        /*     $courseData = Course::where('slug', $slug)->first();
-        $units = Unit::select('id', 'title', 'day', 'slug', 'url_icon')->where('course_id', $courseData->id)->orderBy('day', 'ASC')->get();
-     */
         $user = User::find(Auth::user()->id);
-        $courseData = Course::where('slug', $slug)->first();
+        $courseData = Course::query()->where('slug', $slug)->first();
         $units = Unit::select('id', 'title', 'day', 'slug', 'url_icon')->where('course_id', $courseData->id)->orderBy('day', 'ASC')->get();
         $units_by_user = $user->units->where('course_id', $courseData->id);
         foreach ($units as $unit) {
@@ -128,7 +111,7 @@ class CourseController extends Controller
     public function detailCourseUser($slug)
     {
         $user = User::find(Auth::user()->id);
-        $courseData = Course::where('slug', $slug)->first();
+        $courseData = Course::query()->where('slug', $slug)->first();
         $courseUsers = $courseData->users;
         $finalCourseData = $courseUsers->firstWhere('id', $user->id);
         if (!isset($finalCourseData)) {
@@ -147,7 +130,7 @@ class CourseController extends Controller
         try {
             DB::beginTransaction();
             $user = User::find(Auth::user()->id);
-            $course = Course::where('slug', $slug)->first();
+            $course = Course::query()->where('slug', $slug)->first();
             $courses = $user->courses;
             $courses = $courses->firstWhere('id', $course->id);
             if (!isset($courses)) {
@@ -190,19 +173,14 @@ class CourseController extends Controller
         }
     }
 
-    public function UserRegisterOnCourse(Request $request)
+    public function userRegisterOnCourse(Request $request)
     {
         try {
             DB::beginTransaction();
             $user = User::find(Auth::user()->id);
             $emailUser = $user->email;
-            if (!empty($request->plan_id) || !empty($request->product_id)) {
-                if (!empty($request->product_id)) {
-                    $ids = implode($request->product_id);
-                    $plan = Plan::where('woocommerce_ids', 'like', "%$ids%")->first();
-                } else {
-                    $plan = Plan::find($request->plan_id);
-                }
+            if (!empty($request->plan_id)) {
+                $plan = Plan::query()->find($request->plan_id);
                 $coursesPlan = $plan->course_id;
                 $dataCourses =  Course::whereIn('id', $coursesPlan)->get();
                 $findCourses = $user->courses()->whereIn('course_id', $coursesPlan)->count();
@@ -316,7 +294,7 @@ class CourseController extends Controller
     {
         $user = Auth::user()->id;
         $user_name = Auth::user()->name;
-        $course = Course::where('slug', $slug)->first();
+        $course = Course::query()->where('slug', $slug)->first();
         if (!$course) {
             return response()->json([
                 'code' => 'COURSE_NOT_FOUND',
@@ -345,7 +323,7 @@ class CourseController extends Controller
         $commentSum = $comments->where('course_id', $course->id)->sum('rating');
         $commentProm = floatval($commentSum) / $commentCount;
 
-        Course::where('slug', $slug)->update(['rating' => $commentProm]);
+        Course::query()->where('slug', $slug)->update(['rating' => $commentProm]);
 
         return response()->json([
             'code' => 'COMMENT_SAVED',
@@ -356,21 +334,8 @@ class CourseController extends Controller
 
     public function commentsByCourse($slug)
     {
-        $course = Course::where('slug', $slug)->first();
+        $course = Course::query()->where('slug', $slug)->first();
         $comments = Comments::where('course_id', $course->id)->get(['rating', 'title', 'content']);
         return \response()->json($comments, 200);
-    }
-
-    public function soonToExpire()
-    {
-        $currentDay = Carbon::now();
-        $usersToExpire = User::select('users.name', 'users.email', 'user_courses.expiration_date', 'courses.title', DB::raw('DATEDIFF(user_courses.expiration_date, ?) as difference'))->join('user_courses', 'user_courses.user_id', '=', 'users.id')->join('courses', 'user_courses.course_id', '=', 'courses.id')->whereRaw('DATEDIFF(user_courses.expiration_date, ?) = ?')->setBindings([$currentDay, $currentDay, 2])->get()->toArray();
-
-        /* $newArray = array_replace($usersToExpire, function ($item) {
-            return $item['name'] = 'Iesus';
-        }); */
-
-
-        return $newArray;
     }
 }
