@@ -19,7 +19,6 @@ class CreateTableCoursesPlans extends Migration
             $table->foreign('course_id')->references('id')->on('courses');
             $table->unsignedBigInteger('plan_id');
             $table->foreign('plan_id')->references('id')->on('plans');
-            $table->timestamps();
         });
     }
 

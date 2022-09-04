@@ -3,9 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class Focused extends Model
+class FocusedExercise extends Model
 {
     protected $table = 'focused_exercises';
 
@@ -41,5 +42,13 @@ class Focused extends Model
             return Storage::disk('public')->url($this->mobile_image);
         }
         return '';
+    }
+
+    public static function getFocusedExercisesIdAndDisplayName(Request $request)
+    {
+        return self::query()->get([
+            'id',
+            'title AS display_name'
+        ]);
     }
 }

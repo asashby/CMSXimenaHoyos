@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Company;
-use App\Focused;
+use App\FocusedExercise;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -16,7 +16,7 @@ class FocusedController extends Controller
     public function index()
     {
         Session::put('page', 'focused');
-        $exercises = Focused::query()->latest()->get();
+        $exercises = FocusedExercise::query()->latest()->get();
         $company = new Company();
         $companyData = $company->getCompanyInfo();
         return view('admin.focused.focused', compact('exercises', 'companyData'));
@@ -27,7 +27,7 @@ class FocusedController extends Controller
         if ($request->isMethod('post')) {
             $data = $request->all();
 
-            $focusedExercise = new Focused($request->all());
+            $focusedExercise = new FocusedExercise($request->all());
             $focusedExercise->slug = Str::slug($focusedExercise->title);
             $focusedExercise->description = htmlspecialchars_decode(e($data['description']));
             $focusedExercise->published_at = Carbon::now();
@@ -43,7 +43,7 @@ class FocusedController extends Controller
         }
         $company = new Company;
         $companyData = $company->getCompanyInfo();
-        $focusedExercise = new Focused();
+        $focusedExercise = new FocusedExercise();
         return view('admin.focused.add_focused')->with([
             'companyData' => $companyData,
             'focusedExercise' => $focusedExercise,
@@ -52,7 +52,7 @@ class FocusedController extends Controller
 
     public function editFocused(Request $request, int $id)
     {
-        $focusedExercise = Focused::query()->findOrFail($id);
+        $focusedExercise = FocusedExercise::query()->findOrFail($id);
         if ($request->isMethod('post')) {
             $focusedExercise->fill($request->all());
             $focusedExercise->slug = Str::slug($focusedExercise->title);
@@ -82,7 +82,7 @@ class FocusedController extends Controller
 
     public function deleteFocused($id)
     {
-        Focused::find($id)->delete();
+        FocusedExercise::find($id)->delete();
         $message = 'El Focalizado se Elimino correctamente';
         Session::flash('success_message', $message);
         return redirect('dashboard/focused');
@@ -90,7 +90,7 @@ class FocusedController extends Controller
 
     public function showFocused(int $focusedId)
     {
-        $focusedExercise = Focused::query()->with(['focused_exercise_items'])
+        $focusedExercise = FocusedExercise::query()->with(['focused_exercise_items'])
             ->findOrFail($focusedId);
         $company = new Company;
         $companyData = $company->getCompanyInfo();

@@ -38,6 +38,14 @@ class PlanRequest extends FormRequest
                 'required',
                 'numeric',
             ],
+            'coursesIds' => [
+                'nullable',
+                'array'
+            ],
+            'focusedExercisesIds' => [
+                'nullable',
+                'array'
+            ],
         ];
     }
 }

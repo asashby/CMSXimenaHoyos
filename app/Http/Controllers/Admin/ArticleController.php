@@ -124,7 +124,7 @@ class ArticleController extends Controller
         if ($request->isMethod('post')) {
 
             $data = $request->all();
-            // echo '<pre>'; print_r($data); die;
+
             $rulesData = [
                 'articleTitle' => 'required|regex:/^[A-Za-zá-úÁ-ÚñÑ0-9\-! ,&\'\"\/@\.:\(\)]+$/',
                 'articleSubTitle' => 'nullable|regex:/^[A-Za-zá-úÁ-ÚñÑ0-9\-! ,&\'\"\/@\.:\(\)]+$/',

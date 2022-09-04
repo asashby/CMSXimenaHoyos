@@ -135,8 +135,6 @@ Route::namespace('Admin')->group(function () {
         Route::match(['get', 'post'], '/categories/edit/{id?}', 'CategoryController@editCategory');
         Route::get('/category/delete/{id}', 'CategoryController@deleteCategory');
 
-
-        //Focused
         Route::get('/focused', 'FocusedController@index')->name('focused.index');
         Route::patch('/focused/status', 'FocusedController@updateFocusedStatus');
         Route::match(['get', 'post'], '/focused/create', 'FocusedController@addFocused');

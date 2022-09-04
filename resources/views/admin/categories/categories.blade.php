@@ -1,9 +1,7 @@
 @extends('layouts.admin_layout')
 @section('title', 'Categorias')
 @section('content')
-
   <div class="content-wrapper">
-
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -19,8 +17,6 @@
         </div>
       </div>
     </section>
-
-
     <section class="content">
       <div class="container-fluid">
         @if (Session::has('error_message'))
@@ -41,15 +37,12 @@
         @endif
         <div class="row">
           <div class="col-12">
-
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Tabla de Categorias</h3>
-                <a href="{{ url('dashboard/categories/create') }}"
-                  style="max-width: 150px; float: right; display:inline-block;" class="btn btn-block btn-success">Agregar
+                <a href="{{ url('dashboard/categories/create') }}" class="btn btn-success float-right">Agregar
                   Categorias</a>
               </div>
-
               <div class="card-body">
                 <table id="coursesTable" class="table table-bordered table-striped">
                   <thead>
@@ -57,7 +50,7 @@
                       <th>Id</th>
                       <th>Título</th>
                       <th>Descripción</th>
-                      <th>Acciones</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -67,12 +60,6 @@
                         <td>{{ $category->name }}</td>
                         <td>{{ $category->description }}</td>
                         <td>
-                          {{-- <span data-toggle="modal" id="excercises" data-target="#unitsListModal"
-                                                data-id="{{$category->id}}" data-title="{{$category->title}}">
-                                                <a data-toggle="tooltip" style="cursor: pointer" title="Ver Ejercicios">
-                                                    <i class="fas fa-file text-info"></i>
-                                                </a>
-                                            </span> --}}
                           <a data-toggle="tooltip" href="{{ url('dashboard/categories/edit/' . $category->id) }}"
                             title="Editar">
                             <i class="far fa-edit"></i>
@@ -81,49 +68,16 @@
                             recordId="{{ $category->id }}" data-toggle="tooltip" title="Eliminar">
                             <i style="color: red;" class="fas fa-trash-alt"></i>
                           </a>
+                        </td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+                </table>
               </div>
-              </td>
-              </tr>
-              @endforeach
-              </tbody>
-              </table>
             </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-  </div>
-
-  </section>
-
-  </div>
-
-
-  <div class="modal fade" id="unitsListModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h6 class="modal-title">Lista de Ejercicios para <b id="courseModalLabel"></b> </h6>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body row">
-          <div class="data-units-course col-md-12">
-            <ul class="todo-list ui-sortable" data-widget="todo-list">
-            </ul>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger " data-dismiss="modal">Cerrar</button>
-        </div>
       </div>
-    </div>
+    </section>
   </div>
-
-
-
 @endsection

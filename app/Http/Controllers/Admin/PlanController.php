@@ -7,6 +7,7 @@ use App\Plan;
 use Exception;
 use App\Course;
 use App\Company;
+use App\FocusedExercise;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -14,10 +15,10 @@ use App\Http\Requests\PlanRequest;
 
 class PlanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         Session::put('page', 'plans');
-        $plans = Plan::query()->with(['courses'])
+        $plans = Plan::query()->with(['courses', 'focused_exercises'])
             ->get();
         $company = new Company;
         $companyData = $company->getCompanyInfo();
@@ -60,16 +61,18 @@ class PlanController extends Controller
         $company = new Company;
         $companyData = $company->getCompanyInfo();
         $plan = new Plan();
-        return view('admin.plans.add_plan')->with(compact('courses', 'companyData', 'plan'));
+        $focusedExercises = FocusedExercise::getFocusedExercisesIdAndDisplayName($request);
+        return view('admin.plans.add_plan')->with(compact('courses', 'companyData', 'plan', 'focusedExercises'));
     }
 
     public function storePlan(PlanRequest $request)
     {
         $plan = new Plan($request->validated());
         $plan->slug = Str::slug(strtolower($plan->title));
-        $plan->course_id = $request->input('courses', []);
+        $plan->course_id = $request->input('coursesIds', []);
         $plan->save();
         $plan->courses()->sync($plan->course_id);
+        $plan->focused_exercises()->sync($request->input('focusedExercisesIds', []));
         return redirect()->route('plans.index')->with([
             'success_message' => 'EL plan se creo Correctamente',
         ]);
@@ -77,11 +80,15 @@ class PlanController extends Controller
 
     public function editPlan(Request $request, $id)
     {
-        $plan = Plan::query()->find($id);
+        $plan = Plan::query()->with([
+            'courses',
+            'focused_exercises',
+        ])->find($id);
         $courses = Course::orderBy('id', 'ASC')->pluck('title', 'id')->toArray();
         $company = new Company;
         $companyData = $company->getCompanyInfo();
-        return view('admin.plans.edit_plan')->with(compact('plan', 'courses', 'companyData'));
+        $focusedExercises = FocusedExercise::getFocusedExercisesIdAndDisplayName($request);
+        return view('admin.plans.edit_plan')->with(compact('plan', 'courses', 'companyData', 'focusedExercises'));
     }
 
     public function updatePlan(PlanRequest $request, $id)
@@ -92,10 +99,11 @@ class PlanController extends Controller
 
         $finalArray = array_map(function ($item) {
             return (int) $item;
-        }, $request->input('courses', []));
+        }, $request->input('coursesIds', []));
         $plan->course_id = $finalArray;
         $plan->save();
         $plan->courses()->sync($plan->course_id);
+        $plan->focused_exercises()->sync($request->input('focusedExercisesIds', []));
         return redirect()->route('plans.index')->with([
             'success_message' => 'El plan se Actualizo Correctamente',
         ]);

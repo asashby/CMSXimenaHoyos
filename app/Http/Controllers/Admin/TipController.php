@@ -108,7 +108,7 @@ class TipController extends Controller
         if ($request->isMethod('post')) {
 
             $data = $request->all();
-            // echo '<pre>'; print_r($data); die;
+
             $rulesData = [
                 'tipTitle' => 'required|regex:/^[A-Za-zá-úÁ-ÚñÑ0-9\-! ,&\'\"\/@\.:\(\)]+$/',
                 'tipSubTitle' => 'nullable|regex:/^[A-Za-zá-úÁ-ÚñÑ0-9\-! ,&\'\"\/@\.:\(\)]+$/',

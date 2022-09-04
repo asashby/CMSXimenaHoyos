@@ -34,7 +34,7 @@ class RecipeController extends Controller
 
             $recipe = new Recipe;
 
-            // echo '<pre>'; print_r($data); die;
+
 
 
             $rulesData = [
@@ -152,7 +152,7 @@ class RecipeController extends Controller
 
             $data = $request->all();
 
-            // echo '<pre>'; print_r($data); die;
+
 
             $rulesData = [
                 'challenges' => 'nullable|array',

@@ -32,6 +32,11 @@ class Plan extends Model
         return $this->belongsToMany(Course::class, 'courses_plans')->withPivot('id', 'course_id', 'plan_id');
     }
 
+    public function focused_exercises()
+    {
+        return $this->belongsToMany(FocusedExercise::class);
+    }
+
     static function scopeCourse($query, $id)
     {
         $query->where('course_id', 'like', "%$id%");

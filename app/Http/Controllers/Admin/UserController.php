@@ -64,21 +64,19 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $plans = Plan::select('plans.id as planId', 'courses.id as courseId', 'plans.title as planName', 'courses.title as courseName', 'plans.months as numberMonths')->join('courses_plans', 'courses_plans.plan_id', '=', 'plans.id')->join('courses', 'courses_plans.course_id', '=', 'courses.id')->where('plans.is_activated', 1)->get();
-        /* $user['courses'] = Plan::select('plans.id as planId', 'courses.id as courseId', 'plans.title as planName', 'courses.title as courseName', 'plans.months as numberMonths')->join('courses_plans', 'courses_plans.plan_id', '=', 'plans.id')->join('courses', 'courses_plans.course_id', '=', 'courses.id')->join('user_courses', 'user_courses.course_id', '=', 'courses.id')->where('user_courses.user_id', $id)->distinct()->get()->toArray(); */
+        $plans = Plan::query()
+            ->select('plans.id as planId', 'courses.id as courseId', 'plans.title as planName', 'courses.title as courseName', 'plans.months as numberMonths')
+            ->join('courses_plans', 'courses_plans.plan_id', '=', 'plans.id')
+            ->join('courses', 'courses_plans.course_id', '=', 'courses.id')
+            ->where('plans.is_activated', 1)->get();
         $userCourses = $user->courses()->pluck('plan_id');
         $company = new Company;
         $companyData = $company->getCompanyInfo();
         return view('admin.users.edit', compact('user', 'plans', 'userCourses', 'companyData'));
     }
 
-    public function show($id)
-    {
-    }
-
     public function update(Request $request, $id)
     {
-        // $data = $request->all();
         $user = User::findOrFail($id);
         $user->name = $request->name;
         $user->sur_name = $request->sur_name;
