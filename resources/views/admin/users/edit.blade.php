@@ -22,12 +22,6 @@
       </div>
     </section>
   </div>
-  @php
-    $section_ids = $userCourses;
-    /* foreach ($userCourses as $course){
-    array_push($section_ids, $course);
-    } */
-  @endphp
 @endsection
 
 @section('scripts')
@@ -37,11 +31,6 @@
       $(".assignChallenges").select2({
         width: '100%',
       });
-      var data = [];
-      data =
-        <?php echo json_encode($section_ids); ?>;
-      console.log('planIds', data);
-      $(".assignChallenges").val(data).trigger('change');
     });
   </script>
 @endsection

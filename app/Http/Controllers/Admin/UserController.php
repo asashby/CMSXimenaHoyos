@@ -29,7 +29,12 @@ class UserController extends Controller
     {
         $company = new Company;
         $companyData = $company->getCompanyInfo();
-        return view('admin.users.create', compact('companyData'));
+        $plans = Plan::query()
+            ->select('plans.id as planId', 'courses.id as courseId', 'plans.title as planName', 'courses.title as courseName', 'plans.months as numberMonths')
+            ->join('courses_plans', 'courses_plans.plan_id', '=', 'plans.id')
+            ->join('courses', 'courses_plans.course_id', '=', 'courses.id')
+            ->where('plans.is_activated', 1)->get();
+        return view('admin.users.create', compact('companyData', 'plans'));
     }
 
     public function store(UserPostRequest $request)
@@ -69,10 +74,9 @@ class UserController extends Controller
             ->join('courses_plans', 'courses_plans.plan_id', '=', 'plans.id')
             ->join('courses', 'courses_plans.course_id', '=', 'courses.id')
             ->where('plans.is_activated', 1)->get();
-        $userCourses = $user->courses()->pluck('plan_id');
         $company = new Company;
         $companyData = $company->getCompanyInfo();
-        return view('admin.users.edit', compact('user', 'plans', 'userCourses', 'companyData'));
+        return view('admin.users.edit', compact('user', 'plans', 'companyData'));
     }
 
     public function update(Request $request, $id)

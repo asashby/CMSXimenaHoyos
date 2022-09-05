@@ -14,14 +14,13 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UnitRequestPost;
 
-
 class UnitController extends Controller
 {
-
     public function index(Request $request)
     {
         Session::put('page', 'units');
-        $units = Unit::withoutGlobalScope(ActivatedScope::class)->orderBy('created_at', 'desc')->get(['id', 'title', 'is_activated', 'content', 'course_id', 'order', 'url_image', 'url_video', 'day']);
+        $units = Unit::withoutGlobalScope(ActivatedScope::class)->orderBy('created_at', 'desc')
+            ->get(['id', 'title', 'is_activated', 'content', 'course_id', 'order', 'url_image', 'url_video', 'day']);
         $type_answers = TypeAnswer::orderBy('name', 'ASC')->get(['id', 'series', 'reps']);
         $courses = Course::orderBy('title', 'ASC')->get(['title', 'id']);
         $company = new Company;
@@ -150,9 +149,14 @@ class UnitController extends Controller
     public function getTableUnitsByCourse($id)
     {
         if ($id == 0) {
-            $units = Unit::withoutGlobalScope(ActivatedScope::class)->orderByRaw("CAST(day as UNSIGNED) ASC")->get(['id', 'title', 'day', 'is_activated', 'content', 'course_id', 'order', 'url_image', 'url_video']);
+            $units = Unit::withoutGlobalScope(ActivatedScope::class)
+                ->orderByRaw("CAST(day as UNSIGNED) ASC")
+                ->get(['id', 'title', 'day', 'is_activated', 'content', 'course_id', 'order', 'url_image', 'url_video']);
         } else {
-            $units = Unit::withoutGlobalScope(ActivatedScope::class)->where('course_id', $id)->orderByRaw("CAST(day as UNSIGNED) ASC")->get(['id', 'title', 'day', 'is_activated', 'content', 'course_id', 'order', 'url_image', 'url_video']);
+            $units = Unit::withoutGlobalScope(ActivatedScope::class)
+                ->where('course_id', $id)
+                ->orderByRaw("CAST(day as UNSIGNED) ASC")
+                ->get(['id', 'title', 'day', 'is_activated', 'content', 'course_id', 'order', 'url_image', 'url_video']);
         }
         return view('admin.units.table', compact('units'))->render();
     }

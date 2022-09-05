@@ -42,7 +42,7 @@
   <div class="form-group col-md-6">
     <label>Asignar Retos</label><br>
     @php
-      $coursesIds = old('coursesIds', $plan->course_id);
+      $coursesIds = old('coursesIds', $plan->courses->pluck('id')->toArray());
     @endphp
     @foreach ($courses as $id => $course)
       <input type="checkbox" name="coursesIds[]" value="{{ $id }}"

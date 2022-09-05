@@ -70,7 +70,7 @@
   @endif
   <div class="col-lg-6">
     <div class="form-group">
-      <label for="MultiselectDropDown">Asignar </label>
+      <label for="MultiselectDropDown">Asignar</label>
       <select id="challenges" name="plans[]" class="assignChallenges form-control" multiple="multiple">
         @foreach ($plans as $plan)
           <option value="{{ $plan->planId }}">{{ $plan->courseName }} - {{ $plan->planName }}</option>

@@ -16,8 +16,25 @@ class Unit extends Model
     protected $table = 'units';
     protected $fillable = [
         'id',
-        'title', 'subtitle', 'slug', 'code',
-        'is_activated', 'content', 'course_id', 'order', 'url_image', 'mobile_image', 'url_video', 'calories', 'day', 'time_rest', 'level', 'frequency', 'max_time', 'duration', 'url_icon'
+        'title',
+        'subtitle',
+        'slug',
+        'code',
+        'is_activated',
+        'content',
+        'course_id',
+        'order',
+        'url_image',
+        'mobile_image',
+        'url_video',
+        'calories',
+        'day',
+        'time_rest',
+        'level',
+        'frequency',
+        'max_time',
+        'duration',
+        'url_icon'
     ];
 
     /**

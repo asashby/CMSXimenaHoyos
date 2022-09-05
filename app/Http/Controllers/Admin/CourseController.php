@@ -231,7 +231,6 @@ class CourseController extends Controller
 
     public function getUnitCourse($id)
     {
-        $unit = new Unit;
         $unitsByCourse = Unit::orderBy('day')->where('course_id', $id)->get();
         return $unitsByCourse;
     }
@@ -288,7 +287,6 @@ class CourseController extends Controller
         $companyData = $company->getCompanyInfo();
         return view('admin.progress.index', compact('courses', 'companyData'));
     }
-
 
     public function changeStatus($id)
     {

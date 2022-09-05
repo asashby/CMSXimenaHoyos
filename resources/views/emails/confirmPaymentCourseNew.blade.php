@@ -164,9 +164,6 @@
 </head>
 
 <body yahoo="fix" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
-
-
-
   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#36373a">
     <tr>
       <td height="627" align="center" valign="top">
@@ -198,11 +195,6 @@
             </td>
           </tr>
         </table>
-
-
-
-
-
         <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
           <tr>
             <td height="10" align="center" valign="top">
@@ -216,11 +208,6 @@
             </td>
           </tr>
         </table>
-
-
-
-
-
         <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
           <tr>
             <td height="301" align="center" valign="top">
@@ -244,7 +231,6 @@
                             <multiline>¡Hemos procesado <br>tu pedido!</multiline>
                           </span></td>
                       </tr>
-
                     </table>
                   </td>
                 </tr>
@@ -252,11 +238,6 @@
             </td>
           </tr>
         </table>
-
-
-
-
-
         <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
           <tr>
             <td height="169" align="center" valign="center">
@@ -308,7 +289,6 @@
                   </td>
                 </tr>
                 <tr>
-
                   <td height="59" align="center" valign="middle" bgcolor="#0088da" class="two-left">
                     <table width="100%" border="0" align="left" cellpadding="0" cellspacing="0">
                       <tbody>
@@ -340,11 +320,6 @@
       </td>
     </tr>
   </table>
-
-
-
-
-
   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
       <td align="center" valign="middle">
@@ -353,7 +328,6 @@
             <td align="center" valign="middle" bgcolor="#fff">
               <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0"
                 class="two-left-inner">
-
                 <tr>
                   <td height="41" align="center" valign="middle">
                     <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
@@ -362,14 +336,9 @@
                           style="font-family:'Open Sans', sans-serif, Verdana; font-size:1em; color:#000; line-height:1em; font-weight:bold;"
                           mc:edit="km-18">Detalles de tu pedido</td>
                       </tr>
-
-
                     </table>
                   </td>
                 </tr>
-
-
-
               </table>
             </td>
           </tr>
@@ -377,11 +346,6 @@
       </td>
     </tr>
   </table>
-
-
-
-
-
   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
       <td height="207" align="center" valign="top">
@@ -417,15 +381,6 @@
       </td>
     </tr>
   </table>
-
-
-
-
-
-
-
-
-
   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
       <td align="center" valign="top">
@@ -437,19 +392,6 @@
       </td>
     </tr>
   </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
       <td align="center" valign="top">
@@ -459,21 +401,6 @@
       </td>
     </tr>
   </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
       <td align="center" valign="top">
@@ -577,11 +504,6 @@
       </td>
     </tr>
   </table>
-
-
-
-
-
   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
       <td align="center" valign="top">
@@ -599,15 +521,6 @@
       </td>
     </tr>
   </table>
-
-
-
-  </td>
-  </tr>
-  </table>
-  <br>
-
-
 </body>
 
 </html>

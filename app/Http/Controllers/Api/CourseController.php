@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ConfirmPurchaseMail;
+use App\UserCourse;
 
 class CourseController extends Controller
 {
@@ -60,7 +61,8 @@ class CourseController extends Controller
     public function unitsByCourse($slug)
     {
         $courseData = Course::query()->where('slug', $slug)->first();
-        $units = Unit::select('id', 'title', 'day', 'slug', 'url_icon')->where('course_id', $courseData->id)->orderBy('day', 'ASC')->get();
+        $units = Unit::select('id', 'title', 'day', 'slug', 'url_icon')
+            ->where('course_id', $courseData->id)->orderBy('day', 'ASC')->get();
         if (isset($user)) {
             $units_by_user = $user->units->where('course_id', $courseData->id);
             foreach ($units as $unit) {
@@ -136,15 +138,15 @@ class CourseController extends Controller
             if (!isset($courses)) {
                 $check = in_array($course->id, json_decode($user->courses_free));
                 if ($check) {
-                    $date_now = new \DateTime('now', new \DateTimeZone('America/Lima'));
+                    $dateNow = new \DateTime('now', new \DateTimeZone('America/Lima'));
                     $newUser['course_id'] = $course->id;
                     $newUser['user_id'] = $user->id;
-                    $newUser['init_date'] = $date_now;
-                    $newUser['insc_date'] = $date_now;
+                    $newUser['init_date'] = $dateNow;
+                    $newUser['insc_date'] = $dateNow;
                     $newUser['flag_registered'] = 1;
                     $newUser['paid'] = 1;
-                    $newUser['created_at'] = $date_now;
-                    $newUser['updated_at'] = $date_now;
+                    $newUser['created_at'] = $dateNow;
+                    $newUser['updated_at'] = $dateNow;
                     DB::table('user_courses')->insert($newUser);
                     DB::commit();
                     return response()->json([
@@ -173,67 +175,60 @@ class CourseController extends Controller
         }
     }
 
-    public function userRegisterOnCourse(Request $request)
+    public function userRegisterOnPlan(Request $request)
     {
+        $validated = $request->validate([
+            'plan_id' => [
+                'required',
+                'integer'
+            ]
+        ]);
         try {
             DB::beginTransaction();
-            $user = User::find(Auth::user()->id);
+            $user = Auth::user();
             $emailUser = $user->email;
-            if (!empty($request->plan_id)) {
-                $plan = Plan::query()->find($request->plan_id);
-                $coursesPlan = $plan->course_id;
-                $dataCourses =  Course::whereIn('id', $coursesPlan)->get();
-                $findCourses = $user->courses()->whereIn('course_id', $coursesPlan)->count();
-                $date_now = Carbon::now();
-                if ($findCourses === 0) {
-                    foreach ($coursesPlan as $courseId) {
-                        $newUser['course_id'] = $courseId;
-                        $newUser['user_id'] = $user->id;
-                        $newUser['init_date'] = $date_now;
-                        $newUser['insc_date'] = $date_now;
-                        $newUser['expiration_date'] = Carbon::now()->addMonths($plan->months);
-                        $newUser['flag_registered'] = 1;
-                        $newUser['external_order_id'] =  $request->orderId;
-                        $newUser['link'] = $request->link;
-                        $newUser['paid'] = 1;
-                        $newUser['created_at'] = $date_now;
-                        $newUser['updated_at'] = $date_now;
-                        $newId = DB::table('user_courses')->insertGetId($newUser);
-                        DB::commit();
-                    }
-
-                    if (!empty($request->plan_id)) {
-                        Mail::send('emails.confirmPaymentCourseNew', ['user' => $user, 'dataCourses' => $dataCourses, 'orderId' =>  strval($newId), 'months' => $plan->months, 'price' => $plan->price, 'dateOrder' => fecha_string()], function ($message) use ($emailUser) {
-                            $message->to($emailUser);
-                            $message->subject('Compra Exitosa');
-                        });
-                    } else {
-                        Mail::send('emails.confirmPurchaseWoocommerce', ['user' => $user, 'orderId' => strval($newId), 'items' => $request->line_items, 'total' => number_format($request->total, 2), 'dateOrder' => fecha_string(), 'subtotal' => number_format($request->total - 13, 2)], function ($message) use ($emailUser) {
-                            $message->to($emailUser);
-                            $message->subject('Compra Exitosa');
-                        });
-                    }
-                    return response()->json([
-                        'status' => 200,
-                        'message' => 'Registro exitoso',
-                        'url' =>  $request->link,
-                    ], 200);
+            $orderId = $request->input('orderId', 0);
+            $plan = Plan::query()->with(['courses'])
+                ->find($validated['plan_id']);
+            $dateNow = Carbon::now();
+            foreach ($plan->courses as $courseItem) {
+                $userCourse =  UserCourse::query()->firstOrNew([
+                    'user_id' => $user->id,
+                    'course_id' => $courseItem->id,
+                ], [
+                    'init_date' => $dateNow,
+                    'insc_date' => $dateNow,
+                    'expiration_date' => $dateNow,
+                    'flag_registered' => 1,
+                    'external_order_id' => 0,
+                    'link' => $request->link,
+                    'paid' => 1,
+                ]);
+                if ($userCourse->expiration_date < $dateNow) {
+                    $userCourse->expiration_date = Carbon::parse($dateNow)->addMonth($plan->months);
+                } else {
+                    $userCourse->expiration_date = Carbon::parse($userCourse->expiration_date)->addMonth($plan->months);
                 }
-                return response()->json([
-                    'statusCode' => 400,
-                    'code' => 'ALREADY_REGISTERED',
-                    'message' => 'Ya se encuentra Registrado'
-                ], 400);
-            } else {
-                Mail::send('emails.confirmPurchaseWoocommerce', ['user' => $user, 'orderId' => strval(rand(1, 1000)), 'items' => $request->line_items, 'total' => number_format($request->total, 2), 'subtotal' => number_format($request->total - 13, 2), 'dateOrder' => fecha_string()], function ($message) use ($emailUser) {
-                    $message->to($emailUser);
-                    $message->subject('Compra Exitosa');
-                });
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'Compra Exitosa',
-                ], 200);
+                $userCourse->external_order_id = $orderId;
+                $userCourse->save();
             }
+            DB::commit();
+            Mail::send('emails.confirmPaymentCourseNew', [
+                'user' => $user,
+                'dataCourses' => $plan->courses,
+                'orderId' => strval($orderId),
+                'months' => $plan->months,
+                'price' => $plan->price,
+                'dateOrder' => fecha_string()
+            ], function ($message) use ($emailUser) {
+                $message->to($emailUser);
+                $message->subject('Compra Exitosa');
+            });
+            return response()->json([
+                'status' => 200,
+                'message' => 'Registro exitoso',
+                'url' =>  $request->link,
+            ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([

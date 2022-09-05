@@ -15,12 +15,10 @@ class Plan extends Model
         'description',
         'price',
         'months',
-        'course_id',
         'slug',
     ];
 
     protected $casts = [
-        'course_id' => 'array',
         'product_id' => 'array',
         'slug' => 'array'
     ];
@@ -35,11 +33,6 @@ class Plan extends Model
     public function focused_exercises()
     {
         return $this->belongsToMany(FocusedExercise::class);
-    }
-
-    static function scopeCourse($query, $id)
-    {
-        $query->where('course_id', 'like', "%$id%");
     }
 
     public function scopeSlug($query, $slug)

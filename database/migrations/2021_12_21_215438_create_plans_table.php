@@ -18,7 +18,6 @@ class CreatePlansTable extends Migration
             $table->text('title');
             $table->text('description')->nullable();
             $table->decimal('price')->default(0.0);
-            $table->unsignedBigInteger('course_id')->references('id')->on('courses');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -5,7 +5,6 @@ namespace App;
 use App\Scopes\ActivatedScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Events\updateRateChallenge;
 
 class Comments extends Model
 {
@@ -20,10 +19,8 @@ class Comments extends Model
         static::addGlobalScope(new ActivatedScope);
     }
 
-
     public function course()
     {
         return $this->belongsTo(Course::class, 'course_id');
     }
-
 }

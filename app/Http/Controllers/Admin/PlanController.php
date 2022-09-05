@@ -69,9 +69,8 @@ class PlanController extends Controller
     {
         $plan = new Plan($request->validated());
         $plan->slug = Str::slug(strtolower($plan->title));
-        $plan->course_id = $request->input('coursesIds', []);
         $plan->save();
-        $plan->courses()->sync($plan->course_id);
+        $plan->courses()->sync($request->input('coursesIds', []));
         $plan->focused_exercises()->sync($request->input('focusedExercisesIds', []));
         return redirect()->route('plans.index')->with([
             'success_message' => 'EL plan se creo Correctamente',
@@ -96,13 +95,8 @@ class PlanController extends Controller
         $plan = Plan::query()->find($id);
         $plan->fill($request->validated());
         $plan->slug = Str::slug(strtolower($plan->title));
-
-        $finalArray = array_map(function ($item) {
-            return (int) $item;
-        }, $request->input('coursesIds', []));
-        $plan->course_id = $finalArray;
         $plan->save();
-        $plan->courses()->sync($plan->course_id);
+        $plan->courses()->sync($request->input('coursesIds', []));
         $plan->focused_exercises()->sync($request->input('focusedExercisesIds', []));
         return redirect()->route('plans.index')->with([
             'success_message' => 'El plan se Actualizo Correctamente',
