@@ -72,11 +72,32 @@
       </div>
     @enderror
   </div>
+  <div class="form-group col-md-6">
+    <label for="productsIds">Productos</label>
+    @php
+      $productsIds = old('productsIds', $plan->products->pluck('id')->toArray());
+    @endphp
+    <select name="productsIds[]" id="productsIds" class="form-control" multiple="multiple">
+      @foreach ($products as $productItem)
+        <option value="{{ $productItem->id }}" @if (is_array($productsIds) && in_array($productItem->id, $productsIds)) selected @endif>
+          {{ $productItem->display_name }}
+        </option>
+      @endforeach
+    </select>
+    @error('productsIds')
+      <div class="invalid-feedback">
+        {{ $message }}
+      </div>
+    @enderror
+  </div>
 </div>
 @section('scripts')
   <script>
     $(function() {
       $("#focusedExercisesIds").select2({
+        closeOnSelect: false,
+      });
+      $("#productsIds").select2({
         closeOnSelect: false,
       });
     })

@@ -65,7 +65,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::post('current/additionalInfo', 'Auth\AuthController@setAdditionalInfo');
 
     //courses
-    Route::post('courses/{slug}/check-free', 'Api\CourseController@checkCourseFree');
+    Route::post('/courses/{slug}/check-free', 'Api\CourseController@checkCourseFree');
     Route::patch('courses/payment', 'Api\CourseController@userRegisterOnPlan');
 
     //directions
@@ -80,8 +80,8 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::get('courses-by-user', 'Api\CourseController@coursesByUser');
 
     // courses
-    Route::get('courses/{slug}/detail-user', 'Api\CourseController@detailCourseUser');
-    Route::get('courses/{slug}/units-user', 'Api\CourseController@unitsByCourseUser');
+    Route::get('/courses/{slug}/detail-user', 'Api\CourseController@detailCourseUser');
+    Route::get('/courses/{slug}/units-user', 'Api\CourseController@unitsByCourseUser');
     Route::get('units', 'Api\UnitController@index');
 
     Route::post('purchase/confirm', 'Api\CourseController@confirmPurchaseProductMail');

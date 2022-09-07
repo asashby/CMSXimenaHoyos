@@ -46,6 +46,10 @@ class PlanRequest extends FormRequest
                 'nullable',
                 'array'
             ],
+            'productsIds' => [
+                'nullable',
+                'array'
+            ],
         ];
     }
 }

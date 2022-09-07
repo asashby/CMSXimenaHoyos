@@ -35,6 +35,11 @@ class Plan extends Model
         return $this->belongsToMany(FocusedExercise::class);
     }
 
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
+
     public function scopeSlug($query, $slug)
     {
         $query->where('slug', 'like', "%$slug%");

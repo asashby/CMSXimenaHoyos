@@ -102,7 +102,6 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
-
         $fecha = new DateTime('now', new DateTimeZone('America/Lima'));
         $user = User::where('email', $request->email)->first();
         if ($user) {
@@ -143,9 +142,7 @@ class AuthController extends Controller
 
     public function loginSocial(Request $request)
     {
-
         $fecha = new DateTime('now', new DateTimeZone('America/Lima'));
-        $companyData = Company::where('code', env('CODE_COMPANY'))->first();
         $user = User::where(['email' => $request->email])->first();
 
         if (!$user) {
@@ -186,8 +183,6 @@ class AuthController extends Controller
         ]);
     }
 
-
-
     public function getCoursesCount(Request $request)
     {
         $data = $request->header('Authorization');
@@ -202,14 +197,11 @@ class AuthController extends Controller
         ]);
     }
 
-
-
     public function logout(Request $request)
     {
         $data = $request->header('Authorization');
 
         try {
-
             JWTAuth::invalidate($data);
 
             return response()->json([

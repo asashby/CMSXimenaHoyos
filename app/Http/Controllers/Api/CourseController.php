@@ -15,7 +15,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ConfirmPurchaseMail;
+use App\Product;
 use App\UserCourse;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 class CourseController extends Controller
 {
@@ -110,6 +113,10 @@ class CourseController extends Controller
         return response()->json($units, 200);
     }
 
+    /**
+     * TODO
+     * Check if date of due for courses work on production
+     */
     public function detailCourseUser($slug)
     {
         $user = User::find(Auth::user()->id);
@@ -178,39 +185,71 @@ class CourseController extends Controller
     public function userRegisterOnPlan(Request $request)
     {
         $validated = $request->validate([
-            'plan_id' => [
-                'required',
+            'plan_id' => [ // Focalizados, Entrenamientos
+                'nullable',
+                'required_if:product_id,null',
                 'integer'
+            ],
+            'product_id' => [
+                'nullable',
+                'required_if:plan_id,null',
+                'integer',
             ]
         ]);
+        $addPlans = collect([]);
+        if (isset($validated['plan_id']) && isset($validated['product_id'])) {
+            $addPlans->push(
+                Plan::query()->with(['courses', 'focused_exercises'])
+                    ->where('plans.id', $validated['plan_id'])
+                    ->whereHas('products', fn (Builder $productQuery) =>
+                    $productQuery->where('products.id', $validated['product_id']))
+                    ->firstOrFail()
+            );
+        } elseif (isset($validated['plan_id'])) {
+            $addPlans->push(
+                Plan::query()->with(['courses', 'focused_exercises'])
+                    ->findOrFail($validated['plan_id'])
+            );
+        } elseif (isset($validated['product_id'])) {
+            $product = Product::query()->with(['plans'])
+                ->findOrFail($validated['product_id']);
+            $addPlans->push($product->plans);
+        } else {
+            return response()->json([
+                'code' => 'ERROR_REQUEST',
+                'statusCode' => 400,
+                'message' => 'Parametros enviados incorrectos'
+            ], 400);
+        }
         try {
             DB::beginTransaction();
             $user = Auth::user();
             $emailUser = $user->email;
             $orderId = $request->input('orderId', 0);
-            $plan = Plan::query()->with(['courses'])
-                ->find($validated['plan_id']);
             $dateNow = Carbon::now();
-            foreach ($plan->courses as $courseItem) {
-                $userCourse =  UserCourse::query()->firstOrNew([
-                    'user_id' => $user->id,
-                    'course_id' => $courseItem->id,
-                ], [
-                    'init_date' => $dateNow,
-                    'insc_date' => $dateNow,
-                    'expiration_date' => $dateNow,
-                    'flag_registered' => 1,
-                    'external_order_id' => 0,
-                    'link' => $request->link,
-                    'paid' => 1,
-                ]);
-                if ($userCourse->expiration_date < $dateNow) {
-                    $userCourse->expiration_date = Carbon::parse($dateNow)->addMonth($plan->months);
-                } else {
-                    $userCourse->expiration_date = Carbon::parse($userCourse->expiration_date)->addMonth($plan->months);
+            foreach ($addPlans as $plan) {
+                // Add Courses to User
+                foreach ($plan->courses as $courseItem) {
+                    $userCourse =  UserCourse::query()->firstOrNew([
+                        'user_id' => $user->id,
+                        'course_id' => $courseItem->id,
+                    ], [
+                        'init_date' => $dateNow,
+                        'insc_date' => $dateNow,
+                        'expiration_date' => $dateNow,
+                        'flag_registered' => 1,
+                        'external_order_id' => 0,
+                        'link' => $request->link,
+                        'paid' => 1,
+                    ]);
+                    if ($userCourse->expiration_date < $dateNow) {
+                        $userCourse->expiration_date = Carbon::parse($dateNow)->addMonth($plan->months);
+                    } else {
+                        $userCourse->expiration_date = Carbon::parse($userCourse->expiration_date)->addMonth($plan->months);
+                    }
+                    $userCourse->external_order_id = $orderId;
+                    $userCourse->save();
                 }
-                $userCourse->external_order_id = $orderId;
-                $userCourse->save();
             }
             DB::commit();
             Mail::send('emails.confirmPaymentCourseNew', [
@@ -231,10 +270,11 @@ class CourseController extends Controller
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
             return response()->json([
                 'code' => 'ERROR_REQUEST',
                 'statusCode' => 500,
-                'message' => $e->getMessage()
+                'message' => 'Algo salio mal comuniquese con su administrador.'
             ], 500);
         }
     }

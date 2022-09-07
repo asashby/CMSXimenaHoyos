@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
@@ -44,6 +45,11 @@ class Product extends Model implements HasMedia
         return $this->belongsToMany(Category::class, 'product_category')->withPivot('id', 'product_id', 'category_id');
     }
 
+    public function plans()
+    {
+        return $this->belongsToMany(Plan::class);
+    }
+
     public function scopeCategory($query, $category_id)
     {
         if ($category_id)
@@ -56,5 +62,13 @@ class Product extends Model implements HasMedia
     {
         if ($search)
             return $query->where('name', 'LIKE', "%$search%");
+    }
+
+    public static function getProductsIdAndDisplayName(Request $request)
+    {
+        return self::query()->get([
+            'id',
+            'name AS display_name',
+        ]);
     }
 }

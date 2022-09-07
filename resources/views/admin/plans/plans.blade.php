@@ -55,6 +55,7 @@
                       <th>Precio</th>
                       <th>Retos</th>
                       <th>Focalizados</th>
+                      <th>Productos</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -74,6 +75,11 @@
                         <td>
                           @foreach ($plan->focused_exercises as $focusedExerciseItem)
                             <span class="badge badge-primary">{{ $focusedExerciseItem->title }}</span>
+                          @endforeach
+                        </td>
+                        <td>
+                          @foreach ($plan->products as $product)
+                            <span class="badge badge-primary">{{ $product->name }}</span>
                           @endforeach
                         </td>
                         <td>
