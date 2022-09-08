@@ -7,6 +7,7 @@ use App\Unit;
 use App\User;
 use App\Course;
 use App\Comments;
+use App\FocusedExerciseUser;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -211,9 +212,11 @@ class CourseController extends Controller
                     ->findOrFail($validated['plan_id'])
             );
         } elseif (isset($validated['product_id'])) {
-            $product = Product::query()->with(['plans'])
+            $product = Product::query()->with(['plans.courses', 'plans.focused_exercises'])
                 ->findOrFail($validated['product_id']);
-            $addPlans->push($product->plans);
+            foreach ($product->plans as $productPlan) {
+                $addPlans->push($productPlan);
+            }
         } else {
             return response()->json([
                 'code' => 'ERROR_REQUEST',
@@ -245,24 +248,39 @@ class CourseController extends Controller
                     if ($userCourse->expiration_date < $dateNow) {
                         $userCourse->expiration_date = Carbon::parse($dateNow)->addMonth($plan->months);
                     } else {
-                        $userCourse->expiration_date = Carbon::parse($userCourse->expiration_date)->addMonth($plan->months);
+                        $userCourse->expiration_date = Carbon::parse($userCourse->expiration_date)
+                            ->addMonth($plan->months);
                     }
                     $userCourse->external_order_id = $orderId;
                     $userCourse->save();
                 }
+                // Add Focused Exercises to User
+                foreach ($plan->focused_exercises as $focusedExerciseItem) {
+                    $focusedExerciseUser = FocusedExerciseUser::query()->firstOrNew([
+                        'focused_exercise_id' => $focusedExerciseItem->id,
+                        'user_id' => $user->id,
+                    ], [
+                        'expiration_date' => $dateNow,
+                    ]);
+                    if ($focusedExerciseUser->expiration_date < $dateNow) {
+                        $focusedExerciseUser->expiration_date = Carbon::parse($dateNow)->addMonth($plan->months);
+                    } else {
+                        $focusedExerciseUser->expiration_date = Carbon::parse($focusedExerciseUser->expiration_date)
+                            ->addMonth($plan->months);
+                    }
+                    $focusedExerciseUser->save();
+                }
+                Mail::send('emails.addPlanToUser', [
+                    'plan' => $plan,
+                    'user' => $user,
+                    'orderId' => strval($orderId),
+                    'dateOrder' => fecha_string()
+                ], function ($message) use ($emailUser) {
+                    $message->to($emailUser);
+                    $message->subject('Compra Exitosa');
+                });
             }
             DB::commit();
-            Mail::send('emails.confirmPaymentCourseNew', [
-                'user' => $user,
-                'dataCourses' => $plan->courses,
-                'orderId' => strval($orderId),
-                'months' => $plan->months,
-                'price' => $plan->price,
-                'dateOrder' => fecha_string()
-            ], function ($message) use ($emailUser) {
-                $message->to($emailUser);
-                $message->subject('Compra Exitosa');
-            });
             return response()->json([
                 'status' => 200,
                 'message' => 'Registro exitoso',
@@ -271,6 +289,7 @@ class CourseController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
+            return $e->getMessage();
             return response()->json([
                 'code' => 'ERROR_REQUEST',
                 'statusCode' => 500,

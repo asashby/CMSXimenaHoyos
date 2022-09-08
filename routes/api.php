@@ -56,6 +56,8 @@ Route::get('/categories', 'Api\CategoryController@index');
 //Products
 Route::get('/products', 'Api\ProductController@index');
 Route::get('/products/{id}/detail', 'Api\ProductController@productDetail');
+// Focused
+Route::get('/focused-exercises/{focusedExercise}/plans', [FocusedExerciseController::class, 'getPlansByFocusedExerciseId']);
 
 Route::group(['middleware' => 'auth.jwt'], function () {
     Route::post('logout', 'Auth\AuthController@logout');
@@ -66,7 +68,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
     //courses
     Route::post('/courses/{slug}/check-free', 'Api\CourseController@checkCourseFree');
-    Route::patch('courses/payment', 'Api\CourseController@userRegisterOnPlan');
+    Route::patch('/courses/payment', 'Api\CourseController@userRegisterOnPlan');
 
     //directions
     Route::get('address', 'Auth\AuthController@getUserAddress');

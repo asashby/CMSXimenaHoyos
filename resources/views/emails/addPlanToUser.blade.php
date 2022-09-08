@@ -288,31 +288,60 @@
                     </table>
                   </td>
                 </tr>
-                <tr>
-                  <td height="59" align="center" valign="middle" bgcolor="#0088da" class="two-left">
-                    <table width="100%" border="0" align="left" cellpadding="0" cellspacing="0">
-                      <tbody>
-                        <tr>
-                          <td align="center" valign="top" mc:edit="km-06"
-                            style="font-family:'Open Sans', sans-serif, Verdana; font-size:100%; font-weight:bold; color:#FFF;">
-                            <strong>PRODUCTO</strong>
-                          </td>
-                        </tr>
-                        @foreach ($dataCourses as $course)
+                @if ($plan->courses->isNotEmpty())
+                  <tr>
+                    <td height="59" align="center" valign="middle" bgcolor="#0088da" class="two-left">
+                      <table width="100%" border="0" align="left" cellpadding="0" cellspacing="0">
+                        <tbody>
                           <tr>
-                            <td align="center" valign="top"
-                              style="font-family:'Open Sans', Verdana, Arial; font-size:14px; font-weight:normal; color:#FFF; line-height:20px;"
-                              mc:edit="km-15">
-                              <multiline>{{ $course->title }}, Duración {{ $months }}
-                                mes(es)
-                              </multiline>
+                            <td align="center" valign="top" mc:edit="km-06"
+                              style="font-family:'Open Sans', sans-serif, Verdana; font-size:100%; font-weight:bold; color:#FFF;">
+                              <strong>ENTRENAMIENTOS</strong>
                             </td>
                           </tr>
-                        @endforeach
-                      </tbody>
-                    </table>
-                  </td>
-                </tr>
+                          @foreach ($plan->courses as $course)
+                            <tr>
+                              <td align="center" valign="top"
+                                style="font-family:'Open Sans', Verdana, Arial; font-size:14px; font-weight:normal; color:#FFF; line-height:20px;"
+                                mc:edit="km-15">
+                                <multiline>{{ $course->title }}, Duración {{ $plan->months }}
+                                  mes(es)
+                                </multiline>
+                              </td>
+                            </tr>
+                          @endforeach
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                @endif
+                @if ($plan->focused_exercises->isNotEmpty())
+                  <tr>
+                    <td height="59" align="center" valign="middle" bgcolor="#0088da" class="two-left">
+                      <table width="100%" border="0" align="left" cellpadding="0" cellspacing="0">
+                        <tbody>
+                          <tr>
+                            <td align="center" valign="top" mc:edit="km-06"
+                              style="font-family:'Open Sans', sans-serif, Verdana; font-size:100%; font-weight:bold; color:#FFF;">
+                              <strong>EJERCICIOS FOCALIZADOS</strong>
+                            </td>
+                          </tr>
+                          @foreach ($plan->focused_exercises as $focusedExercise)
+                            <tr>
+                              <td align="center" valign="top"
+                                style="font-family:'Open Sans', Verdana, Arial; font-size:14px; font-weight:normal; color:#FFF; line-height:20px;"
+                                mc:edit="km-15">
+                                <multiline>{{ $focusedExercise->title }}, Duración {{ $plan->months }}
+                                  mes(es)
+                                </multiline>
+                              </td>
+                            </tr>
+                          @endforeach
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                @endif
               </table>
             </td>
           </tr>
@@ -361,7 +390,7 @@
                   </tr>
                   <tr>
                     <th height="25" scope="row">Subtotal:</th>
-                    <td>{{ $price }}</td>
+                    <td>{{ $plan->price }}</td>
                   </tr>
                   <tr>
                     <th height="25" scope="row">Método de pago:</th>
@@ -369,7 +398,7 @@
                   </tr>
                   <tr>
                     <th height="54" scope="row">Total:</th>
-                    <td>{{ $price }}</td>
+                    <td>{{ $plan->price }}</td>
                   </tr>
                 </tbody>
                 <tfoot>

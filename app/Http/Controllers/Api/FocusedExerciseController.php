@@ -24,4 +24,13 @@ class FocusedExerciseController extends Controller
                 'mobile_image_url',
             ]));
     }
+
+    public function getPlansByFocusedExerciseId($focusedExerciseId)
+    {
+        $focusedExercise = FocusedExercise::query()->with(['plans'])
+            ->findOrFail($focusedExerciseId);
+        return [
+            'data' => $focusedExercise->plans
+        ];
+    }
 }

@@ -28,6 +28,11 @@ class FocusedExercise extends Model
         return $this->hasMany(FocusedExerciseItem::class, 'focused_exercise_id');
     }
 
+    public function plans()
+    {
+        return $this->belongsToMany(Plan::class);
+    }
+
     public function getDesktopImageUrlAttribute()
     {
         if ($this->desktop_image) {
