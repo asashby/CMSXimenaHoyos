@@ -89,21 +89,20 @@ class UserController extends Controller
         $user->enterprise = $request->enterprise;
         $finalArray = array();
         $date_now = Carbon::now();
-        if (isset($request->plans)) {
-            foreach ($request->plans as $plan) {
-                $detPlan = Plan::query()->find($plan);
-                foreach ($detPlan->course_id as $course) {
-                    $finalArray[$course] = [
-                        'insc_date' => $date_now,
-                        'init_date' => $date_now,
-                        'expiration_date' => $date_now->addMonths($detPlan->months),
-                        'user_id' => $id,
-                        'course_id' => $course,
-                        'plan_id' => $plan,
-                        'flag_registered' => 1,
-                        'paid' => 1,
-                    ];
-                }
+        $plansIds = $request->input('plans', []);
+        foreach ($plansIds as $planId) {
+            $plan = Plan::query()->with(['courses'])
+                ->find($planId);
+            foreach ($plan->courses as $course) {
+                $finalArray[$course->id] = [
+                    'insc_date' => $date_now,
+                    'init_date' => $date_now,
+                    'expiration_date' => $date_now->addMonths($plan->months),
+                    'user_id' => $user->id,
+                    'course_id' => $course->id,
+                    'flag_registered' => 1,
+                    'paid' => 1,
+                ];
             }
         }
         $user->courses()->sync($finalArray);
