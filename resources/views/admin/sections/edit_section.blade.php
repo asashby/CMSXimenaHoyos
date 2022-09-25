@@ -19,15 +19,15 @@
         </div>
       </div>
     </div>
-    <!-- /.content-header -->
+
 
 
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <!-- left column -->
+
           <div class="col-md-6">
-            <!-- general form elements -->
+
             <div class="card card-primary">
               <div class="card-header">
                 <h3 class="card-title">Editar Seccion</h3>
@@ -44,7 +44,7 @@
                 </div>
               @endif
 
-              <!-- form start -->
+
               <form role="form" method="post" action="{{ url('/dashboard/section/edit/' . $sectionDetail['id']) }}"
                 name="updateSection" id="updateSection" enctype="multipart/form-data">@csrf
                 <div class="card-body">
@@ -74,7 +74,7 @@
             </div>
 
           </div>
-          <!--/.col (left) -->
+
         </div>
 
       </div>

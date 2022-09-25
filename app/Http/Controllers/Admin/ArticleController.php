@@ -10,8 +10,8 @@ use App\Company;
 use Auth;
 use DateTime;
 use DateTimeZone;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
-use File;
 use Image;
 
 class ArticleController extends Controller

@@ -54,13 +54,13 @@
                 <ul class="todo-list ui-sortable" data-widget="todo-list">
                   @foreach ($sections as $section)
                     <li class="item-slide" id="{{ $section->id }}" data-target="section">
-                      <!-- drag handle -->
+
                       <span class="handle ui-sortable-handle">
                         <i class="fas fa-ellipsis-v"></i>
                         <i class="fas fa-ellipsis-v"></i>
                       </span>
-                      <!-- checkbox -->
-                      <!-- todo text -->
+
+
                       <span class="text">{{ $section->name }}</span>
                       @if ($section->activated == 1)
                         <small class="badge badge-success update-status" style="cursor: pointer;"
@@ -73,8 +73,8 @@
                           Desactivado
                         </small>
                       @endif
-                      <!-- Emphasis label -->
-                      <!-- General tools such as edit or delete-->
+
+
                       <div class="tools">
                         {{-- <a href="{{ url('/dashboard/section/edit/'.$section->id)}}" data-toggle="tooltip" title="Editar"><i class="fas fa-edit"></i></a> --}}
                         <a href="javascript:void(0)" class="confirmDelete" style="cursor: pointer;" record="section"

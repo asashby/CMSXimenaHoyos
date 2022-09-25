@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\FocusedExerciseController;
 use App\Http\Controllers\Api\MailController;
+use App\Http\Controllers\Api\SliderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -58,6 +59,8 @@ Route::get('/products', 'Api\ProductController@index');
 Route::get('/products/{id}/detail', 'Api\ProductController@productDetail');
 // Focused
 Route::get('/focused-exercises/{focusedExercise}/plans', [FocusedExerciseController::class, 'getPlansByFocusedExerciseId']);
+// Sliders
+Route::get('/sliders', [SliderController::class, 'index']);
 
 Route::group(['middleware' => 'auth.jwt'], function () {
     Route::post('logout', 'Auth\AuthController@logout');

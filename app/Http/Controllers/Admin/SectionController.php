@@ -38,7 +38,7 @@ class SectionController extends Controller
     {
         if ($request->ajax()) {
             $data = $request->all();
-            /* echo '<pre>'; print_r($data); die; */
+
             Section::where('id', $data['id_section'])->update(['order' => $data['order']]);
             return response()->json(['status' => 'Ordenado Correctamente']);
         }
@@ -97,13 +97,13 @@ class SectionController extends Controller
         return view('admin.sections.add_section', compact('companyData'));
     }
 
-    /* echo '<pre>'; print_r($data); die; */
+
 
     public function editSection(Request $request, $id = null)
     {
         if ($request->isMethod('post')) {
             $data = $request->all();
-            /* echo '<pre>'; print_r($data); die; */
+
 
             $rulesData = [
                 'sectionName' => 'required|regex:/^[A-Za-zá-úÁ-ÚñÑ0-9\-! ,&\'\"\/@\.:\(\)]+$/',

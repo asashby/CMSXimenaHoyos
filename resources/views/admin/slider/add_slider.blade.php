@@ -2,7 +2,6 @@
 @section('title', 'Agregar Slider')
 @section('content')
   <div class="content-wrapper">
-
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -19,21 +18,14 @@
         </div>
       </div>
     </div>
-    <!-- /.content-header -->
-
-
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <!-- left column -->
           <div class="col-md-6">
-            <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
                 <h3 class="card-title">Agregar Slider</h3>
               </div>
-
-
               @if ($errors->any())
                 <div class="alert alert-danger" style="margin-top: 10px;">
                   <ul>
@@ -43,46 +35,23 @@
                   </ul>
                 </div>
               @endif
-
-              <!-- form start -->
               <form role="form" method="post"action="{{ url('/dashboard/slider/create') }}" name="addSlider"
                 id="addSlider" enctype="multipart/form-data">@csrf
                 <div class="card-body">
-                  <div class="control-group">
-                    <label class="control-label">Banner Image</label>
-                    <div class="controls">
-                      <input type="file" name="sliderImage" onchange="preview_image(event)">
-                      <br>
-                      <img style="margin-top: 10px;" id="output_image" />
-                    </div>
-                  </div>
+                  @include('admin.slider.partial_form')
                 </div>
-
-
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Agregar</button>
+                  <a href="{{ route('slider.index') }}" class="btn btn-secondary">
+                    <i class="fas fa-reply"></i> Regresar
+                  </a>
+                  <button type="submit" class="btn btn-success">
+                    <i class="fas fa-plus"></i> Agregar
+                  </button>
                 </div>
               </form>
             </div>
-
           </div>
-
         </div>
     </section>
-
-
   </div>
-  <script type='text/javascript'>
-    function preview_image(event) {
-      var reader = new FileReader();
-      reader.onload = function() {
-        var output = document.getElementById('output_image');
-        output.src = reader.result;
-        output.width = 400;
-        output.width = 300
-
-      }
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  </script>
 @endsection

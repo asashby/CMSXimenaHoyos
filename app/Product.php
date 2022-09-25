@@ -24,7 +24,6 @@ class Product extends Model implements HasMedia
         "stock",
     ];
 
-
     protected $casts = [
         'attributes' => 'object',
         'price' => 'float',
@@ -48,6 +47,11 @@ class Product extends Model implements HasMedia
     public function plans()
     {
         return $this->belongsToMany(Plan::class);
+    }
+
+    public function sliders()
+    {
+        return $this->hasMany(Slider::class);
     }
 
     public function scopeCategory($query, $category_id)

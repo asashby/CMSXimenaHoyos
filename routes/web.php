@@ -53,10 +53,10 @@ Route::namespace('Admin')->group(function () {
         Route::get('/tip/delete/{id}', 'TipController@deleteTip');
 
         //Slider
-        Route::get('/slider', 'SliderController@index');
+        Route::get('/slider', 'SliderController@index')->name('slider.index');
         Route::match(['get', 'post'], '/slider/create', 'SliderController@addSlider');
         Route::match(['get', 'post'], '/slider/edit/{id?}', 'SliderController@editSlider');
-        Route::post('/slide/upd-slide-order', 'SliderController@updateOrder');
+        Route::post('/slide/upd-slide-order', 'SliderController@updateSliderOrder');
         Route::get('/slider/delete/{id}', 'SliderController@deleteSlider');
 
         //Articles

@@ -19,15 +19,15 @@
         </div>
       </div>
     </div>
-    <!-- /.content-header -->
+
 
 
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <!-- left column -->
+
           <div class="col-md-6">
-            <!-- general form elements -->
+
             <div class="card card-primary">
               <div class="card-header">
                 <h3 class="card-title">Actualizar Contraseña</h3>
@@ -53,7 +53,7 @@
 
 
 
-              <!-- form start -->
+
               <form role="form" method="post" action="{{ url('/dashboard/update-pwd') }}" name="updatePasswordForm"
                 id="updatePasswordForm">@csrf
                 <div class="card-body">
@@ -281,7 +281,7 @@
                 <h3 class="card-title">Horizontal Form</h3>
               </div>
 
-              <!-- form start -->
+
               <form class="form-horizontal">
                 <div class="card-body">
                   <div class="form-group row">
@@ -314,7 +314,7 @@
               </form>
             </div> --}}
           </div>
-          <!--/.col (left) -->
+
           {{-- <!-- right column -->
           <div class="col-md-6">
             <!-- general form elements disabled -->
@@ -375,7 +375,7 @@
 
                   <div class="row">
                     <div class="col-sm-6">
-                      <!-- checkbox -->
+
                       <div class="form-group">
                         <div class="form-check">
                           <input class="form-check-input" type="checkbox">
@@ -480,7 +480,7 @@
                 <form role="form">
                   <div class="row">
                     <div class="col-sm-6">
-                      <!-- checkbox -->
+
                       <div class="form-group">
                         <div class="custom-control custom-checkbox">
                           <input class="custom-control-input" type="checkbox" id="customCheckbox1" value="option1">

@@ -1,9 +1,7 @@
 @extends('layouts.admin_layout')
 @section('title', 'Slider')
 @section('content')
-
   <div class="content-wrapper">
-
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -19,8 +17,6 @@
         </div>
       </div>
     </section>
-
-
     <section class="content">
       @if (Session::has('error_message'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
@@ -44,42 +40,34 @@
             Lista de Imagenes
           </h3>
         </div>
-
         <div class="card-body">
           <ul class="todo-list ui-sortable" data-widget="todo-list">
             @foreach ($sliders as $slider)
               <li class="item-slide" id="{{ $slider->id }}" data-target="slide">
-                <!-- drag handle -->
                 <span class="handle ui-sortable-handle">
                   <i class="fas fa-ellipsis-v"></i>
                   <i class="fas fa-ellipsis-v"></i>
                 </span>
-                <!-- checkbox -->
-                <!-- todo text -->
                 <span class="text">{{ $slider->title }}</span>
-                <!-- Emphasis label -->
-                <!-- General tools such as edit or delete-->
                 <div class="tools">
-                  <a href="{{ url('/dashboard/slider/edit/' . $slider->id) }}" data-toggle="tooltip" title="Editar"><i
-                      class="fas fa-edit"></i></a>
+                  <a href="{{ url('/dashboard/slider/edit/' . $slider->id) }}">
+                    <i class="fas fa-edit"></i>
+                  </a>
                   <a href="javascript:void(0)" class="confirmDelete" style="cursor: pointer;" record="slider"
-                    recordId="{{ $slider->id }}" data-toggle="tooltip" title="Eliminar">
+                    recordId="{{ $slider->id }}">
                     <i style="color: red;" class="fas fa-trash-alt"></i>
                   </a>
                 </div>
               </li>
             @endforeach
-
           </ul>
         </div>
-
-        <div class="card-footer clearfix">
-          <a href="{{ url('/dashboard/slider/create') }}" style="max-width: 150px; float: right; display:inline-block;"
-            class="btn btn-info btn-success">Agregar Slider</a>
+        <div class="card-footer clearfix ml-auto">
+          <a href="{{ url('/dashboard/slider/create') }}" class="btn btn-success">
+            <i class="fas fa-plus"></i> Agregar Slider
+          </a>
         </div>
       </div>
     </section>
-
   </div>
-
 @endsection

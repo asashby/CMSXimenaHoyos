@@ -6,29 +6,30 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Slider;
 use App\Company;
+use App\Product;
 use Illuminate\Support\Facades\Session;
-use Image;
+use Intervention\Image\Facades\Image;
 use DateTime;
 use DateTimeZone;
-use File;
+use Illuminate\Support\Facades\File;
 
 class SliderController extends Controller
 {
     public function index()
     {
         Session::put('page', 'slider');
-        $sliders = Slider::orderBy('order')->get();
+        $sliders = Slider::query()->orderBy('order')->get();
         $company = new Company;
         $companyData = $company->getCompanyInfo();
         return view('admin.slider.slider')->with(compact('sliders', 'companyData'));
     }
 
-    public function updateOrder(Request $request)
+    public function updateSliderOrder(Request $request)
     {
         if ($request->ajax()) {
             $data = $request->all();
-            /* echo '<pre>'; print_r($data); die; */
-            Slider::where('id', $data['id_slide'])->update(['order' => $data['order']]);
+            Slider::query()->where('id', $data['id_slide'])
+                ->update(['order' => $data['order']]);
             return response()->json(['status' => 'Ordenado Correctamente']);
         }
     }
@@ -37,10 +38,8 @@ class SliderController extends Controller
     {
         if ($request->isMethod('post')) {
             $data = $request->all();
-            //echo "<pre>"; print_r($data); die;
-
             $slider = new Slider;
-            $title = 'imagen ' . strval(Slider::count() + 1);
+            $title = 'Slider ' . strval(Slider::count() + 1);
             $slug = strtr(strtolower($title), ' ', '-');
             $route = strtr(strtolower($title), ' ', '-');
 
@@ -66,6 +65,7 @@ class SliderController extends Controller
             $slider->slug = $slug;
             $slider->route = $route;
             $slider->order = Slider::count() + 1;
+            $slider->product_id = $request->input('product_id');
             $slider->created_at = new DateTime('now', new DateTimeZone('America/Lima'));
             $slider->updated_at = new DateTime('now', new DateTimeZone('America/Lima'));
 
@@ -75,17 +75,17 @@ class SliderController extends Controller
         }
         $company = new Company;
         $companyData = $company->getCompanyInfo();
-        return view('admin.slider.add_slider', compact('companyData'));
+        $slider = new Slider();
+        $products = Product::getProductsIdAndDisplayName($request);
+        return view('admin.slider.add_slider', compact('companyData', 'slider', 'products'));
     }
-
 
     public function editSlider(Request $request, $id = null)
     {
+        $slider = Slider::query()->findOrFail($id);
         if ($request->isMethod('post')) {
             $data = $request->all();
-            /*echo "<pre>"; print_r($data); die;*/
-
-            // Upload Image
+            // Upload image
             if ($request->hasFile('sliderImage')) {
                 $image_tmp = $request->file('sliderImage');
                 if ($image_tmp->isValid()) {
@@ -95,28 +95,28 @@ class SliderController extends Controller
                     $banner_path = 'images/admin_images/slider/' . $fileName;
                     Image::make($image_tmp)->save($banner_path);
                     $completePath = env('URL_DOMAIN') . '/' . $banner_path;
+                    $slider->url_image = $completePath;
                 }
             } else if (!empty($data['current_image'])) {
                 $fileName = $data['current_image'];
             } else {
                 $fileName = '';
             }
-
-            Slider::where('id', $id)->update(['url_image' => $completePath]);
+            $slider->product_id = $request->input('product_id');
+            $slider->save();
             Session::flash('success_message', 'El slider se actualizo Correctamente');
             return redirect('dashboard/slider');
         }
         $company = new Company;
         $companyData = $company->getCompanyInfo();
-        $sliderDetails = Slider::where('id', $id)->first();
-        return view('admin.slider.edit_slider')->with(compact('sliderDetails', 'companyData'));
+        $products = Product::getProductsIdAndDisplayName($request);
+        return view('admin.slider.edit_slider')->with(compact('slider', 'companyData', 'products'));
     }
 
     public function deleteSlider($id)
     {
         Slider::find($id)->delete();
-        $message = 'El slider se elimino correctamente';
-        Session::flash('success_message', $message);
+        Session::flash('success_message', 'El slider se elimino correctamente');
         return redirect()->back();
     }
 }

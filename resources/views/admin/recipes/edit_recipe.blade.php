@@ -1,9 +1,7 @@
 @extends('layouts.admin_layout')
 @section('title', 'Editar Receta')
 @section('content')
-
   <div class="content-wrapper">
-
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -20,8 +18,6 @@
         </div>
       </div>
     </section>
-
-
     <section class="content">
       <div class="container-fluid">
 
@@ -133,16 +129,16 @@
                       <ul class="todo-list ui-sortable" id="ingredients-list" data-widget="todo-list">
                         @foreach ($recipeDetail->ingredients as $ingredient)
                           <li order="{{ $ingredient }}" class="item" data-target="unit">
-                            <!-- drag handle -->
+
                             <span class="handle ui-sortable-handle">
                               <i class="fas fa-ellipsis-v"></i>
                               <i class="fas fa-ellipsis-v"></i>
                             </span>
-                            <!-- checkbox -->
-                            <!-- todo text -->
+
+
                             <p class="text">{{ $ingredient }}</p>
-                            <!-- Emphasis label -->
-                            <!-- General tools such as edit or delete-->
+
+
                             <div class="tools deleteIngredient">
                               <a href="javascript:void(0)" id="deleteBtn" style="cursor: pointer;" title="Eliminar"><i
                                   style="color: red;" class="fas fa-trash-alt"></i></a>
