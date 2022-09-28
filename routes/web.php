@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -76,6 +77,7 @@ Route::namespace('Admin')->group(function () {
         Route::match(['get', 'post'], '/policies/{name?}', 'CompanyController@policies');
         Route::match(['get', 'post'], '/helpcenter', 'CompanyController@addArea');
         Route::get('/areas', 'AreasController@index');
+        Route::put('/companies/exchange-rate', [CompanyController::class, 'updateExchangeRate']);
 
         //Course
         Route::get('/courses', 'CourseController@index');

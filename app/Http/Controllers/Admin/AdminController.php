@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    //
     public function dashboard()
     {
         Session::put('page', 'dashboard');

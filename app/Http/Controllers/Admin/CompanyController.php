@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Company;
-use Image;
 use Illuminate\Support\Facades\Session;
+use Intervention\Image\Facades\Image;
 
 class CompanyController extends Controller
 {
@@ -210,5 +210,32 @@ class CompanyController extends Controller
             return redirect('dashboard/help-center');
         }
         return view('admin.company.help_center');
+    }
+
+    public function updateExchangeRate(Request $request)
+    {
+        $validatedData = $request->validate([
+            'exchange_rate' => [
+                'required',
+                'numeric'
+            ]
+        ]);
+        if (Company::query()->update($validatedData)) {
+            return [
+                'success' => true,
+                'message' => 'Tipo de cambio modificado correctamente',
+            ];
+        }
+        return [
+            'success' => false,
+            'message' => 'No se pudo modificar el tipo de cambio.',
+        ];
+    }
+
+    public function getExchangeRate()
+    {
+        return [
+            'data' => Company::query()->value('exchange_rate')
+        ];
     }
 }

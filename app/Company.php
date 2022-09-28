@@ -11,7 +11,8 @@ class Company extends Model
         'helpCenter',
         'slug',
         'beforeRegister',
-        'companyInfo'
+        'companyInfo',
+        'exchange_rate'
     ];
 
     protected $casts = [
@@ -21,6 +22,7 @@ class Company extends Model
         "facebook" => "object",
         "google" => "object",
         "privacyPolicy" => "object",
+        "exchange_rate" => "float",
     ];
 
     public function getCompanyInfo()

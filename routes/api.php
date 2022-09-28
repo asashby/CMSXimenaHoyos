@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Api\FocusedExerciseController;
 use App\Http\Controllers\Api\MailController;
 use App\Http\Controllers\Api\SliderController;
@@ -31,6 +32,7 @@ Route::get('/tips/{slug}', 'Auth\AuthController@getTipDetail');
 Route::get('/company/public', 'Auth\AuthController@getCompanyData');
 Route::get('/sections/{slug}', 'Auth\AuthController@getSectionDetail');
 Route::get('/about/{slug}', 'Auth\AuthController@aboutXimena');
+Route::get('/exchange-rate', [CompanyController::class, 'getExchangeRate']);
 
 Route::get('/activation/{data}/{content}', 'Auth\AuthController@activate');
 Route::post('/forget-password', 'Auth\AuthController@sendLinkResetPassword');
