@@ -65,56 +65,57 @@ Route::get('/focused-exercises/{focusedExercise}/plans', [FocusedExerciseControl
 Route::get('/sliders', [SliderController::class, 'index']);
 
 Route::group(['middleware' => 'auth.jwt'], function () {
-    Route::post('logout', 'Auth\AuthController@logout');
-    Route::get('current', 'Auth\AuthController@getUserDetails');
-    Route::post('current/update', 'Auth\AuthController@updateUserData');
-    Route::get('current/courses', 'Auth\AuthController@getCoursesCount');
-    Route::post('current/additionalInfo', 'Auth\AuthController@setAdditionalInfo');
+    Route::post('/logout', 'Auth\AuthController@logout');
+    Route::get('/current', 'Auth\AuthController@getUserDetails');
+    Route::post('/current/update', 'Auth\AuthController@updateUserData');
+    Route::get('/current/courses', 'Auth\AuthController@getCoursesCount');
+    Route::post('/current/additionalInfo', 'Auth\AuthController@setAdditionalInfo');
 
     //courses
     Route::post('/courses/{slug}/check-free', 'Api\CourseController@checkCourseFree');
     Route::patch('/courses/payment', 'Api\CourseController@userRegisterOnPlan');
 
     //directions
-    Route::get('address', 'Auth\AuthController@getUserAddress');
-    Route::post('address/create', 'Auth\AuthController@createUserAddress');
-    Route::post('address/edit/{id?}', 'Auth\AuthController@editUserAddress');
-    Route::post('address/setFavorite/{id}', 'Auth\AuthController@setFavoriteUserAddress');
-    Route::post('address/delete/{id}', 'Auth\AuthController@deleteUserAddress');
+    Route::get('/address', 'Auth\AuthController@getUserAddress');
+    Route::post('/address/create', 'Auth\AuthController@createUserAddress');
+    Route::post('/address/edit/{id?}', 'Auth\AuthController@editUserAddress');
+    Route::post('/address/setFavorite/{id}', 'Auth\AuthController@setFavoriteUserAddress');
+    Route::post('/address/delete/{id}', 'Auth\AuthController@deleteUserAddress');
 
-    Route::get('refresh', 'Auth\AuthController@refreshToken');
+    Route::get('/refresh', 'Auth\AuthController@refreshToken');
     //Lista de Retos por usuario
-    Route::get('courses-by-user', 'Api\CourseController@coursesByUser');
+    Route::get('/courses-by-user', 'Api\CourseController@coursesByUser');
 
     // courses
     Route::get('/courses/{slug}/detail-user', 'Api\CourseController@detailCourseUser');
     Route::get('/courses/{slug}/units-user', 'Api\CourseController@unitsByCourseUser');
-    Route::get('units', 'Api\UnitController@index');
+    Route::get('/units', 'Api\UnitController@index');
 
     Route::post('purchase/confirm', 'Api\CourseController@confirmPurchaseProductMail');
 
-    Route::get('units/{id}/questions', 'Api\UnitController@questionsByUnit');
-    Route::get('questions/{id}/answers', 'Api\QuestionController@index');
-    Route::get('questions/{slug}/detail', 'Api\QuestionController@questionDetail');
+    Route::get('/units/{id}/questions', 'Api\UnitController@questionsByUnit');
+    Route::get('/questions/{id}/answers', 'Api\QuestionController@index');
+    Route::get('/questions/{slug}/detail', 'Api\QuestionController@questionDetail');
 
     //Orders
-    Route::post('order/payment', 'Api\orderController@createOrder');
-    Route::get('order-user', 'Api\orderController@OrdersByUser');
+    Route::post('/order/payment', 'Api\orderController@createOrder');
+    Route::get('/order-user', 'Api\orderController@OrdersByUser');
 
     //RUTA PARA FINALIZAR EL CURSO
-    Route::post('questions/final', 'Api\UnitController@finishQuestion');
-    Route::post('units/{id}/final', 'Api\UnitController@finishUnit');
+    Route::post('/questions/final', 'Api\UnitController@finishQuestion');
+    Route::post('/units/{id}/final', 'Api\UnitController@finishUnit');
     //RUTA PARA VALORACION Y COMENTARIO
-    Route::post('rating/course/{slug}', 'Api\CourseController@rateAndCommentCourse');
-    Route::get('comments/course/{slug}', 'Api\CourseController@commentsByCourse');
+    Route::post('/rating/course/{slug}', 'Api\CourseController@rateAndCommentCourse');
+    Route::get('/comments/course/{slug}', 'Api\CourseController@commentsByCourse');
 
     //Rutas para Culqui
-    Route::post('culqui/create-charge', 'Api\CulquiController@createCharge');
+    Route::post('/culqui/create-charge', 'Api\CulquiController@createCharge');
 
-    Route::post('client-contact', [MailController::class, 'clientContact']);
+    Route::post('/client-contact', [MailController::class, 'clientContact']);
+    Route::post('/client-consultation', [MailController::class, 'clientConsultation']);
 
-    Route::get('focused-exercises', [FocusedExerciseController::class, 'index']);
-    Route::get('focused-exercises/{focusedExercise}', [FocusedExerciseController::class, 'show']);
+    Route::get('/focused-exercises', [FocusedExerciseController::class, 'index']);
+    Route::get('/focused-exercises/{focusedExercise}', [FocusedExerciseController::class, 'show']);
 });
 
 

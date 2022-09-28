@@ -16,22 +16,46 @@
 
 <body>
   <table width="100%">
-    <tr>
-      <th>Nombre:</th>
-      <td>{{ $clientData['name'] }}</td>
-    </tr>
-    <tr>
-      <th>Correo:</th>
-      <td>
-        <a href="mailto:{{ $clientData['email'] }}" target="_blank">
-          {{ $clientData['email'] }}
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <th>Mensaje:</th>
-      <td>{{ $clientData['message'] }}</td>
-    </tr>
+    @isset($clientData['name'])
+      <tr>
+        <th>Nombres:</th>
+        <td>{{ $clientData['name'] }}</td>
+      </tr>
+    @endisset
+    @isset($clientData['last_name'])
+      <tr>
+        <th>Apellidos:</th>
+        <td>{{ $clientData['last_name'] }}</td>
+      </tr>
+    @endisset
+    @isset($clientData['phone'])
+      <tr>
+        <th>Teléfono:</th>
+        <td>{{ $clientData['phone'] }}</td>
+      </tr>
+    @endisset
+    @isset($clientData['email'])
+      <tr>
+        <th>Correo:</th>
+        <td>
+          <a href="mailto:{{ $clientData['email'] }}" target="_blank">
+            {{ $clientData['email'] }}
+          </a>
+        </td>
+      </tr>
+    @endisset
+    @isset($clientData['message'])
+      <tr>
+        <th>Mensaje:</th>
+        <td>{{ $clientData['message'] }}</td>
+      </tr>
+    @endisset
+    @isset($clientData['consultation_date'])
+      <tr>
+        <th>Fecha Consulta:</th>
+        <td>{{ $clientData['consultation_date'] }}</td>
+      </tr>
+    @endisset
   </table>
 </body>
 

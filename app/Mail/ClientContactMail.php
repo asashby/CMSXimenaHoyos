@@ -30,6 +30,6 @@ class ClientContactMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("Consulta de {$this->clientData['name']}")->view('emails.clientContact');
+        return $this->view('emails.clientContact');
     }
 }
