@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class FocusedExercise extends Model
@@ -47,6 +49,21 @@ class FocusedExercise extends Model
             return Storage::disk('public')->url($this->mobile_image);
         }
         return '';
+    }
+
+    /**
+     * Validate current user has valid subscription to focused exercise by web guard
+     */
+    public function getCurrentUserIsSubcribedAttribute(): bool
+    {
+        if (Auth::guard('web')->check()) {
+            return DB::table('focused_exercise_user')
+                ->where('focused_exercise_id', $this->id)
+                ->where('user_id', Auth::guard('web')->id())
+                ->where('expiration_date', '>=', now()->format('Y-m-d H:i:s'))
+                ->exists();
+        }
+        return false;
     }
 
     public static function getFocusedExercisesIdAndDisplayName(Request $request)

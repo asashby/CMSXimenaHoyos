@@ -22,6 +22,7 @@ class FocusedExerciseController extends Controller
             ->append([
                 'desktop_image_url',
                 'mobile_image_url',
+                'current_user_is_subcribed',
             ]));
     }
 
