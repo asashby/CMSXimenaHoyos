@@ -23,7 +23,10 @@ class Plan extends Model
         'slug' => 'array'
     ];
 
-    protected $hidden = ['pivot'];
+    protected $hidden = [
+        'deleted_at',
+        'pivot',
+    ];
 
     public function courses()
     {

@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\FocusedExercise;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FocusedExerciseResource;
+use App\Plan;
 
 class FocusedExerciseController extends Controller
 {
     public function index()
     {
         return FocusedExerciseResource::collection(FocusedExercise::query()->get()
-            ->append(['desktop_image_url', 'mobile_image_url']));
+            ->append(['desktop_image_url', 'mobile_image_url', 'current_user_is_subcribed']));
     }
 
     public function show($focusedExerciseId)
@@ -32,6 +33,13 @@ class FocusedExerciseController extends Controller
             ->findOrFail($focusedExerciseId);
         return [
             'data' => $focusedExercise->plans
+        ];
+    }
+
+    public function getFocusedExercisesPlans()
+    {
+        return [
+            'data' => Plan::query()->whereHas('focused_exercises')->get(),
         ];
     }
 }

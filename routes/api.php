@@ -60,6 +60,7 @@ Route::get('/categories', 'Api\CategoryController@index');
 Route::get('/products', 'Api\ProductController@index');
 Route::get('/products/{id}/detail', 'Api\ProductController@productDetail');
 // Focused
+Route::get('/focused-exercises/plans', [FocusedExerciseController::class, 'getFocusedExercisesPlans']);
 Route::get('/focused-exercises/{focusedExercise}/plans', [FocusedExerciseController::class, 'getPlansByFocusedExerciseId']);
 // Sliders
 Route::get('/sliders', [SliderController::class, 'index']);
