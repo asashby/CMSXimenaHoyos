@@ -30,6 +30,11 @@ class FocusedExercise extends Model
         return $this->hasMany(FocusedExerciseItem::class, 'focused_exercise_id');
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
     public function plans()
     {
         return $this->belongsToMany(Plan::class);

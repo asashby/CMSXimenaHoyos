@@ -45,7 +45,9 @@ class CourseController extends Controller
 
     public function detailCourse($slug, Request $request)
     {
-        $courseData = Course::query()->where('slug', $slug)->first();
+        $courseData = Course::query()->with([
+            'users',
+        ])->where('slug', $slug)->first();
         $courseUsers = $courseData->users;
         if (isset($data)) {
             $user = User::find(Auth::user()->id);

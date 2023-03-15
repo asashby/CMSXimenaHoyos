@@ -11,8 +11,12 @@ class FocusedExerciseController extends Controller
 {
     public function index()
     {
-        return FocusedExerciseResource::collection(FocusedExercise::query()->get()
-            ->append(['desktop_image_url', 'mobile_image_url', 'current_user_is_subcribed']));
+        return FocusedExerciseResource::collection(
+            FocusedExercise::query()->withCount([
+                'users',
+            ])->get()
+                ->append(['desktop_image_url', 'mobile_image_url', 'current_user_is_subcribed'])
+        );
     }
 
     public function show($focusedExerciseId)
@@ -29,7 +33,8 @@ class FocusedExerciseController extends Controller
 
     public function getPlansByFocusedExerciseId($focusedExerciseId)
     {
-        $focusedExercise = FocusedExercise::query()->with(['plans'])
+        $focusedExercise = FocusedExercise::query()
+            ->with(['plans'])
             ->findOrFail($focusedExerciseId);
         return [
             'data' => $focusedExercise->plans
