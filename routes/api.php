@@ -116,6 +116,7 @@ Route::group(['middleware' => 'auth.jwt'], function () {
     Route::post('/client-consultation', [MailController::class, 'clientConsultation']);
 
     Route::get('/focused-exercises', [FocusedExerciseController::class, 'index']);
+    Route::get('/focused-exercises/is-user-subcribed', [FocusedExerciseController::class, 'isCurrentUserSubscribed']);
     Route::get('/focused-exercises/{focusedExercise}', [FocusedExerciseController::class, 'show']);
 });
 
