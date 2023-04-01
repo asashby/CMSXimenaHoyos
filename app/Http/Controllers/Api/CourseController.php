@@ -80,6 +80,7 @@ class CourseController extends Controller
                     ->where('user_id', $userId)
             )
             ->where('courses.slug', $slug)
+            ->where('courses.is_activated', true)
             ->groupBy([
                 'units.id',
                 'units.title',
