@@ -16,7 +16,15 @@ class UnitController extends Controller
 {
     public function index()
     {
-        $units = Unit::orderBy('title', 'ASC')->get(['id', 'title', 'content', 'is_activated', 'order', 'course_id', 'url_icon']);
+        $units = Unit::orderBy('title', 'ASC')->get([
+            'id',
+            'title',
+            'content',
+            'is_activated',
+            'order',
+            'course_id',
+            'url_icon'
+        ]);
         return response()->json([
             'data' => $units
         ], 200);
@@ -25,7 +33,14 @@ class UnitController extends Controller
     public function questionsByUnit($id)
     {
         $user = User::find(Auth::user()->id);
-        $questions = Question::where('unit_id', intval($id))->orderBy('order')->with('type_answers')->get(['id', 'slug', 'title', 'code', 'unit_id', 'order']);
+        $questions = Question::where('unit_id', intval($id))->orderBy('order')->with('type_answers')->get([
+            'id',
+            'slug',
+            'title',
+            'code',
+            'unit_id',
+            'order'
+        ]);
         foreach ($questions as $question) {
             $list = new Collection();
             foreach ($question->type_answers as $answer) {

@@ -14,6 +14,7 @@ class Unit extends Model
     use SoftDeletes, HasFactory;
 
     protected $table = 'units';
+
     protected $fillable = [
         'id',
         'title',

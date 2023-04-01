@@ -19,6 +19,7 @@ use App\Mail\ConfirmPurchaseMail;
 use App\Product;
 use App\UserCourse;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\Log;
 
 class CourseController extends Controller
@@ -66,53 +67,34 @@ class CourseController extends Controller
 
     public function unitsByCourse($slug)
     {
-        $courseData = Course::query()->where('slug', $slug)->first();
-        $units = Unit::select('id', 'title', 'day', 'slug', 'url_icon')
-            ->where('course_id', $courseData->id)->orderBy('day', 'ASC')->get();
-        if (isset($user)) {
-            $units_by_user = $user->units->where('course_id', $courseData->id);
-            foreach ($units as $unit) {
-                if (count($units_by_user) > 0) {
-                    foreach ($units_by_user as $unit_user) {
-                        if ($unit->id === $unit_user->pivot->unit_id) {
-                            $unit->flag_complete_unit = $unit_user->pivot->flag_complete_unit;
-                            unset($unit_user);
-                            break;
-                        } else {
-                            $unit->flag_complete_unit = 0;
-                            unset($unit_user);
-                        }
-                    }
-                } else {
-                    $unit->flag_complete_unit = 0;
-                }
-            }
+        $userId = 0;
+        if (Auth::guard('web')->check()) {
+            $userId = Auth::guard('web')->id();
         }
-        return response()->json($units, 200);
-    }
-
-    public function unitsByCourseUser($slug)
-    {
-        $user = User::find(Auth::user()->id);
-        $courseData = Course::query()->where('slug', $slug)->first();
-        $units = Unit::select('id', 'title', 'day', 'slug', 'url_icon')->where('course_id', $courseData->id)->orderBy('day', 'ASC')->get();
-        $units_by_user = $user->units->where('course_id', $courseData->id);
-        foreach ($units as $unit) {
-            if (count($units_by_user) > 0) {
-                foreach ($units_by_user as $unit_user) {
-                    if ($unit->id === $unit_user->pivot->unit_id) {
-                        $unit->flag_complete_unit = $unit_user->pivot->flag_complete_unit;
-                        unset($unit_user);
-                        break;
-                    } else {
-                        $unit->flag_complete_unit = 0;
-                        unset($unit_user);
-                    }
-                }
-            } else {
-                $unit->flag_complete_unit = 0;
-            }
-        }
+        $units = DB::table('units')
+            ->join('courses', 'units.course_id', 'courses.id')
+            ->leftJoin(
+                'unit_users_course',
+                fn (JoinClause $joinClause) =>
+                $joinClause->on('units.id', 'unit_users_course.unit_id')
+                    ->where('user_id', $userId)
+            )
+            ->where('courses.slug', $slug)
+            ->groupBy([
+                'units.id',
+                'units.title',
+                'units.day',
+                'units.slug',
+                'units.url_icon',
+            ])
+            ->get([
+                'units.id',
+                'units.title',
+                'units.day',
+                'units.slug',
+                'units.url_icon',
+                DB::raw('IFNULL(MIN(unit_users_course.flag_complete_unit), 0) AS flag_complete_unit'),
+            ]);
         return response()->json($units, 200);
     }
 

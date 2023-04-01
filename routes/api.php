@@ -89,7 +89,6 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
     // courses
     Route::get('/courses/{slug}/detail-user', 'Api\CourseController@detailCourseUser');
-    Route::get('/courses/{slug}/units-user', 'Api\CourseController@unitsByCourseUser');
     Route::get('/units', 'Api\UnitController@index');
 
     Route::post('purchase/confirm', 'Api\CourseController@confirmPurchaseProductMail');
