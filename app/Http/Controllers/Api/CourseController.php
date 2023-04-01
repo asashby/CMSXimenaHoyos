@@ -68,8 +68,8 @@ class CourseController extends Controller
     public function unitsByCourse($slug)
     {
         $userId = 0;
-        if (Auth::guard('web')->check()) {
-            $userId = Auth::guard('web')->id();
+        if (Auth::guard('api')->check()) {
+            $userId = Auth::guard('api')->id();
         }
         $units = DB::table('units')
             ->join('courses', 'units.course_id', 'courses.id')
@@ -81,7 +81,9 @@ class CourseController extends Controller
             )
             ->where('courses.slug', $slug)
             ->where('courses.is_activated', true)
+            ->whereNull('courses.deleted_at')
             ->where('units.is_activated', true)
+            ->whereNull('units.deleted_at')
             ->groupBy([
                 'units.id',
                 'units.title',
@@ -89,6 +91,7 @@ class CourseController extends Controller
                 'units.slug',
                 'units.url_icon',
             ])
+            ->orderBy('units.day')
             ->get([
                 'units.id',
                 'units.title',
