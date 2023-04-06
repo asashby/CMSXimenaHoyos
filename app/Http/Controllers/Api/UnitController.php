@@ -139,7 +139,7 @@ class UnitController extends Controller
         }
     }
 
-    public function finishUnit(Request $request, $id)
+    private function finishUnit(Request $request, $id)
     {
         $data = $request->all();
         $date_now = new \DateTime('now', new \DateTimeZone('America/Lima'));

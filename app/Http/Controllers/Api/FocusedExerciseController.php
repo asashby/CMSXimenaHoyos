@@ -16,8 +16,11 @@ class FocusedExerciseController extends Controller
         return FocusedExerciseResource::collection(
             FocusedExercise::query()->withCount([
                 'users',
-            ])->get()
-                ->append(['desktop_image_url', 'mobile_image_url', 'current_user_is_subcribed'])
+            ])->get()->append([
+                'desktop_image_url',
+                'mobile_image_url',
+                'current_user_is_subcribed'
+            ])
         );
     }
 
@@ -46,7 +49,10 @@ class FocusedExerciseController extends Controller
     public function getFocusedExercisesPlans()
     {
         return [
-            'data' => Plan::query()->whereHas('focused_exercises')->get(),
+            'data' => Plan::query()
+                ->whereHas('focused_exercises')
+                ->orderBy('price')
+                ->get(),
         ];
     }
 

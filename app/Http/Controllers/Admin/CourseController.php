@@ -231,8 +231,7 @@ class CourseController extends Controller
 
     public function getUnitCourse($id)
     {
-        $unitsByCourse = Unit::orderBy('day')->where('course_id', $id)->get();
-        return $unitsByCourse;
+        return Unit::orderBy('day')->where('course_id', $id)->get();
     }
 
     public function getUnitsCourseByUser($course_id, $user_id)

@@ -103,7 +103,6 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 
     //RUTA PARA FINALIZAR EL CURSO
     Route::post('/questions/final', 'Api\UnitController@finishQuestion');
-    Route::post('/units/{id}/final', 'Api\UnitController@finishUnit');
     //RUTA PARA VALORACION Y COMENTARIO
     Route::post('/rating/course/{slug}', 'Api\CourseController@rateAndCommentCourse');
     Route::get('/comments/course/{slug}', 'Api\CourseController@commentsByCourse');
